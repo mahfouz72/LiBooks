@@ -75,7 +75,6 @@
         <module name="EqualsHashCode"/>
         <module name="ExplicitInitialization"/>
         <module name="FallThrough"/>
-<!--        <module name="FinalLocalVariable"/>-->
         <module name="HiddenField">
             <property name="ignoreConstructorParameter" value="true"/>
             <property name="ignoreSetter" value="true"/>
