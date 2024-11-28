@@ -22,3 +22,49 @@ jobs:
       - name: Validate with checkstyle
         run: mvn checkstyle:checkstyle
         working-directory: ./backend
+  
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Run Tests
+        run: mvn test
+        working-directory: ./backend
+
+      - name: Upload Target Folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: target-folder
+          path: ./backend/target
+
+  jacoco:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Download Target Folder
+        uses: actions/download-artifact@v3
+        with:
+          name: target-folder
+          path: ./backend/target
+
+      - name: Run JaCoCo Check
+        run: mvn jacoco:check
+        working-directory: ./backend
