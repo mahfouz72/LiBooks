@@ -1,7 +1,7 @@
 package org.example.backend.services;
 
 import org.example.backend.models.dtos.UserDTO;
-import org.example.backend.models.entites.User;
+import org.example.backend.models.entities.User;
 import org.example.backend.repositories.UserRepository;
 import org.example.backend.services.mappers.UserDTOMapper;
 import org.junit.jupiter.api.BeforeEach;
