@@ -2,7 +2,7 @@ package org.example.backend.controllers;
 
 
 import org.example.backend.models.dtos.UserDTO;
-import org.example.backend.models.entites.User;
+import org.example.backend.models.entities.User;
 import org.example.backend.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
