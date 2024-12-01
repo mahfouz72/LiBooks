@@ -1,18 +1,13 @@
 package org.example.backend;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LiBooksApplication implements CommandLineRunner {
+public class LiBooksApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LiBooksApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        System.out.println("Hello, LiBooks!");
-    }
 }
