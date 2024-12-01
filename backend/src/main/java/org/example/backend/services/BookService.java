@@ -2,18 +2,21 @@ package org.example.backend.services;
 
 import org.springframework.stereotype.Service;
 import org.example.backend.models.entities.Book;
+import org.example.backend.models.dtos.BookListingDTO;
 import org.example.backend.repositories.BookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.example.backend.services.mappers.BookListingDTOMapper;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 @Service
 public class BookService {
 
-    private final BookRepository bookRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
-    public BookService(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
+    @Autowired
+    private BookListingDTOMapper bookDTOMapper;
 
     public Book saveBook(Book book) {
         return bookRepository.save(book);
@@ -22,12 +25,12 @@ public class BookService {
     public Book getBookById(Integer bookId) {
         return bookRepository.findById(bookId).orElse(null);
     }
-
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
-    }
-
+    
     public void deleteBook(Integer bookId) {
         bookRepository.deleteById(bookId);
+    }
+
+    public List<BookListingDTO> listBooks() {
+        return bookRepository.findAll().stream().map(bookDTOMapper).collect(Collectors.toList());
     }
 }
