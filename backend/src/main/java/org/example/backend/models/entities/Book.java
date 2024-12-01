@@ -58,4 +58,4 @@ public class Book {
     @Column(name = "GENRE", length = MAX_GENRE_LENGTH)
     private String genre;
 
-    }
+}
