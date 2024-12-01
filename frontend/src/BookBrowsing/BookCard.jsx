@@ -2,25 +2,22 @@ import {Card, CardActions, CardContent, CardMedia, Rating, Typography} from "@mu
 
 function BookCard({bookCover,title,author,rating}){
     return(
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ width: 150}}>
             <CardMedia
                 component="img"
-                alt="book"
-                sx={{
-                    width: "auto",
-                    height: "auto",
-                    maxWidth: "100%",
-                    margin: "auto",
-                    display: "block",
-                }}
                 image={bookCover}
+                sx={{
+                    width: "100%",
+                    height: "200px",
+                    objectFit: 'fill',
+                }}
                 title="book"
             />
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="h5" component="div" color="primary" fontWeight="bold">
                     {title}
                 </Typography>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                <Typography variant="body2" sx={{ color: 'black' }}>
                     by {author}
                 </Typography>
             </CardContent>
