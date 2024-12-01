@@ -1,10 +1,18 @@
 package org.example.backend.models.entities;
 
+import lombok.Data;
+import lombok.Builder;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.util.*;
 import java.math.BigDecimal;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "BOOK")
 public class Book {
@@ -41,7 +49,6 @@ public class Book {
     @Column(name = "LANGUAGE_OF_ORIGIN", length = MAX_LANGUAGE_OF_ORIGIN_LENGTH)
     private String languageOfOrigin;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "PUBLICATION_DATE")
     private Date publicationDate;
 
@@ -51,92 +58,4 @@ public class Book {
     @Column(name = "GENRE", length = MAX_GENRE_LENGTH)
     private String genre;
 
-    // Getters and Setters
-    public Integer getBookId() {
-        return bookId;
     }
-
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
-    }
-
-    public String getBookTitle() {
-        return bookTitle;
-    }
-
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-
-    public Integer getRatingsCount() {
-        return ratingsCount;
-    }
-
-    public void setRatingsCount(Integer ratingsCount) {
-        this.ratingsCount = ratingsCount;
-    }
-
-    public BigDecimal getRating() {
-        return rating;
-    }
-
-    public void setRating(BigDecimal rating) {
-        this.rating = rating;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public byte[] getBookCover() {
-        return bookCover;
-    }
-
-    public void setBookCover(byte[] bookCover) {
-        this.bookCover = bookCover;
-    }
-
-    public String getLanguageOfOrigin() {
-        return languageOfOrigin;
-    }
-
-    public void setLanguageOfOrigin(String languageOfOrigin) {
-        this.languageOfOrigin = languageOfOrigin;
-    }
-
-    public Date getPublicationDate() {
-        return publicationDate;
-    }
-
-    public void setPublicationDate(Date publicationDate) {
-        this.publicationDate = publicationDate;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-}
