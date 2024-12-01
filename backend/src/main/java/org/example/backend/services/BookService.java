@@ -1,7 +1,7 @@
 package org.example.backend.services;
 
 import org.springframework.stereotype.Service;
-import org.example.backend.models.entites.Book;
+import org.example.backend.models.entities.Book;
 import org.example.backend.repositories.BookRepository;
 
 import java.util.List;

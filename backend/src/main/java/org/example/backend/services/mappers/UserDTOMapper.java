@@ -2,7 +2,7 @@ package org.example.backend.services.mappers;
 
 
 import org.example.backend.models.dtos.UserDTO;
-import org.example.backend.models.entites.User;
+import org.example.backend.models.entities.User;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;

@@ -2,7 +2,7 @@ package org.example.backend.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.models.dtos.UserDTO;
-import org.example.backend.models.entites.User;
+import org.example.backend.models.entities.User;
 import org.example.backend.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
