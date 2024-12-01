@@ -1,0 +1,147 @@
+/* This will be the wrapper that holds the background styling */
+.backgroundWrapper {
+  /*background-image: url('C:\Users\Cyber\Desktop\Sign up page LiBooks\LiBooks\frontend\public\background.jpeg');*/
+  background-size: cover;
+  background-position: center center; 
+  background-attachment: fixed; 
+  margin-top: -1%;
+  min-height: 100vh; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align content to the top */
+  padding: 2rem;
+}
+/*Header Style*/
+.headerContainer {
+  text-align: center;
+  color: tomato;
+  padding: 0rem;
+}
+
+.headerTitle {
+  font-family: 'Lobster', cursive; 
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.headerTagline {
+  font-family: 'Lobster', cursive;
+  font-size: 1.5rem;
+  color: tomato;
+  font-weight: 300;
+  line-height: 1.4;
+  margin-top: 0;
+  max-width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Style for the signup form container */
+.signupContainer {
+  display: flex;
+  justify-content: flex-end; /* Align form to the right */
+  align-items: center;
+  height:100vh;
+  padding-right: 15rem;
+}
+
+.signupForm {
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+}
+
+.formTitle {
+  font-family: 'Lobster', cursive;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  margin-top: 0.01rem;
+  align-self: center;
+}
+.formSubtitle{
+  font-family: 'Lobster', cursive;
+}
+/* signup.module.css */
+.signupForm input {
+  width: 85%;
+  padding: 0.75rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+}
+
+.signupForm label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.formField {
+  margin-bottom: 0.001rem;
+}
+
+
+
+.signupButton {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  width: 80%;
+  align-self: center;
+}
+
+.googleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  background-color: #4285F4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.googleButton img {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+}
+
+.signInContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.signInContainer p {
+  margin: 0;
+}
+
+.signInContainer .signInLink {
+  margin-left: 0.5rem;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.inputWrapper input {
+  padding-right: 2.5rem; /* Space for the icon */
+}
+
+.eyeIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
