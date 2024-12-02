@@ -1,30 +1,53 @@
-import {Card, CardActions, CardContent, CardMedia, Rating, Typography} from "@mui/material";
+import {
+    Card,
+    CardActions,
+    CardContent,
+    CardMedia,
+    Rating,
+    Typography,
+} from "@mui/material";
 
-function BookCard({bookCover,title,author,rating}){
-    return(
-        <Card sx={{ width: 150}}>
+function BookCard({ bookCover, bookTitle, author, rating }) {
+    return (
+        <Card sx={{ width: 150 }}>
             <CardMedia
                 component="img"
                 image={bookCover}
                 sx={{
                     width: "100%",
                     height: "200px",
-                    objectFit: 'fill',
+                    objectFit: "fill",
                 }}
                 title="book"
             />
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div" color="primary" fontWeight="bold">
-                    {title}
+                <Typography
+                    gutterBottom
+                    variant="subtitle1"
+                    component="div"
+                    color="primary"
+                    fontWeight="bold"
+                    sx={{
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                    }}
+                >
+                    {bookTitle}
                 </Typography>
-                <Typography variant="body2" sx={{ color: 'black' }}>
+                <Typography variant="body2" sx={{ color: "black" }}>
                     by {author}
                 </Typography>
             </CardContent>
             <CardActions>
-                <Rating name="half-rating-read" defaultValue={rating} precision={0.5} readOnly />
+                <Rating
+                    name="half-rating-read"
+                    defaultValue={rating}
+                    precision={0.5}
+                    readOnly
+                />
             </CardActions>
         </Card>
-    )
+    );
 }
 export default BookCard;
