@@ -1,5 +1,6 @@
 package org.example.backend.services;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.example.backend.models.entities.Book;
 import org.example.backend.models.dtos.BookListingDTO;
@@ -31,7 +32,7 @@ public class BookService {
         bookRepository.deleteById(bookId);
     }
 
-    public List<BookListingDTO> listBooks() {
-        return bookRepository.findAll().stream().map(bookDTOMapper).collect(Collectors.toList());
+    public List<BookListingDTO> listBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable).stream().map(bookDTOMapper).collect(Collectors.toList());
     }
 }
