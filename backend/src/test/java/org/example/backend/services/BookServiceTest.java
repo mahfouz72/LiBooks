@@ -12,6 +12,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 import java.math.BigDecimal;
@@ -65,13 +69,14 @@ public class BookServiceTest {
 
     @Test
     public void testListBooks() {
-        List<Book> books = new ArrayList<>();
-        books.add(book);
+        Pageable pageable = PageRequest.of(0,5);
+        List<Book> books = List.of(book);
+        Page<Book> bookPage = new PageImpl<>(books,pageable,books.size());
 
-        when(bookRepository.findAll()).thenReturn(books);
+        when(bookRepository.findAll(pageable)).thenReturn(bookPage);
         when(bookListingDTOMapper.apply(any(Book.class))).thenReturn(bookListingDTO);
 
-        List<BookListingDTO> result = bookService.listBooks();
+        List<BookListingDTO> result = bookService.listBooks(pageable);
 
         assertEquals(books.size(), result.size());
         assertEquals(bookListingDTO, result.get(0));
