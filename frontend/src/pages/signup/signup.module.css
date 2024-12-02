@@ -1,6 +1,5 @@
 /* This will be the wrapper that holds the background styling */
 .backgroundWrapper {
-  /*background-image: url('C:\Users\Cyber\Desktop\Sign up page LiBooks\LiBooks\frontend\public\background.jpeg');*/
   background-size: cover;
   background-position: center center; 
   background-attachment: fixed; 
@@ -51,7 +50,8 @@
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 400px;
+  width: 450px;
+  align-self: center;
 }
 
 .formTitle {
@@ -60,13 +60,15 @@
   margin-bottom: 1rem;
   margin-top: 0.01rem;
   align-self: center;
+  text-align: center;
 }
 .formSubtitle{
   font-family: 'Lobster', cursive;
+  text-align: center;
 }
-/* signup.module.css */
+
 .signupForm input {
-  width: 85%;
+  width: 90%;
   padding: 0.75rem;
   border-radius: 20px;
   border: 1px solid #ccc;
@@ -82,38 +84,19 @@
   margin-bottom: 0.001rem;
 }
 
-
-
 .signupButton {
   padding: 0.5rem 1rem;
-  background-color: #007bff;
+  background-color: #1d293c;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   margin-top: 1rem;
-  width: 80%;
+  width: 100%;
   align-self: center;
 }
 
-.googleButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-  background-color: #4285F4;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 1rem;
-}
 
-.googleButton img {
-  width: 20px;
-  height: 20px;
-  margin-right: 0.5rem;
-}
 
 .signInContainer {
   display: flex;
@@ -144,4 +127,37 @@
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+}
+
+.errorMessage {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.successMessage {
+  color: green;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+
+.orContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #ccc;
+  margin: 0 10px;
+}
+
+.orText {
+  font-size: 14px;
+  color: #666;
+  font-weight: bold;
 }

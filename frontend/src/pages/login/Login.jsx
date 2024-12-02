@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import './Login.css'
+import { Link } from "react-router-dom";
+import './login.css'
 
 function LoginForm(){
     const [username, setUsername] = useState("");
@@ -17,7 +18,7 @@ function LoginForm(){
         }
 
         if(username.length < 2){
-            setUsernameError("The password must be at least 3 characters");
+            setUsernameError("The username must be at least 3 characters");
             return
         }
 
@@ -31,9 +32,10 @@ function LoginForm(){
             return
         }
 
+        // Add your login logic here
+        console.log("Login attempt with:", { username, password });
     };
 
-    
     return(
         <div className="wrapper">
             <form action="">
@@ -64,11 +66,11 @@ function LoginForm(){
                 <button className="login-btn" type="button" onClick={handleSubmit}>Log in</button>
                 <button className="google-btn"><span>Continue with Google</span></button>
                 <div className="register">
-                    <p>Don't have an account? <a href="#">Register</a></p>
+                    <p>Don't have an account? <Link to="/register">Register</Link></p>
                 </div>
             </form>
         </div>
     )
 }
 
-export default LoginForm
+export default LoginForm;
