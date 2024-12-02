@@ -1,6 +1,10 @@
+import BookBrowsingPage from "./BookBrowsing/BookBrowsingPage";
+
 function App() {
   return (
-    <div>LiBooks</div>
+    <div>
+      <BookBrowsingPage/>
+    </div>
   );
 }
 
