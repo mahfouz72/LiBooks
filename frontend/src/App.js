@@ -4,6 +4,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'; // Import the GoogleO
 import Signup from './pages/signup/signup';
 import Login from './pages/login/Login';
 import GmailSignup from './pages/welcome/welcome'; 
+import BookBrowsingPage from "./BookBrowsing/BookBrowsingPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<GmailSignup />} />
               <Route path="/" element={<GmailSignup />} />
+              <Route path="/BookBrowsingPage" element={<BookBrowsingPage />} />
             </Routes>
           </main>
         </div>
