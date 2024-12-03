@@ -41,6 +41,7 @@ public class Book {
     @Column(length = MAX_SUMMARY_LENGTH)
     private String summary;
 
+    @Column(columnDefinition = "BLOB")
     private byte[] bookCover;
 
     @Column(length = MAX_LANGUAGE_OF_ORIGIN_LENGTH)

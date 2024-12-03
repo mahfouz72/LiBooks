@@ -4,7 +4,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'; // Import the GoogleO
 import Signup from './pages/signup/signup';
 import Login from './pages/login/Login';
 import GmailSignup from './pages/welcome/welcome'; 
-import BookBrowsingPage from "./BookBrowsing/BookBrowsingPage";
+import BookBrowsingPage from "./pages/BookBrowsing/BookBrowsingPage";
 
 function App() {
   return (
