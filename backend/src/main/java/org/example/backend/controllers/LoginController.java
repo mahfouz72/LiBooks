@@ -1,5 +1,6 @@
 package org.example.backend.controllers;
 
+import org.example.backend.models.dtos.TokenDTO;
 import org.example.backend.services.UserAuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +13,8 @@ public class LoginController {
         this.userAuthenticationService = userAuthenticationService;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username,
+    @PostMapping("/login/basic")
+    public ResponseEntity<String> basicLogin(@RequestParam String username,
                                         @RequestParam String password) {
         return userAuthenticationService.login(username, password);
     }
