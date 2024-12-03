@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { registerUser } from '../../APIs/auth';
 import Password from '../../Components/Fields/Password/password';
 import Footer from '../../Components/Footer/footer';
 import styles from './signup.module.css';
@@ -22,7 +23,7 @@ const Signup = () => {
       navigate('/register');
       return;
     }
-    
+
     // Set email from state
     setEmail(location.state.email);
   }, [location.state, navigate]);
@@ -35,7 +36,7 @@ const Signup = () => {
     return password === confirmPassword;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Check that all fields are filled
@@ -58,21 +59,18 @@ const Signup = () => {
     const userSignupData = {
       username: userName,
       email: email,
-      password: password
+      password: password,
     };
 
-    // Log the object (replace with actual backend call)
-    console.log('User Signup Data:', userSignupData);
-
-    // Here you would typically send userSignupData to your backend
-    // Example: 
-    // axios.post('/api/signup', userSignupData)
-    //   .then(response => {
-    //     // Handle successful signup
-    //   })
-    //   .catch(error => {
-    //     // Handle signup error
-    //   });
+    try {
+      const userData = await registerUser(userSignupData); 
+      console.log('User successfully registered:', userData);
+      // Redirect or show success message
+      navigate('/welcome'); // Example route after successful registration
+    } catch (error) {
+      console.error('Registration failed:', error.response ? error.response.data : error.message);
+      setFormError('Registration failed. Please try again.');
+    }
   };
 
   return (
