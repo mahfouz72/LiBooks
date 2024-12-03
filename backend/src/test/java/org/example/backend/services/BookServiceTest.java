@@ -7,6 +7,7 @@ import org.example.backend.services.mappers.BookListingDTOMapper;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.mockito.Mock;
@@ -37,16 +38,42 @@ public class BookServiceTest {
     private BookService bookService;
 
     private Book book;
+    private List<Book> books;
     private BookListingDTO bookListingDTO;
-
+    private List<BookListingDTO> bookListingDTOS;
     @BeforeEach
-    public void setUp() {
-        book = Book.builder()
+    public void setUp(TestInfo testInfo) {
+        if (testInfo.getDisplayName().equals("testListBooks()")) {
+            books = new ArrayList<>();
+            bookListingDTOS = new ArrayList<>();
+            for (int i = 1; i <= 10; i++) {
+                book = Book.builder()
+                    .bookId(i)
+                    .bookTitle("testBook"+i)
+                    .isbn("123456789"+i)
+                    .ratingsCount(1)
+                    .rating(new BigDecimal("5.0"))
+                    .summary("testSummary"+i)
+                    .bookCover(new byte[0])
+                    .languageOfOrigin("English")
+                    .publicationDate(new Date())
+                    .publisher("testPublisher"+i)
+                    .genre("testGenre"+i)
+                    .build();
+
+                bookListingDTO = new BookListingDTOMapper().apply(book);
+
+                books.add(book);
+                bookListingDTOS.add(bookListingDTO);
+            }
+        }
+        else {
+            book = Book.builder()
                 .bookId(1)
                 .bookTitle("testBook")
                 .isbn("1234567890")
                 .ratingsCount(1)
-                .rating(new BigDecimal(5.0))
+                .rating(new BigDecimal("5.0"))
                 .summary("testSummary")
                 .bookCover(new byte[0])
                 .languageOfOrigin("English")
@@ -55,7 +82,8 @@ public class BookServiceTest {
                 .genre("testGenre")
                 .build();
 
-        bookListingDTO = new BookListingDTOMapper().apply(book);
+            bookListingDTO = new BookListingDTOMapper().apply(book);
+        }
     }
 
     @Test
@@ -69,16 +97,18 @@ public class BookServiceTest {
 
     @Test
     public void testListBooks() {
-        Pageable pageable = PageRequest.of(0,5);
-        List<Book> books = List.of(book);
-        Page<Book> bookPage = new PageImpl<>(books,pageable,books.size());
+        int pageSize = 5;
+        Pageable pageable = PageRequest.of(0,pageSize);
+
+        List<Book> paginatedBooks = books.subList(0, Math.min(books.size(), pageSize));
+        Page<Book> bookPage = new PageImpl<>(paginatedBooks,pageable,books.size());
 
         when(bookRepository.findAll(pageable)).thenReturn(bookPage);
         when(bookListingDTOMapper.apply(any(Book.class))).thenReturn(bookListingDTO);
 
         List<BookListingDTO> result = bookService.listBooks(pageable);
 
-        assertEquals(books.size(), result.size());
+        assertEquals(pageSize, result.size());
         assertEquals(bookListingDTO, result.get(0));
     }
 
