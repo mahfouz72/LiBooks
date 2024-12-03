@@ -2,10 +2,10 @@ import BookCard from "./BookCard";
 import {Grid2} from "@mui/material";
 
 function BookList({books,sx}){
-    const renderedBooks = books.map(({bookCover,bookTitle,author,rating})=>{
+    const renderedBooks = books.map(({bookCover,bookId,bookTitle,rating})=>{
         return(
-            <Grid2>
-                <BookCard bookCover={bookCover} bookTitle={bookTitle} author={author} rating={rating}/>
+            <Grid2 key={bookId}>
+                <BookCard bookCover={bookCover} bookTitle={bookTitle} rating={rating}/>
             </Grid2>
         )
     })

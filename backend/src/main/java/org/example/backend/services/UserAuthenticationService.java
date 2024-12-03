@@ -1,5 +1,6 @@
 package org.example.backend.services;
 
+import org.example.backend.exceptions.UsernameAlreadyExistsException;
 import org.example.backend.models.dtos.UserDTO;
 import org.example.backend.models.dtos.UserRegistrationDTO;
 import org.example.backend.models.entities.User;
@@ -41,11 +42,20 @@ public class UserAuthenticationService {
     }
 
     public UserDTO register(UserRegistrationDTO userRegistrationDTO) {
+        checkUsernameUniqueness(userRegistrationDTO);
+
         User user = userRegistrationDTOMapper.apply(userRegistrationDTO);
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         User savedUser = userRepository.save(user);
         return userDTOMapper.apply(savedUser);
+    }
+
+    private void checkUsernameUniqueness(UserRegistrationDTO userRegistrationDTO) {
+        String username = userRegistrationDTO.username();
+        if (userRepository.existsUserByUsername(username)) {
+            throw new UsernameAlreadyExistsException("Username already exists!");
+        }
     }
 
     public ResponseEntity<String> login(String username, String password) {
