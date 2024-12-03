@@ -55,7 +55,7 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/login", "/register").permitAll()
                                 .anyRequest().authenticated()
-        );
+            );
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.httpBasic(Customizer.withDefaults());
