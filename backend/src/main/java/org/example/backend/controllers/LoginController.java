@@ -13,7 +13,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> basicLogin(@RequestParam String username,
+    public ResponseEntity<String> login(@RequestParam String username,
                                         @RequestParam String password) {
         return userAuthenticationService.login(username, password);
     }
