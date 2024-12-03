@@ -33,6 +33,7 @@ public class BookService {
     }
 
     public List<BookListingDTO> listBooks(Pageable pageable) {
-        return bookRepository.findAll(pageable).stream().map(bookDTOMapper).collect(Collectors.toList());
+        return bookRepository.findAll(pageable)
+            .stream().map(bookDTOMapper).collect(Collectors.toList());
     }
 }
