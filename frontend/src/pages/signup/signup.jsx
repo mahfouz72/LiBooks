@@ -51,6 +51,11 @@ const Signup = () => {
       return;
     }
 
+    if(password.length < 7){
+      setPasswordError("The password must be at least 8 characters");
+      return;
+    }
+
     // Clear errors
     setFormError('');
     setPasswordError('');
