@@ -20,7 +20,7 @@ function LoginForm(){
         setPasswordError("");
         setErrorMessage("");
 
-        if(username == ''){
+        if(username === ''){
             setUsernameError("Username is required!");
             return
         }
@@ -30,7 +30,7 @@ function LoginForm(){
             return
         }
 
-        if(password == ''){
+        if(password === ''){
             setPasswordError("Password is required!");
             return
         }
@@ -43,13 +43,12 @@ function LoginForm(){
         console.log("Login attempt with:", { username, password });
 
         try{
-            const response = await fetch(BACKEND_BASE + LOGIN_API, {
+            const response = await fetch(BACKEND_BASE + LOGIN_API + `?username=${username}&password=${password}`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({username, password}),
             });
     
-            if(response.status == 200){
+            if(response.status === 200){
                 const token = await response.text();
                 localStorage.setItem("token", token); //to be improved later
                 console.log("Login successful");
@@ -90,7 +89,7 @@ function LoginForm(){
 
                 <div className="rememberme-forget">
                     <label htmlFor=""><input type="checkbox"/>Remember me</label>
-                    <a href="#">Forget password</a>
+                    <a href="#1">Forget password</a>
                 </div>
                 <p className="error">{errorMessage}</p>
                 <button className="login-btn" type="button" onClick={handleSubmit}>Log in</button>
