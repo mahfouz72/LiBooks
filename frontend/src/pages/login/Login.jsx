@@ -3,6 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_BASE } from "../../constants/Constants";
 import { LOGIN_API } from "../../constants/Constants";
 import { HOME } from "../../constants/Constants";
+import { loginWithGoogle } from "../../APIs/auth"; 
+import { useGoogleLogin } from '@react-oauth/google';
+
 import './login.css'
 
 function LoginForm(){
@@ -65,6 +68,35 @@ function LoginForm(){
         }
     };
 
+    const handleLoginGoogle = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            const googleToken = tokenResponse.access_token;
+                
+            try {
+                const response = await loginWithGoogle(googleToken);
+                console.log(response);
+                if(response){
+                    localStorage.setItem("token", response);
+                    navigate(HOME);
+                }else{
+                    setErrorMessage("Your Gmail is not registered, please sign up");
+                }
+            } catch (error) {
+                console.log(error)
+                console.error("Error authenticating with Google:", error);
+                setErrorMessage("Authentication failed. Please try again.");
+            }
+        },
+        onError: (error) => {
+            console.error("Google login failed:", error);
+            setErrorMessage("Login failed. Please try again.");
+        },
+    });
+
+    const handleLoginClick = () => {
+        handleLoginGoogle();
+    };
+
     return(
         <div className="wrapper">
             <form action="">
@@ -94,7 +126,7 @@ function LoginForm(){
                 </div>
                 <p className="error">{errorMessage}</p>
                 <button className="login-btn" type="button" onClick={handleSubmit}>Log in</button>
-                <button className="google-btn"><span>Continue with Google</span></button>
+                <button className="google-btn" type="button" onClick={handleLoginClick}><span>Continue with Google</span></button>
                 <div className="register">
                     <p>Don't have an account? <Link to="/register">Register</Link></p>
                 </div>
