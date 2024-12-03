@@ -2,13 +2,17 @@ package org.example.backend.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.backend.models.dtos.UserDTO;
+import org.example.backend.models.dtos.UserRegistrationDTO;
 import org.example.backend.models.entities.User;
-import org.example.backend.services.UserService;
+import org.example.backend.security.JWTService;
+import org.example.backend.services.UserAuthenticationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -19,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(RegisterController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class RegisterControllerTest {
 
     @Autowired
@@ -28,30 +33,34 @@ public class RegisterControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private UserService userService;
+    private UserAuthenticationService userAuthenticationService;
+
+
+    @MockBean
+    private JWTService jwtService;
+
+    @MockBean
+    private UserDetailsManager userDetailsManager;
+
 
     @Test
     public void testValidRegister() throws Exception {
-        User user = User.builder()
-                .username("testUser")
-                .password("testpassword")
-                .email("testemail@gmail.com")
-                .dateOfBirth(LocalDate.of(1990, 1, 1))
-                .build();
+        UserRegistrationDTO user = new UserRegistrationDTO(
+                "testUser", "testemail@gmail.com", "password");
 
         LocalDate dateCreated = LocalDate.now();
 
         String userAsJson = objectMapper.writeValueAsString(user);
 
         // mock the register method (assume it always works and return the correct result)
-        when(userService.register(user)).thenReturn(
+        when(userAuthenticationService.register(user)).thenReturn(
                 new UserDTO(1, "testUser","testemail@gmail.com",
                         LocalDate.of(1990, 1, 1),
                         dateCreated
         ));
 
         this.mockMvc.perform(
-                post("/users/register")
+                post("/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userAsJson))
         .andExpect(status().isOk())

@@ -1,0 +1,175 @@
+/* This will be the wrapper that holds the background styling */
+.backgroundWrapper {
+    background-size: cover;
+    background-position: center center; 
+    background-attachment: fixed; 
+    margin-top: -1%;
+    min-height: 100vh; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Align content to the top */
+    padding: 2rem;
+  }
+  /*Header Style*/
+  .headerContainer {
+    text-align: center;
+    color: tomato;
+    padding: 0rem;
+  }
+  
+  .headerTitle {
+    font-family: 'Lobster', cursive; 
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .headerTagline {
+    font-family: 'Lobster', cursive;
+    font-size: 1.5rem;
+    color: tomato;
+    font-weight: 300;
+    line-height: 1.4;
+    margin-top: 0;
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* Style for the signup form container */
+  .signupContainer {
+    align-items: center;
+    padding: 2rem;
+    padding-left: 10rem;
+  }
+  
+  .signupForm {
+    padding: 1rem;
+    padding-right:1rem;
+    padding-left: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    height: 500px;
+    align-self: center;
+  }
+  
+  .formTitle {
+    font-family: 'Lobster', cursive;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    align-self: center;
+    text-align: center;
+  }
+  .formSubtitle{
+    font-family: 'Lobster', cursive;
+    margin-bottom: 1rem;
+  }
+  /* signup.module.css */
+  .signupForm input {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .signupForm label {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .formField {
+    margin-bottom: 0.001rem;
+  }
+
+  
+  .signupButton {
+    padding: 0.5rem 1rem;
+    background-color: #1d293c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 1rem;
+    width: 100%;
+    align-self: center;
+  }
+  
+  .googleButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    background-color: #1d293c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  
+  .googleButton img {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+  }
+  
+  .signInContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  
+  .signInContainer p {
+    margin: 0;
+  }
+  
+  .signInContainer .signInLink {
+    margin-left: 0.5rem;
+  }
+  
+  .inputWrapper {
+    position: relative;
+  }
+  
+  .inputWrapper input {
+    padding-right: 2.5rem; /* Space for the icon */
+  }
+  
+  .errorMessage {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+  
+  .successMessage {
+    color: green;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+  
+  
+  .orContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #ccc;
+    margin: 0 10px;
+  }
+  
+  .orText {
+    font-size: 14px;
+    color: #666;
+    font-weight: bold;
+  }
+  
