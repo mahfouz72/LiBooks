@@ -1,6 +1,5 @@
 package org.example.backend.controllers;
 
-
 import org.example.backend.models.dtos.UserDTO;
 import org.example.backend.models.dtos.UserRegistrationDTO;
 import org.example.backend.services.UserAuthenticationService;
