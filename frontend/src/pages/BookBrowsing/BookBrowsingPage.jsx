@@ -7,19 +7,23 @@ import { useEffect, useState } from "react";
 function BookBrowsingPage() {
     const [books, setBooks] = useState([]);
     const [page, setPage] = useState(0);
-    const pageSize = 8;
+    const pageSize = 5;
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
         const fetchBooks = async () => {
             const response = await fetch(
-                `http://localhost:8080/books?page=${page}&size=${pageSize}`
+                `http://localhost:8080/books?page=${page}&size=${pageSize}`,{
+                    method: 'GET',
+                    headers: {"Authorization": `Bearer ${token}`},
+                }
             );
             const data = await response.json();
             console.log(data)
             setBooks((prev) => [...prev, ...data]);
         };
         fetchBooks();
-    }, [page]);
+    }, [page, token]);
 
     const handleScroll = (e) => {
         console.log("log:paged scorlled");
