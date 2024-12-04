@@ -12,7 +12,7 @@ import {
 function Header() {
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" sx={{ bgcolor: "#974903" }}>
+            <AppBar  sx={{ bgcolor: "#974903" }}>
                 <Toolbar>
                     <IconButton
                         size="small"

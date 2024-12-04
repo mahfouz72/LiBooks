@@ -13,7 +13,7 @@
   /*Header Style*/
   .headerContainer {
     text-align: center;
-    color: tomato;
+    color: #32362d;
     padding: 0rem;
   }
   
@@ -27,7 +27,7 @@
   .headerTagline {
     font-family: 'Lobster', cursive;
     font-size: 1.5rem;
-    color: tomato;
+    color: #32362d;
     font-weight: 300;
     line-height: 1.4;
     margin-top: 0;
@@ -47,8 +47,8 @@
     padding: 1rem;
     padding-right:1rem;
     padding-left: 1rem;
-    background-color: white;
-    border-radius: 8px;
+    background-color: #f5f0e4;
+    border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     width: 500px;
     height: 500px;
