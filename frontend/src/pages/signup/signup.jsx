@@ -51,6 +51,11 @@ const Signup = () => {
       return;
     }
 
+    if(password.length < 7){
+      setPasswordError("The password must be at least 8 characters");
+      return;
+    }
+
     // Clear errors
     setFormError('');
     setPasswordError('');
@@ -87,17 +92,15 @@ const Signup = () => {
             <p className={styles.formSubtitle}>Discover, discuss, and dive into stories, books don't lie</p>
           </div>
           <div className={styles.formField}>
-            <label>Username:</label>
             <input
               type="text"
-              placeholder="John Doe"
+              placeholder="Username"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
             />
           </div>
 
           <div className={styles.formField}>
-            <label>Password:</label>
             <Password
               value={password}
               setValue={setPassword}
@@ -105,7 +108,6 @@ const Signup = () => {
             />
           </div>
           <div className={styles.formField}>
-            <label>Confirm Password:</label>
             <Password
               value={confirmPassword}
               setValue={setConfirmPassword}
