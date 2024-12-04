@@ -13,10 +13,10 @@ function BookBrowsingPage() {
     useEffect(() => {
         const fetchBooks = async () => {
             const response = await fetch(
-                `http://localhost:8080/books?page=${page}&size=${pageSize}`,{
-                    method: 'GET',
-                    headers: {"Authorization": `Bearer ${token}`},
-                }
+                `http://localhost:8080/books?page=${page}&size=${pageSize}`, {
+                method: 'GET',
+                headers: { "Authorization": `Bearer ${token}` },
+            }
             );
             const data = await response.json();
             console.log(data)
