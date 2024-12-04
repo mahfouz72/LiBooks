@@ -148,15 +148,6 @@ public class BookServiceTest {
         assertEquals(books.get(0), result);
     }
 
-    private boolean deleteBook(int bookId) {
-        boolean isDeleted = false;
-        if (books.get(bookId) != null) {
-            books.remove(bookId);
-            isDeleted = true;
-        }
-        return isDeleted;
-    }
-
     @Test
     public void testDeleteBook() {
         bookService.deleteBook(0);
