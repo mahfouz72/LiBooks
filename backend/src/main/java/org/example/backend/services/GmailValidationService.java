@@ -7,33 +7,44 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
 
 @Service
 public class GmailValidationService {
+
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+
     public GmailValidationService(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
     }
 
+    /**
+     * Fetches the email of the user from Google using the access token
+     *
+     */
     public String fetchGoogleEmail(String accessToken) {
-        final String GOOGLE_API_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
+        final String googleApiUrl = "https://www.googleapis.com/oauth2/v3/userinfo";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
         HttpEntity<String> entity = new HttpEntity<>(headers);
+        String email = null;
 
         try {
-            ResponseEntity<String> response = restTemplate.
-                    exchange(GOOGLE_API_URL, HttpMethod.GET, entity, String.class);
+            ResponseEntity<String> response = restTemplate
+                .exchange(googleApiUrl, HttpMethod.GET, entity, String.class);
             JsonNode root = objectMapper.readTree(response.getBody());
-            return root.path("email").asText();
+            email = root.path("email").asText();
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            return null;
+        catch (RestClientException | IOException ex) {
+            ex.printStackTrace();
         }
+
+        return email;
     }
 }

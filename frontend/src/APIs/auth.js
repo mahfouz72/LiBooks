@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Configure base URL
-axios.defaults.baseURL = 'http://localhost:8081';
+axios.defaults.baseURL = 'http://localhost:8080';
 
 const registerUser = async (userSignupData) => {
   try {

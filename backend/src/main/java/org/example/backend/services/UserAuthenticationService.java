@@ -83,12 +83,15 @@ public class UserAuthenticationService {
 
     public ResponseEntity<String> loginByGmail(String gmail) {
         User user = getUserByGmail(gmail);
+        ResponseEntity<String> response;
+
         if (user != null) {
             String username = user.getUsername();
-            System.out.println("Username: "+username);
-            return new ResponseEntity<>(jwtService.generateToken(username), HttpStatus.OK);
+            response = new ResponseEntity<>(jwtService.generateToken(username), HttpStatus.OK);
         }
-        return new ResponseEntity<>("User is not registered", HttpStatus.UNAUTHORIZED);
+
+        response = new ResponseEntity<>("User is not registered", HttpStatus.UNAUTHORIZED);
+        return response;
     }
 
     private User getUserByGmail(String gmail) {
