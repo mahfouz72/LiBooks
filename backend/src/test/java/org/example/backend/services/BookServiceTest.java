@@ -138,4 +138,13 @@ public class BookServiceTest {
         assertEquals(pageSize, result.size());
         assertEquals(bookListingDTO, result.get(0));
     }
+
+    @Test
+    public void testSaveBook() {
+        when(bookRepository.save(books.get(0))).thenReturn(books.get(0));
+
+        Book result = bookService.saveBook(books.get(0));
+
+        assertEquals(books.get(0), result);
+    }
 }
