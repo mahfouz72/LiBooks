@@ -1,5 +1,6 @@
 package org.example.backend.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
@@ -41,7 +42,7 @@ public class GmailValidationService {
             JsonNode root = objectMapper.readTree(response.getBody());
             email = root.path("email").asText();
         }
-        catch (RestClientException | IOException ex) {
+        catch (RestClientException | JsonProcessingException ex) {
             ex.printStackTrace();
         }
 
