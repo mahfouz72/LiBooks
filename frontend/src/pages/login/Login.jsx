@@ -121,7 +121,7 @@ function LoginForm(){
 
                 <div className="rememberme-forget">
                     <label htmlFor=""><input type="checkbox"/>Remember me</label>
-                    <a href="#">Forget password</a>
+                    <a href="#1">Forget password</a>
                 </div>
                 <p className="error">{errorMessage}</p>
                 <button className="login-btn" type="button" onClick={handleSubmit}>Log in</button>
