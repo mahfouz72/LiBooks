@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 function BookBrowsingPage() {
     const [books, setBooks] = useState([]);
     const [page, setPage] = useState(0);
-    const pageSize = 5;
+    const pageSize = 10;
     const token = localStorage.getItem("token");
 
     useEffect(() => {
