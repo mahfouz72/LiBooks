@@ -53,7 +53,7 @@ public class UserAuthenticationService {
 
     private void checkUsernameUniqueness(UserRegistrationDTO userRegistrationDTO) {
         String username = userRegistrationDTO.username();
-        if (userRepository.findByUsername(username) != null) {
+        if (userRepository.existsUserByUsername(username)) {
             throw new UsernameAlreadyExistsException("Username already exists!");
         }
     }

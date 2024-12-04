@@ -1,18 +1,26 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { BACKEND_BASE } from "../../constants/Constants";
+import { LOGIN_API } from "../../constants/Constants";
+import { HOME } from "../../constants/Constants";
 import './login.css'
 
 function LoginForm(){
+
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const handleSubmit = () => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async () => {
         setUsernameError("");
         setPasswordError("");
+        setErrorMessage("");
 
-        if(username == ''){
+        if(username === ''){
             setUsernameError("Username is required!");
             return
         }
@@ -22,7 +30,7 @@ function LoginForm(){
             return
         }
 
-        if(password == ''){
+        if(password === ''){
             setPasswordError("Password is required!");
             return
         }
@@ -32,8 +40,28 @@ function LoginForm(){
             return
         }
 
-        // Add your login logic here
         console.log("Login attempt with:", { username, password });
+
+        try{
+            const response = await fetch(BACKEND_BASE + LOGIN_API + `?username=${username}&password=${password}`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+            });
+    
+            if(response.status === 200){
+                const token = await response.text();
+                localStorage.setItem("token", token); //to be improved later
+                console.log("Login successful");
+                navigate(HOME);
+            }
+            else{
+                const errorMessage = await response.text();
+                console.log(errorMessage);
+                setErrorMessage("Invalid username or password");
+            }
+        }catch(error){
+            console.log("something went wrong");
+        }
     };
 
     return(
@@ -61,8 +89,9 @@ function LoginForm(){
 
                 <div className="rememberme-forget">
                     <label htmlFor=""><input type="checkbox"/>Remember me</label>
-                    <a href="#">Forget password</a>
+                    <a href="#1">Forget password</a>
                 </div>
+                <p className="error">{errorMessage}</p>
                 <button className="login-btn" type="button" onClick={handleSubmit}>Log in</button>
                 <button className="google-btn"><span>Continue with Google</span></button>
                 <div className="register">
