@@ -55,4 +55,16 @@ public class Book {
     @Column(length = MAX_GENRE_LENGTH)
     private String genre;
 
+    @OneToMany(mappedBy = "book")
+    private List<AuthorBook> authorBooks;
+
+    public List<String> getAuthors() {
+        List<String> authors = new ArrayList<>();
+        if (authorBooks != null) {
+            for (AuthorBook authorBook : authorBooks) {
+                authors.add(authorBook.getAuthor().getAuthorName());
+            }
+        }
+        return authors;
+    }
 }

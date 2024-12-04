@@ -7,7 +7,7 @@ import {
     Typography,
   } from "@mui/material";
   
-  function BookCard({ bookCover, bookTitle, rating }) {
+  function BookCard({ bookCover, bookTitle, rating, author }) {
     return (
       <Card sx={{ position: "relative", width: 150, height: 350 }}>
         <CardMedia
@@ -34,7 +34,7 @@ import {
             {bookTitle}
           </Typography>
           <Typography variant="body2" sx={{ color: "black" }}>
-            by author
+            by {author}
           </Typography>
         </CardContent>
         <CardActions sx={{position: 'absolute' , bottom: 0}}>
