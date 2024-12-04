@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @Table(name = "book")
 public class Book {
     private static final int MAX_BOOK_TITLE_LENGTH = 200;
-    private static final int MAX_ISBN_LENGTH = 10;
+    private static final int MAX_ISBN_LENGTH = 13;
     private static final int MAX_SUMMARY_LENGTH = 20_000;
     private static final int MAX_LANGUAGE_OF_ORIGIN_LENGTH = 10;
     private static final int MAX_PUBLISHER_LENGTH = 100;
