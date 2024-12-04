@@ -70,8 +70,7 @@ const Signup = () => {
     try {
       const userData = await registerUser(userSignupData); 
       console.log('User successfully registered:', userData);
-      // Redirect or show success message
-      navigate('/welcome'); // Example route after successful registration
+      navigate('/');
     } catch (error) {
       console.error('Registration failed:', error.response ? error.response.data : error.message);
       setFormError('Registration failed. Please try again.');
