@@ -1,5 +1,6 @@
-package org.example.backend.security;
+package org.example.backend.config;
 
+import org.example.backend.security.JWTAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,7 +54,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/login", "/register").permitAll()
+                                .requestMatchers("/login/**", "/register").permitAll()
                                 .anyRequest().authenticated()
             );
 

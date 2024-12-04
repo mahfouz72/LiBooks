@@ -12,4 +12,14 @@ const registerUser = async (userSignupData) => {
   }
 };
 
-export { registerUser };
+const loginWithGoogle = async (token) => {
+  try {
+    console.log("token:", token);
+    const response = await axios.post('/login/google', { token });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export { registerUser, loginWithGoogle };
