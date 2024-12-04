@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_BASE } from "../../constants/Constants";
 import { LOGIN_API } from "../../constants/Constants";
 import { HOME } from "../../constants/Constants";
+import Password from '../../Components/Fields/Password/password';
 import './login.css'
 
 function LoginForm(){
@@ -22,22 +23,22 @@ function LoginForm(){
 
         if(username === ''){
             setUsernameError("Username is required!");
-            return
+            return;
         }
 
         if(username.length < 2){
             setUsernameError("The username must be at least 3 characters");
-            return
+            return;
         }
 
         if(password === ''){
             setPasswordError("Password is required!");
-            return
+            return;
         }
 
         if(password.length < 7){
             setPasswordError("The password must be at least 8 characters");
-            return
+            return;
         }
 
         console.log("Login attempt with:", { username, password });
@@ -79,11 +80,14 @@ function LoginForm(){
                 </div>
 
                 <div className="input-box">
-                    <input type="password" 
-                        placeholder="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                <div className="input-box">
+                <Password
+                    value={password}
+                    setValue={setPassword}
+                    placeholder="password"
+                />
+                    <p className="error">{passwordError}</p>
+                </div>
                     <p className="error">{passwordError}</p>
                 </div>
 
