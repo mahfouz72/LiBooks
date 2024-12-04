@@ -18,14 +18,12 @@
   }
   
   .headerTitle {
-    font-family: 'Lobster', cursive; 
     font-size: 3.5rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
   }
   
   .headerTagline {
-    font-family: 'Lobster', cursive;
     font-size: 1.5rem;
     color: #32362d;
     font-weight: 300;
@@ -44,6 +42,11 @@
   }
   
   .signupForm {
+    background: transparent;
+    border: 2px solid #a3a0af;
+    backdrop-filter: blur(30px);
+    border-radius: 10px;
+    box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
     padding: 1rem;
     padding-right:1rem;
     padding-left: 1rem;
@@ -56,14 +59,12 @@
   }
   
   .formTitle {
-    font-family: 'Lobster', cursive;
     font-size: 2rem;
     margin-bottom: 1rem;
     align-self: center;
     text-align: center;
   }
   .formSubtitle{
-    font-family: 'Lobster', cursive;
     margin-bottom: 1rem;
   }
   /* signup.module.css */
@@ -71,7 +72,7 @@
     width: 100%;
     padding: 0.75rem;
     border-radius: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #F4EEE0;
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
@@ -87,28 +88,27 @@
 
   
   .signupButton {
-    padding: 0.5rem 1rem;
-    background-color: #1d293c;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 1rem;
     width: 100%;
-    align-self: center;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 30px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #32362d;
+    border: 1px solid #32362d;
+    color: #fff;
   }
   
   .googleButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem 1rem;
-    background-color: #1d293c;
-    color: white;
-    border: none;
-    border-radius: 8px;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 30px;
+    font-size: 14px;
     cursor: pointer;
-    margin-top: 1rem;
+    background-color: #32362d;
+    border: 1px solid #32362d;
+    color: #fff;
   }
   
   .googleButton img {
