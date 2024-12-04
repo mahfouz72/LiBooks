@@ -1,6 +1,6 @@
 package org.example.backend.services;
 
-import org.example.backend.models.dtos.TokenDTO;
+import org.example.backend.exceptions.UsernameAlreadyExistsException;
 import org.example.backend.models.dtos.UserDTO;
 import org.example.backend.models.dtos.UserRegistrationDTO;
 import org.example.backend.models.entities.User;
@@ -17,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 public class UserAuthenticationService {

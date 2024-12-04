@@ -11,7 +11,8 @@ public class LoginController {
     private UserAuthenticationService userAuthenticationService;
     private final GmailValidationService gmailValidationService;
 
-    public LoginController(UserAuthenticationService userAuthenticationService, GmailValidationService gmailValidationService) {
+    public LoginController(UserAuthenticationService userAuthenticationService,
+                           GmailValidationService gmailValidationService) {
         this.userAuthenticationService = userAuthenticationService;
         this.gmailValidationService = gmailValidationService;
     }
@@ -23,10 +24,8 @@ public class LoginController {
     }
 
     @PostMapping("/login/google")
-    public ResponseEntity<String> loginGoogle(@RequestBody TokenDTO tokenDTO){
-        System.out.println(tokenDTO.token());
+    public ResponseEntity<String> loginGoogle(@RequestBody TokenDTO tokenDTO) {
         String gmail = gmailValidationService.fetchGoogleEmail(tokenDTO.token());
-        System.out.println("Gmail: "+gmail);
         return userAuthenticationService.loginByGmail(gmail);
     }
 

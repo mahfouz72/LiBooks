@@ -13,10 +13,11 @@ import org.springframework.web.client.RestTemplate;
 public class GmailValidationService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
-    public GmailValidationService(RestTemplate restTemplate, ObjectMapper objectMapper){
+    public GmailValidationService(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
     }
+
     public String fetchGoogleEmail(String accessToken) {
         final String GOOGLE_API_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
 
@@ -25,10 +26,12 @@ public class GmailValidationService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         try {
-            ResponseEntity<String> response = restTemplate.exchange(GOOGLE_API_URL, HttpMethod.GET, entity, String.class);
+            ResponseEntity<String> response = restTemplate.
+                    exchange(GOOGLE_API_URL, HttpMethod.GET, entity, String.class);
             JsonNode root = objectMapper.readTree(response.getBody());
             return root.path("email").asText();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return null;
         }
