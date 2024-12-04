@@ -3,7 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_BASE } from "../../constants/Constants";
 import { LOGIN_API } from "../../constants/Constants";
 import { HOME } from "../../constants/Constants";
-import Password from '../../Components/Fields/Password/password';
+import { loginWithGoogle } from "../../APIs/auth"; 
+import { useGoogleLogin } from '@react-oauth/google';
+
 import './login.css'
 
 function LoginForm(){
@@ -23,28 +25,28 @@ function LoginForm(){
 
         if(username === ''){
             setUsernameError("Username is required!");
-            return;
+            return
         }
 
         if(username.length < 2){
             setUsernameError("The username must be at least 3 characters");
-            return;
+            return
         }
 
         if(password === ''){
             setPasswordError("Password is required!");
-            return;
+            return
         }
 
         if(password.length < 7){
             setPasswordError("The password must be at least 8 characters");
-            return;
+            return
         }
 
         console.log("Login attempt with:", { username, password });
 
         try{
-            const response = await fetch(BACKEND_BASE + LOGIN_API + `?username=${username}&password=${password}`, {
+            const response = await fetch(BACKEND_BASE + LOGIN_API+`?username=${username}&password=${password}`,{
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
             });
@@ -65,6 +67,35 @@ function LoginForm(){
         }
     };
 
+    const handleLoginGoogle = useGoogleLogin({
+        onSuccess: async (tokenResponse) => {
+            const googleToken = tokenResponse.access_token;
+                
+            try {
+                const response = await loginWithGoogle(googleToken);
+                console.log(response);
+                if(response){
+                    localStorage.setItem("token", response);
+                    navigate(HOME);
+                }else{
+                    setErrorMessage("Your Gmail is not registered, please sign up");
+                }
+            } catch (error) {
+                console.log(error)
+                console.error("Error authenticating with Google:", error);
+                setErrorMessage("Authentication failed. Please try again.");
+            }
+        },
+        onError: (error) => {
+            console.error("Google login failed:", error);
+            setErrorMessage("Login failed. Please try again.");
+        },
+    });
+
+    const handleLoginClick = () => {
+        handleLoginGoogle();
+    };
+
     return(
         <div className="wrapper">
             <form action="">
@@ -80,24 +111,21 @@ function LoginForm(){
                 </div>
 
                 <div className="input-box">
-                <div className="input-box">
-                <Password
-                    value={password}
-                    setValue={setPassword}
-                    placeholder="password"
-                />
-                    <p className="error">{passwordError}</p>
-                </div>
+                    <input type="password" 
+                        placeholder="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
                     <p className="error">{passwordError}</p>
                 </div>
 
                 <div className="rememberme-forget">
                     <label htmlFor=""><input type="checkbox"/>Remember me</label>
-                    <a href="#1">Forget password</a>
+                    <a href="#">Forget password</a>
                 </div>
                 <p className="error">{errorMessage}</p>
                 <button className="login-btn" type="button" onClick={handleSubmit}>Log in</button>
-                <button className="google-btn"><span>Continue with Google</span></button>
+                <button className="google-btn" type="button" onClick={handleLoginClick}><span>Continue with Google</span></button>
                 <div className="register">
                     <p>Don't have an account? <Link to="/register">Register</Link></p>
                 </div>
