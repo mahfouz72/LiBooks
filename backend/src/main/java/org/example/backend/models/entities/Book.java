@@ -60,11 +60,10 @@ public class Book {
 
     public List<String> getAuthors() {
         List<String> authors = new ArrayList<>();
-        if (authorBooks == null) {
-            return authors;
-        }
-        for (AuthorBook authorBook : authorBooks) {
-            authors.add(authorBook.getAuthor().getAuthorName());
+        if (authorBooks != null) {
+            for (AuthorBook authorBook : authorBooks) {
+                authors.add(authorBook.getAuthor().getAuthorName());
+            }
         }
         return authors;
     }
