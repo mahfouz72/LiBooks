@@ -13,21 +13,19 @@
 /*Header Style*/
 .headerContainer {
   text-align: center;
-  color: tomato;
+  color: #32362d;
   padding: 0rem;
 }
 
 .headerTitle {
-  font-family: 'Lobster', cursive; 
   font-size: 3.5rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
 
 .headerTagline {
-  font-family: 'Lobster', cursive;
   font-size: 1.5rem;
-  color: tomato;
+  color: #32362d;
   font-weight: 300;
   line-height: 1.4;
   margin-top: 0;
@@ -38,24 +36,22 @@
 
 /* Style for the signup form container */
 .signupContainer {
-  display: flex;
-  justify-content: flex-end; /* Align form to the right */
-  align-items: center;
   height:100vh;
-  padding-right: 15rem;
+  padding-left: 25%;
 }
 
 .signupForm {
-  padding: 1.5rem;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 450px;
-  align-self: center;
+  width: 420px;
+  background: transparent;
+  border: 2px solid #a3a0af;
+  backdrop-filter: blur(30px);
+  border-radius: 10px;
+  box-shadow: 0 0px 10px rgba(0, 0, 0, 0.3);
+  background: #f5f0e4;
+  padding: 30px 40px;
 }
 
 .formTitle {
-  font-family: 'Lobster', cursive;
   font-size: 2rem;
   margin-bottom: 1rem;
   margin-top: 0.01rem;
@@ -63,7 +59,6 @@
   text-align: center;
 }
 .formSubtitle{
-  font-family: 'Lobster', cursive;
   text-align: center;
 }
 
@@ -85,15 +80,15 @@
 }
 
 .signupButton {
-  padding: 0.5rem 1rem;
-  background-color: #1d293c;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 1rem;
   width: 100%;
-  align-self: center;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 30px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #32362d;
+  border: 1px solid #32362d;
+  color: #fff;
 }
 
 

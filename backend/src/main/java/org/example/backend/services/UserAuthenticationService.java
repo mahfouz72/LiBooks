@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class UserAuthenticationService {
 
@@ -78,5 +79,22 @@ public class UserAuthenticationService {
     public String getCurrentUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
+    }
+
+    public ResponseEntity<String> loginByGmail(String gmail) {
+        User user = getUserByGmail(gmail);
+        ResponseEntity<String> response;
+
+        if (user != null) {
+            String username = user.getUsername();
+            response = new ResponseEntity<>(jwtService.generateToken(username), HttpStatus.OK);
+        }
+
+        response = new ResponseEntity<>("User is not registered", HttpStatus.UNAUTHORIZED);
+        return response;
+    }
+
+    private User getUserByGmail(String gmail) {
+        return userRepository.findByEmail(gmail.toLowerCase()).orElse(null);
     }
 }
