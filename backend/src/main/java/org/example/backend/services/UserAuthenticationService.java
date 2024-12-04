@@ -89,8 +89,10 @@ public class UserAuthenticationService {
             String username = user.getUsername();
             response = new ResponseEntity<>(jwtService.generateToken(username), HttpStatus.OK);
         }
+        else {
+            response = new ResponseEntity<>("User is not registered", HttpStatus.UNAUTHORIZED);
+        }
 
-        response = new ResponseEntity<>("User is not registered", HttpStatus.UNAUTHORIZED);
         return response;
     }
 
