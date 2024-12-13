@@ -1,5 +1,6 @@
 import React from 'react';
 import './Header.css';
+import { HOME } from '../../constants/Constants';
 
 const Header = () => {
   return (
@@ -8,11 +9,11 @@ const Header = () => {
         <h1>LIBOOKS</h1>
       </div>
       <div className="header-menu">
-        <a href="/home" className="header-link">Home</a>
-        <a href="/books" className="header-link">Books</a>
+        <a href={HOME} className="header-link">Home</a>
+        <a href={HOME} className="header-link">Books</a>
         <div className="header-user">
+          {/* Take first letter of Username or uploaded photo from user*/}
           <div className="header-avatar">A</div>
-          <span className="header-username">Ahmed</span>
         </div>
       </div>
     </div>

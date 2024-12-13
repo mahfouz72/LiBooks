@@ -7,6 +7,7 @@
 }
 
 body {
+  overflow-x: hidden; /*CARE: remove horzintal scroll*/
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Poppins', 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -15,7 +16,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   display: flex;
   justify-content: center;
-  align-items: center;
   min-height: 100vh;
   background-color: #f5f0e4;
 }
