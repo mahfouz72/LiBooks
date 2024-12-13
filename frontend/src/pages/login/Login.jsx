@@ -97,6 +97,7 @@ function LoginForm(){
     };
 
     return(
+        <div className="box-wrapper">
         <div className="wrapper">
             <form action="">
                 <h1>Login</h1>
@@ -130,6 +131,7 @@ function LoginForm(){
                     <p>Don't have an account? <Link to="/register">Register</Link></p>
                 </div>
             </form>
+        </div>
         </div>
     )
 }

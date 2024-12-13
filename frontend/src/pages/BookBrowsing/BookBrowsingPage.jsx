@@ -1,20 +1,19 @@
 import { Stack } from "@mui/material";
 import Header from "../../Components/Header/Header";
 import BookList from "./BookList";
-
 import { useEffect, useState } from "react";
 
 function BookBrowsingPage() {
     const [books, setBooks] = useState([]);
     const [page, setPage] = useState(0);
-    const pageSize = 10;
+    const PAGESIZE = 10;
 
     const token = localStorage.getItem("token");
 
     useEffect(() => {
         const fetchBooks = async () => {
             const response = await fetch(
-                `http://localhost:8080/books?page=${page}&size=${pageSize}`,{
+                    `http://localhost:8080/books?page=${page}&size=${PAGESIZE}`, {
                     method: 'GET',
                     headers: {"Authorization": `Bearer ${token}`},
                 }
@@ -41,7 +40,7 @@ function BookBrowsingPage() {
     }, []);
 
     return (
-        <Stack spacing={4}>
+        <Stack spacing={4} width="100vw">
             <Header />
             <Stack direction="row" justifyContent="center" spacing={2}>
                 <BookList books={books} sx={{ width: "70%" }} />

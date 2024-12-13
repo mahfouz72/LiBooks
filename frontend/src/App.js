@@ -8,7 +8,7 @@ import BookBrowsingPage from "./pages/BookBrowsing/BookBrowsingPage";
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId="939403070001-juvk1couqnroi7ft04o3cqvjqi9hbqol.apps.googleusercontent.com"> {}
+    <GoogleOAuthProvider clientId="441471832178-me4tprachirkf15ra6umrlff54i5utlu.apps.googleusercontent.com"> {}
       <Router>
         <div>
           <main>
