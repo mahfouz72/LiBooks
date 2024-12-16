@@ -1,8 +1,10 @@
 package org.example.backend.services;
 
+import org.example.backend.models.dtos.BookDTO;
 import org.example.backend.models.entities.*;
 import org.example.backend.models.dtos.BookListingDTO;
 import org.example.backend.repositories.BookRepository;
+import org.example.backend.services.mappers.BookDTOMapper;
 import org.example.backend.services.mappers.BookListingDTOMapper;
 import org.example.backend.models.entities.compositeKeys.AuthorBookID;
 
@@ -34,6 +36,9 @@ public class BookServiceTest {
 
     @Mock
     private BookListingDTOMapper bookListingDTOMapper;
+
+    @Mock
+    private BookDTOMapper bookDTOMapper;
 
     @InjectMocks
     private BookService bookService;
@@ -151,5 +156,29 @@ public class BookServiceTest {
     @Test
     public void testDeleteBook() {
         bookService.deleteBook(0);
+    }
+
+    @Test
+    public void getBookPageViewById() {
+        Book book = books.get(0);
+        when(bookRepository.findById(0)).thenReturn(Optional.of(book));
+        when(bookDTOMapper.apply(books.get(0))).thenReturn(
+                new BookDTO(
+            book.getBookTitle(),
+            book.getIsbn(),
+            book.getRatingsCount(),
+            book.getRating(),
+            book.getSummary(),
+            book.getBookCover(),
+            book.getLanguageOfOrigin(),
+            book.getPublicationDate(),
+            book.getPublisher(),
+            book.getGenre(),
+            book.getAuthors()
+        ));
+
+        BookDTO result = bookService.getBookPageViewById(0);
+
+        assertEquals(bookDTOMapper.apply(books.get(0)), result);
     }
 }

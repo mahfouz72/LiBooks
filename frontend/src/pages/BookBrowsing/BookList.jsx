@@ -5,7 +5,7 @@ function BookList({books,sx}){
     const renderedBooks = books.map(({bookCover,bookId,bookTitle,rating,authors})=>{
         return(
             <Grid2 key={bookId}>
-                <BookCard bookCover={bookCover} bookTitle={bookTitle} rating={rating} author={authors[0]}/>
+                <BookCard bookId={bookId} bookCover={bookCover} bookTitle={bookTitle} rating={rating} author={authors[0]}/>
             </Grid2>
         )
     })
