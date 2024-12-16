@@ -19,17 +19,17 @@ public class EmailVerificationService {
 
     private final JavaMailSender mailSender;
     private final Map<String, VerificationCode> verificationMap;
-    public EmailVerificationService(JavaMailSender mailSender){
+    public EmailVerificationService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
         this.verificationMap = new HashMap<>();
     }
     @Async
-    public void sendVerificationCode(EmailDTO emailDTO){
+    public void sendVerificationCode(EmailDTO emailDTO) {
         String email = emailDTO.email();
         String code = generateSixDigitCode();
         LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(5);
-        VerificationCode verificationCode = new VerificationCode(code,expirationDate);
-        verificationMap.put(email,verificationCode);
+        VerificationCode verificationCode = new VerificationCode(code, expirationDate);
+        verificationMap.put(email, verificationCode);
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("LiBooks Support <alyeldin.mohamed.elsayed632@gmail.com>");
         message.setTo(email);
@@ -37,16 +37,16 @@ public class EmailVerificationService {
         message.setText("Your verification code is: " + verificationCode.getCode());
         mailSender.send(message);
     }
-    private String generateSixDigitCode(){
+    private String generateSixDigitCode() {
         return String.format("%06d", new Random().nextInt(1000000));
     }
-    public ResponseEntity<String> checkVerificationCode(VerificationDTO verificationDTO){
+    public ResponseEntity<String> checkVerificationCode(VerificationDTO verificationDTO) {
         String email = verificationDTO.email();
-        String sentCode=  verificationDTO.code();
+        String sentCode = verificationDTO.code();
 
         VerificationCode verificationCode = verificationMap.get(email);
-        System.out.println("Correct code is: "+verificationCode.getCode());
-        if(verificationCode.checkVerificationCode(sentCode)){
+        System.out.println("Correct code is: " + verificationCode.getCode());
+        if (verificationCode.checkVerificationCode(sentCode)) {
             return ResponseEntity.ok("Email is verified");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

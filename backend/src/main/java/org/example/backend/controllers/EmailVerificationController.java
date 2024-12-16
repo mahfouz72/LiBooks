@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/verification")
 public class EmailVerificationController {
     private EmailVerificationService emailVerificationService;
-    public EmailVerificationController(EmailVerificationService emailVerificationService){
+    public EmailVerificationController(EmailVerificationService emailVerificationService) {
         this.emailVerificationService = emailVerificationService;
     }
     @PostMapping("/sendEmail")
-    public ResponseEntity<String> sendVerificationEmail(@RequestBody EmailDTO emailDTO){
+    public ResponseEntity<String> sendVerificationEmail(@RequestBody EmailDTO emailDTO) {
         emailVerificationService.sendVerificationCode(emailDTO);
         return ResponseEntity.ok("Verification email sent");
     }
     @PostMapping("/code")
-    public ResponseEntity<String> checkVerificationCode(@RequestBody VerificationDTO verificationDTO){
+    public ResponseEntity<String> checkVerificationCode(@RequestBody VerificationDTO verificationDTO) {
         return emailVerificationService.checkVerificationCode(verificationDTO);
     }
 }
