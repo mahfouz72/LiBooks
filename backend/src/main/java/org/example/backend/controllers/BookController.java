@@ -1,5 +1,6 @@
 package org.example.backend.controllers;
 
+import org.example.backend.models.dtos.BookDTO;
 import org.example.backend.models.dtos.BookListingDTO;
 import org.example.backend.services.BookService;
 import org.springframework.data.domain.PageRequest;
@@ -26,4 +27,8 @@ public class BookController {
         return bookService.listBooks(pageable);
     }
 
+    @GetMapping("/books/{id}")
+    public BookDTO getBookById(@PathVariable Integer id) {
+        return bookService.getBookPageViewById(id);
+    }
 }
