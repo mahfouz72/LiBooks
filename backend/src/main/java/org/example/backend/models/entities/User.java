@@ -3,7 +3,7 @@ package org.example.backend.models.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
-
+import java.util.List;
 import java.time.LocalDate;
 
 @Data
@@ -28,6 +28,9 @@ public class User {
     private LocalDate dateOfBirth;
 
     private LocalDate dateCreated;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<PasswordResetToken> passwordResetToken;
 
     @PrePersist
     private void onCreation() {
