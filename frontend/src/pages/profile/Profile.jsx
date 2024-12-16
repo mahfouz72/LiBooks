@@ -33,7 +33,6 @@ function Profile() {
                     </div>
                 </div>
                 <div className="bookShelvesWrapper">
-                    {/* Bookshelf */}
                     <span className="bookShelvesTitle">BookShelves</span>
                     <BookShelves />
                 </div>
