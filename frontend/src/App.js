@@ -7,6 +7,7 @@ import Signup from './pages/signup/signup';
 import Profile from './pages/profile/Profile';
 import GmailSignup from './pages/welcome/welcome'; 
 import BookBrowsingPage from "./pages/BookBrowsing/BookBrowsingPage";
+import BookDetailsPage from "./pages/BookDetails/BookDetailsPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/register" element={<GmailSignup />} />
               <Route path="/BookBrowsingPage" element={<BookBrowsingPage />} />
+              <Route path="/book/:bookId" element={<BookDetailsPage />} />
             </Routes>
           </main>
       </Router>

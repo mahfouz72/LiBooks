@@ -6,10 +6,20 @@ import {
     Rating,
     Typography,
   } from "@mui/material";
+import {useNavigate} from "react-router-dom";
   
-  function BookCard({ bookCover, bookTitle, rating, author }) {
+  function BookCard({bookId, bookCover, bookTitle, rating, author }) {
+       const navigate = useNavigate();
+
+       function handleBookClick(){
+            navigate(`/book/${bookId}`);
+       }
+
+
     return (
-      <Card sx={{ position: "relative", width: 150, height: 350 }}>
+      <Card sx={{ position: "relative", width: 150, height: 350, cursor: "pointer",}}
+            title={bookTitle}
+            onClick={handleBookClick}>
         <CardMedia
           component="img"
           image={`data:image/jpeg;base64,${bookCover}`}
@@ -18,7 +28,7 @@ import {
             height: "200px",
             objectFit: "fill",
           }}
-          title="book"
+          title={bookTitle}
         />
         <CardContent>
           <Typography
