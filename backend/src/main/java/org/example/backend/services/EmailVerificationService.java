@@ -49,7 +49,8 @@ public class EmailVerificationService {
         if (verificationCode.checkVerificationCode(sentCode)) {
             return ResponseEntity.ok("Email is verified");
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
                 .body("Invalid verification code or code is expired");
     }
 }

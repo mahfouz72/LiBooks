@@ -106,7 +106,8 @@ public class UserAuthenticationService {
          if(user.isPresent()){
              return ResponseEntity.status(HttpStatus.CONFLICT).body("This Email already exists! please log in");
          }
-         return ResponseEntity.ok("Email is unique and could be registered");
+         else {
+             return ResponseEntity.ok("Email is unique and could be registered");
+         }
     }
-
 }
