@@ -1,6 +1,7 @@
 package org.example.backend.services;
 
 import org.example.backend.exceptions.UsernameAlreadyExistsException;
+import org.example.backend.models.dtos.EmailDTO;
 import org.example.backend.models.dtos.UserDTO;
 import org.example.backend.models.dtos.UserRegistrationDTO;
 import org.example.backend.models.entities.User;
@@ -17,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 
 @Service
 public class UserAuthenticationService {
@@ -96,7 +98,15 @@ public class UserAuthenticationService {
         return response;
     }
 
-    private User getUserByGmail(String gmail) {
-        return userRepository.findByEmail(gmail.toLowerCase()).orElse(null);
+    private User getUserByGmail(String email) {
+        return userRepository.findByEmail(email.toLowerCase()).orElse(null);
     }
+    public ResponseEntity<String> verifyUserExistenceByGmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email.toLowerCase());
+         if(user.isPresent()){
+             return ResponseEntity.status(HttpStatus.CONFLICT).body("This Email already exists! please log in");
+         }
+         return ResponseEntity.ok("Email is unique and could be registered");
+    }
+
 }

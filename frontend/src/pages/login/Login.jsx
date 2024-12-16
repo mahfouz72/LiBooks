@@ -96,6 +96,7 @@ function LoginForm(){
         handleLoginGoogle();
     };
 
+    
     return(
         <div className="box-wrapper">
         <div className="wrapper">

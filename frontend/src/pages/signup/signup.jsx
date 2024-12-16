@@ -70,10 +70,10 @@ const Signup = () => {
     try {
       const userData = await registerUser(userSignupData); 
       console.log('User successfully registered:', userData);
-      navigate('/');
+      navigate('/BookBrowsingPage'); // Example route after successful registration
     } catch (error) {
       console.error('Registration failed:', error.response ? error.response.data : error.message);
-      setFormError(error.response.data);
+      setFormError('Registration failed. Please try again.');
     }
   };
 
@@ -119,10 +119,6 @@ const Signup = () => {
 
           <button type="submit" className={styles.signupButton}>Create Account</button>
 
-          <div className={styles.signInContainer}>
-            <p>Already have an account?</p>
-            <Link to="/login" className={styles.signInLink}>Log in</Link>
-          </div>
         </form>
       </div>
 
