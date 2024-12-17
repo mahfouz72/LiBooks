@@ -30,6 +30,8 @@ public class BookShelfService {
 
     private UserAuthenticationService userAuthenticationService;
 
+    private UserService userService;
+
     private BookShelfDTOMapper bookShelfDTOMapper;
 
     private BooksBookShelfDTOMapper booksBookShelfDTOMapper;
@@ -37,11 +39,12 @@ public class BookShelfService {
     public BookShelfService(BookShelfRepository bookShelfRepository,
                             BooksBookShelfRepository booksBookShelfRepository,
                             UserAuthenticationService userAuthenticationService,
-                            BookShelfDTOMapper bookShelfDTOMapper,
+                            UserService userService, BookShelfDTOMapper bookShelfDTOMapper,
                             BooksBookShelfDTOMapper booksBookShelfDTOMapper) {
         this.bookShelfRepository = bookShelfRepository;
         this.booksBookShelfRepository = booksBookShelfRepository;
         this.userAuthenticationService = userAuthenticationService;
+        this.userService = userService;
         this.bookShelfDTOMapper = bookShelfDTOMapper;
         this.booksBookShelfDTOMapper = booksBookShelfDTOMapper;
     }
@@ -65,15 +68,17 @@ public class BookShelfService {
     public ResponseEntity<?> renameBookShelf(int bookShelfId, BookShelfDTO bookShelfDTO) {
         BookShelf bookShelf = bookShelfRepository.findById(bookShelfId).orElseThrow();
         User currentUser = getCurrentUser();
-
+        ResponseEntity<?> response;
         if (!currentUser.equals(bookShelf.getUser())) {
-            return new ResponseEntity<>("Not User's Bookshelf ", HttpStatus.UNAUTHORIZED);
+            response = new ResponseEntity<>("Not User's Bookshelf ", HttpStatus.UNAUTHORIZED);
         }
-
-        String newBookShelfName = bookShelfDTO.bookShelfName();
-        bookShelf.setBookShelfName(newBookShelfName);
-        bookShelfRepository.save(bookShelf);
-        return ResponseEntity.ok(bookShelfDTOMapper.apply(bookShelf));
+        else {
+            String newBookShelfName = bookShelfDTO.bookShelfName();
+            bookShelf.setBookShelfName(newBookShelfName);
+            bookShelfRepository.save(bookShelf);
+            response = ResponseEntity.ok(bookShelfDTOMapper.apply(bookShelf));
+        }
+        return response;
     }
 
     public void deleteBookShelf(Integer bookShelfId) {
@@ -103,6 +108,6 @@ public class BookShelfService {
 
     private User getCurrentUser() {
         String currentUsername = userAuthenticationService.getCurrentUsername();
-        return userAuthenticationService.getUserByUsername(currentUsername);
+        return userService.getUserByUsername(currentUsername);
     }
 }

@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookShelfRepository extends JpaRepository<BookShelf, Integer> {
-     Page<BookShelf> findByUserId(Integer userId, Pageable pageable);
+    Page<BookShelf> findByUserId(Integer userId, Pageable pageable);
 }
