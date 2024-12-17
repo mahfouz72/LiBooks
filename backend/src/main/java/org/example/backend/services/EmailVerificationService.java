@@ -29,6 +29,11 @@ public class EmailVerificationService {
         this.verificationMap = new HashMap<>();
     }
 
+    /**
+     * Sends a verification code to the provided email address.
+     *
+     * @param emailDTO Contains the email address to which the verification code will be sent.
+     */
     @Async
     public void sendVerificationCode(EmailDTO emailDTO) {
         String email = emailDTO.email();

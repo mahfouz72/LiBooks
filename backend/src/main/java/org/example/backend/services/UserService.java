@@ -23,11 +23,11 @@ public class UserService {
     public ResponseEntity<String> verifyUserExistenceByGmail(String email) {
         Optional<User> user = userRepository.findByEmail(email.toLowerCase());
 
-        if(user.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("This Email already exists! please log in");
-        }
-        else {
-            return ResponseEntity.ok("Email is unique and could be registered");
+        if (user.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("This Email already exists! Please log in.");
+        } else {
+            return ResponseEntity.ok("Email is unique and could be registered.");
         }
     }
 }
