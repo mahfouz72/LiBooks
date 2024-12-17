@@ -16,7 +16,7 @@ public class ForgetPasswordController {
     @PostMapping("/forgetPassword")
     public ResponseEntity<String> forgetPassword(@RequestBody UserDTO userDTO) {
 
-        return forgetPasswordService.forgetPassord(userDTO);
+        return forgetPasswordService.forgetPassword(userDTO);
     }
 
     @PostMapping("/resetPassword")

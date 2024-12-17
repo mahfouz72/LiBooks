@@ -38,7 +38,7 @@ public class ForgetPasswordService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
-    public ResponseEntity<String> forgetPassord(UserDTO userDTO) {
+    public ResponseEntity<String> forgetPassword(UserDTO userDTO) {
 
         ResponseEntity<String> response = null;
         Boolean emailSent = false;
