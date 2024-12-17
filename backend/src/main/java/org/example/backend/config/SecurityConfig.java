@@ -54,7 +54,8 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/login/**", "/register","/forgetPassword", "/resetPassword").permitAll()
+                                .requestMatchers("/login/**", "/register",
+                                        "/forgetPassword", "/resetPassword").permitAll()
                                 .anyRequest().authenticated()
             );
 

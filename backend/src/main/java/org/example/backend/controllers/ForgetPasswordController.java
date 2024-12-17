@@ -12,9 +12,7 @@ public class ForgetPasswordController {
 
 
     @Autowired
-    ForgetPasswordService forgetPasswordService;
-    @Autowired
-    PasswordResetTokenRepository passwordResetTokenRepository;
+    private ForgetPasswordService forgetPasswordService;
 
     @PostMapping("/forgetPassword")
     public ResponseEntity<String> forgetPassword(@RequestBody UserDTO userDTO) {

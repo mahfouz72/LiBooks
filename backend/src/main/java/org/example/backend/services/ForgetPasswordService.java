@@ -21,7 +21,7 @@ import java.util.UUID;
 public class ForgetPasswordService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
     private JavaMailSender javaMailSender;
     @Autowired
@@ -32,18 +32,20 @@ public class ForgetPasswordService {
     private String mailSubject;
     @Value("${forgetPassowrd.mail.text}")
     private String mailText;
+    @Value("${forgetPassowrd.token.expiry}")
+    private int tokenExpiry;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
     public ResponseEntity<String> forgetPassord(UserDTO userDTO) {
 
-        Boolean ok = false;
+        Boolean emailSent = false;
         System.out.println(userDTO.email());
         User user = userRepository.findByEmail(userDTO.email()).orElse(null);
         if (user != null) {
-            ok = sendEmail(user);
+            emailSent = sendEmail(user);
         }
-        if (ok) {
+        if (emailSent) {
             return ResponseEntity.status(HttpStatus.OK).body("Email sent successfully");
         }
         else {
@@ -51,10 +53,12 @@ public class ForgetPasswordService {
         }
     }
 
-    public ResponseEntity<String> resetPassword(String password,
-                                String token) {
+    public ResponseEntity<String> resetPassword(
+            String password,
+            String token) {
 
-        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token).orElse(null);
+        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token)
+                                                                            .orElse(null);
         if (passwordResetToken != null) {
             if (passwordResetToken.getExpiryDate().isAfter(java.time.LocalDateTime.now())) {
                 User user = passwordResetToken.getUser();
@@ -68,7 +72,7 @@ public class ForgetPasswordService {
             }
         }
         else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Token is expired");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Token is not found");
         }
     }
 
@@ -85,7 +89,8 @@ public class ForgetPasswordService {
             javaMailSender.send(msg);
 
             return true;
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -95,7 +100,7 @@ public class ForgetPasswordService {
 
         UUID uuid = UUID.randomUUID();
         LocalDateTime currentTime = LocalDateTime.now();
-        LocalDateTime expiryTime = currentTime.plusMinutes(15);
+        LocalDateTime expiryTime = currentTime.plusMinutes(tokenExpiry);
 
         PasswordResetToken passwordResetToken = new PasswordResetToken();
         passwordResetToken.setToken(uuid.toString());
@@ -109,6 +114,5 @@ public class ForgetPasswordService {
         }
         return null;
     }
-
 
 }
