@@ -1,7 +1,6 @@
 package org.example.backend.services;
 
 import org.example.backend.exceptions.UsernameAlreadyExistsException;
-import org.example.backend.models.dtos.EmailDTO;
 import org.example.backend.models.dtos.UserDTO;
 import org.example.backend.models.dtos.UserRegistrationDTO;
 import org.example.backend.models.entities.User;
@@ -18,8 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class UserAuthenticationService {
 
@@ -29,19 +26,21 @@ public class UserAuthenticationService {
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
     private JWTService jwtService;
-
+    private UserService userService;
     public UserAuthenticationService(UserRepository userRepository,
                                      UserDTOMapper userDTOMapper,
                                      UserRegistrationDTOMapper userRegistrationDTOMapper,
                                      PasswordEncoder passwordEncoder,
                                      AuthenticationManager authenticationManager,
-                                     JWTService jwtService) {
+                                     JWTService jwtService,
+                                     UserService userService) {
         this.userRepository = userRepository;
         this.userDTOMapper = userDTOMapper;
         this.userRegistrationDTOMapper = userRegistrationDTOMapper;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.userService = userService;
     }
 
     public UserDTO register(UserRegistrationDTO userRegistrationDTO) {
@@ -84,7 +83,7 @@ public class UserAuthenticationService {
     }
 
     public ResponseEntity<String> loginByGmail(String gmail) {
-        User user = getUserByGmail(gmail);
+        User user = userService.getUserByGmail(gmail);
         ResponseEntity<String> response;
 
         if (user != null) {
@@ -98,16 +97,5 @@ public class UserAuthenticationService {
         return response;
     }
 
-    private User getUserByGmail(String email) {
-        return userRepository.findByEmail(email.toLowerCase()).orElse(null);
-    }
-    public ResponseEntity<String> verifyUserExistenceByGmail(String email) {
-        Optional<User> user = userRepository.findByEmail(email.toLowerCase());
-         if(user.isPresent()){
-             return ResponseEntity.status(HttpStatus.CONFLICT).body("This Email already exists! please log in");
-         }
-         else {
-             return ResponseEntity.ok("Email is unique and could be registered");
-         }
-    }
+
 }

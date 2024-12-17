@@ -1,4 +1,4 @@
-package org.example.backend.domain;
+package org.example.backend.models;
 
 import lombok.Getter;
 import lombok.Setter;

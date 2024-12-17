@@ -1,6 +1,6 @@
 package org.example.backend.services;
 
-import org.example.backend.domain.VerificationCode;
+import org.example.backend.models.VerificationCode;
 import org.example.backend.models.dtos.EmailDTO;
 import org.example.backend.models.dtos.VerificationDTO;
 import org.springframework.http.HttpStatus;
@@ -37,7 +37,7 @@ public class EmailVerificationService {
         message.setText("Your verification code is: " + verificationCode.getCode());
         mailSender.send(message);
     }
-    private String generateSixDigitCode() {
+    public String generateSixDigitCode() {
         return String.format("%06d", new Random().nextInt(1000000));
     }
     public ResponseEntity<String> checkVerificationCode(VerificationDTO verificationDTO) {
@@ -49,8 +49,13 @@ public class EmailVerificationService {
         if (verificationCode.checkVerificationCode(sentCode)) {
             return ResponseEntity.ok("Email is verified");
         }
-        return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body("Invalid verification code or code is expired");
+        else {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("Invalid verification code or code is expired");
+        }
+    }
+    public Map<String, VerificationCode>getVerificationMap() {
+        return verificationMap;
     }
 }
