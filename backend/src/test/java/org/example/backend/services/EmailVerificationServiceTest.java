@@ -35,7 +35,6 @@ class EmailVerificationServiceTest {
         // Call the method
         emailVerificationService.sendVerificationCode(emailDTO);
 
-        // Verify the mail sender is called
         verify(mailSender, times(1)).send(any(SimpleMailMessage.class));
     }
 
@@ -54,16 +53,12 @@ class EmailVerificationServiceTest {
         LocalDateTime expirationDate = LocalDateTime.now().plusMinutes(5);
         VerificationCode verificationCode = new VerificationCode(code, expirationDate);
 
-        // Add verification code to the map
         emailVerificationService.getVerificationMap().put(email, verificationCode);
 
-        // Create DTO
         VerificationDTO verificationDTO = new VerificationDTO(email, code);
 
-        // Call the method
         var response = emailVerificationService.checkVerificationCode(verificationDTO);
 
-        // Assert
         assertEquals(200, response.getStatusCodeValue());
         assertEquals("Email is verified", response.getBody());
     }
@@ -75,13 +70,10 @@ class EmailVerificationServiceTest {
         LocalDateTime expirationDate = LocalDateTime.now().minusMinutes(5); // Expired code
         VerificationCode verificationCode = new VerificationCode(code, expirationDate);
 
-        // Add verification code to the map
         emailVerificationService.getVerificationMap().put(email, verificationCode);
 
-        // Create DTO with incorrect code
         VerificationDTO verificationDTO = new VerificationDTO(email, "654321");
 
-        // Call the method
         var response = emailVerificationService.checkVerificationCode(verificationDTO);
 
         // Assert

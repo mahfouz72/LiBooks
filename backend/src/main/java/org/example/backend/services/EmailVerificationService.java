@@ -69,7 +69,6 @@ public class EmailVerificationService {
         String sentCode = verificationDTO.code();
 
         VerificationCode verificationCode = verificationMap.get(email);
-        System.out.println("Correct code is: " + verificationCode.getCode());
 
         String responseMessage;
         HttpStatus status;

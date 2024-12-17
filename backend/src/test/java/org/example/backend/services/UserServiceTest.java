@@ -78,25 +78,23 @@ class UserServiceTest {
         // Assert
         assertNotNull(response);
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-        assertEquals("This Email already exists! please log in", response.getBody());
+        assertEquals("This Email already exists! Please log in.", response.getBody());
 
         verify(userRepository, times(1)).findByEmail(email.toLowerCase());
     }
 
     @Test
     void verifyUserExistenceByGmail_ShouldReturnOk_WhenEmailIsUnique() {
-        // Arrange
+
         String email = "unique@gmail.com";
 
         when(userRepository.findByEmail(email.toLowerCase())).thenReturn(Optional.empty());
 
-        // Act
         ResponseEntity<String> response = userService.verifyUserExistenceByGmail(email);
 
-        // Assert
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Email is unique and could be registered", response.getBody());
+        assertEquals("Email is unique and could be registered.", response.getBody());
 
         verify(userRepository, times(1)).findByEmail(email.toLowerCase());
     }

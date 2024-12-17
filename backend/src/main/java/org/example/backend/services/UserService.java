@@ -27,8 +27,6 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("This Email already exists! Please log in.");
         }
-
-        // If the email is unique and does not exist in the system
         return ResponseEntity.ok("Email is unique and could be registered.");
     }
 }
