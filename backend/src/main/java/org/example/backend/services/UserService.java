@@ -6,13 +6,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserAuthenticationService userAuthenticationService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,
+                       UserAuthenticationService userAuthenticationService) {
         this.userRepository = userRepository;
+        this.userAuthenticationService = userAuthenticationService;
     }
 
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow();
+    public String getCurrentUsername() {
+        return userAuthenticationService.getCurrentUsername();
+    }
+
+    public User getCurrentUser() {
+        return userRepository.findByUsername(getCurrentUsername()).orElse(null);
     }
 }
