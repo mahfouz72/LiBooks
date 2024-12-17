@@ -61,6 +61,7 @@ public class BookService {
             reviewedBook.getReviews().add(review);
             saveBook(reviewedBook);
         }
+        incrementBookRatingCount(bookId);
     }
 
     public void incrementBookRatingCount(Integer bookId) {

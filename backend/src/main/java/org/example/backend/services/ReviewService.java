@@ -29,7 +29,6 @@ public class ReviewService {
     public ReviewDTO addReview(Review review, Integer bookId) {
         addBookToReview(review, bookId);
         addUserToReview(review);
-        bookService.incrementBookRatingCount(bookId);
         bookService.addReview(review, bookId);
         reviewRepository.save(review);
         return reviewDTOMapper.apply(review);
