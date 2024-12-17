@@ -5,6 +5,7 @@ import Signup from './pages/signup/signup';
 import Login from './pages/login/Login';
 import GmailSignup from './pages/welcome/welcome'; 
 import BookBrowsingPage from "./pages/BookBrowsing/BookBrowsingPage";
+import BookDetailsPage from "./pages/BookDetails/BookDetailsPage";
 import EmailVerification from './pages/EmailVerification/emailVerification';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
               <Route path="/register" element={<GmailSignup />} />
               <Route path="/" element={<Login />} />
               <Route path="/BookBrowsingPage" element={<BookBrowsingPage />} />
+              <Route path="/book/:bookId" element={<BookDetailsPage />} />
               <Route path="/verify-email" element={<EmailVerification />} />
             </Routes>
           </main>
