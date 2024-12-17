@@ -93,10 +93,10 @@ button:hover{
 
 .error{
     color: red;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .confirm{
     color: rgb(99, 222, 68);
-    font-size: 15px;
+    font-size: 14px;
 }
