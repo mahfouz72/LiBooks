@@ -5,6 +5,7 @@ import Signup from './pages/signup/signup';
 import Login from './pages/login/Login';
 import GmailSignup from './pages/welcome/welcome'; 
 import BookBrowsingPage from "./pages/BookBrowsing/BookBrowsingPage";
+import ForgetPasswordForm from './pages/forgetPassword/ForgetPasswordForm';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
               <Route path="/register" element={<GmailSignup />} />
               <Route path="/" element={<Login />} />
               <Route path="/BookBrowsingPage" element={<BookBrowsingPage />} />
+              <Route path="/forgetPassword" element={<ForgetPasswordForm />} />
             </Routes>
           </main>
         </div>

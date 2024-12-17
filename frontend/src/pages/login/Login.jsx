@@ -6,7 +6,7 @@ import { HOME } from "../../constants/Constants";
 import { loginWithGoogle } from "../../APIs/auth"; 
 import { useGoogleLogin } from '@react-oauth/google';
 
-import './login.css'
+import '../../styles/form.css'
 
 function LoginForm(){
 
@@ -122,7 +122,7 @@ function LoginForm(){
 
                 <div className="rememberme-forget">
                     <label htmlFor=""><input type="checkbox"/>Remember me</label>
-                    <a href="#1">Forget password</a>
+                    <Link to="/forgetPassword">Forget password</Link>
                 </div>
                 <p className="error">{errorMessage}</p>
                 <button className="login-btn" type="button" onClick={handleSubmit}>Log in</button>
