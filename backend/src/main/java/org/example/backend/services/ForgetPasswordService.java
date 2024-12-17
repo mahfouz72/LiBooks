@@ -68,6 +68,7 @@ public class ForgetPasswordService {
             String token) {
 
         ResponseEntity<String> response = null;
+        token = token.trim();
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token)
                                                                             .orElse(null);
         if (passwordResetToken != null) {
