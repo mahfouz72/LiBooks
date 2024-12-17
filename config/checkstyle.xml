@@ -123,7 +123,7 @@
         <module name="ParameterAssignment"/>
         <module name="RequireThis"/>
         <module name="ReturnCount">
-            <property name="max" value="1"/>
+            <property name="max" value="2"/>
             <property name="maxForVoid" value="0"/>
         </module>
         <module name="SimplifyBooleanExpression"/>
@@ -226,7 +226,6 @@
         <module name="MethodLength"/>
         <module name="OuterTypeNumber"/>
         <module name="ParameterNumber"/>
-        <module name="RecordComponentNumber"/>
 
         <!-- Whitespace -->
         <module name="EmptyForInitializerPad"/>

@@ -7,6 +7,7 @@ import GmailSignup from './pages/welcome/welcome';
 import BookBrowsingPage from "./pages/BookBrowsing/BookBrowsingPage";
 import ForgetPasswordForm from './pages/forgetPassword/ForgetPasswordForm';
 import ResetPasswordForm from './pages/forgetPassword/ResetPasswordForm';
+import BookDetailsPage from "./pages/BookDetails/BookDetailsPage";
 
 function App() {
   return (
@@ -22,6 +23,8 @@ function App() {
               <Route path="/BookBrowsingPage" element={<BookBrowsingPage />} />
               <Route path="/forgetPassword" element={<ForgetPasswordForm />} />
               <Route path="/resetPassword/:token" element={<ResetPasswordForm />} />
+              <Route path="/book/:bookId" element={<BookDetailsPage />} />
+
             </Routes>
           </main>
         </div>
