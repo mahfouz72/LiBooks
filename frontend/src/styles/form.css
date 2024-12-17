@@ -37,7 +37,7 @@ form h1 {
     box-sizing: border-box;
 }
 
-.icon {
+#icon {
     position: absolute;
     top: 50%;
     right: 15px; 

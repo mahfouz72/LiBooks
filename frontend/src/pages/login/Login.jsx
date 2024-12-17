@@ -5,6 +5,7 @@ import { LOGIN_API } from "../../constants/Constants";
 import { HOME } from "../../constants/Constants";
 import { loginWithGoogle } from "../../APIs/auth"; 
 import { useGoogleLogin } from '@react-oauth/google';
+import Password from '../../Components/Fields/Password/password';
 
 import '../../styles/form.css'
 
@@ -112,10 +113,10 @@ function LoginForm(){
                 </div>
 
                 <div className="input-box">
-                    <input type="password" 
-                        placeholder="password"
+                    <Password
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        setValue={setPassword}
+                        placeholder="Password"
                     />
                     <p className="error">{passwordError}</p>
                 </div>

@@ -71,7 +71,6 @@ function ResetPasswordForm(){
                     setValue={setPassword}
                     placeholder="New Password"
                 />
-                    <p className="error">{errorMessage}</p>
                 </div>
 
                 <div className="input-box">

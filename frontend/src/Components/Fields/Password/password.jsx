@@ -20,7 +20,8 @@ const PasswordField = ({ value, setValue, placeholder }) => {
           className="w-full px-4 py-2 border border-gray-300 rounded-md"
         />
         <span
-          className="icon"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+          id='icon'
           onClick={handleTogglePassword}
           aria-label={showPassword ? 'Hide password' : 'Show password'}
         >
