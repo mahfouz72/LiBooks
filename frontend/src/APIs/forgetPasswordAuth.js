@@ -3,7 +3,7 @@ import { BACKEND_BASE, FORGETPSSWORD_API } from '../constants/Constants';
 
 axios.defaults.baseURL = BACKEND_BASE;
 
-const forgetPasswordResponse = async (userData) => {
+const forgetPasswordRequest = async (userData) => {
     try {
         const response = await axios.post(FORGETPSSWORD_API, userData);
         return response;
@@ -13,4 +13,4 @@ const forgetPasswordResponse = async (userData) => {
     }
 };
 
-export { forgetPasswordResponse };
+export { forgetPasswordRequest };

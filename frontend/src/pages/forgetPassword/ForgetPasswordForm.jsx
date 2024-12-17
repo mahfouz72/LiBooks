@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { forgetPasswordResponse } from "../../APIs/forgetPasswordAuth";
+import { forgetPasswordRequest } from "../../APIs/forgetPasswordAuth";
 import '../../styles/form.css'
 
 function ForgetPasswordForm(){
@@ -31,7 +31,7 @@ function ForgetPasswordForm(){
 
 
         try {
-            const response = await forgetPasswordResponse(userData);
+            const response = await forgetPasswordRequest(userData);
 
             if(response.status === 200){
                 console.log("Email to reset password was sent successfully");
