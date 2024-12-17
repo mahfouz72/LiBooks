@@ -83,12 +83,12 @@ public class UserAuthenticationService {
     }
 
     public ResponseEntity<String> loginByGmail(String gmail) {
-        Optional<User> user = userRepository.findByEmail(gmail);
+        Optional<User> optionalUser = userRepository.findByEmail(gmail);
         ResponseEntity<String> response;
 
-        if (user.isPresent()) {
-            User u = user.get();
-            String username = u.getUsername();
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            String username = user.getUsername();
             response = new ResponseEntity<>(jwtService.generateToken(username), HttpStatus.OK);
         }
         else {
