@@ -29,7 +29,7 @@ public class User {
 
     private LocalDate dateCreated;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user")
     private List<PasswordResetToken> passwordResetToken;
 
     @PrePersist
