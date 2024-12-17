@@ -7,12 +7,14 @@ import BookAdditionalInfo from "./BookAdditionalInfo";
 import Header from "../../Components/Header/Header";
 import ReviewList from "../BookBrowsing/ReviewList";
 import ReviewForm  from "../BookBrowsing/ReviewForm";
+import AddToShelvesModal from "../../Components/AddToShelvesModal/AddToShelvesModal";
 
 function BookDetailsPage() {
     const {bookId} = useParams();
     const [book, setBook] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [addToShelvesModalOpen, setAddToShelvesModalOpen] = useState(false);
     const token = localStorage.getItem("token");
 
     useEffect(() => {
@@ -101,6 +103,24 @@ function BookDetailsPage() {
                         <BookAdditionalInfo book={book}/>
                     </Grid>
                 </Grid>
+                <Button 
+                    variant="contained"
+                    sx={{
+                        width: '38vh',
+                        textTransform: 'none',
+                        backgroundColor: 'black',
+                        color: 'white',
+                    }}
+                    onClick = {() => setAddToShelvesModalOpen(true)}
+                >
+                    Add to BookShelf +
+                </Button>
+                {addToShelvesModalOpen && (
+                    <AddToShelvesModal
+                        bookId={bookId}
+                        onClose={() => setAddToShelvesModalOpen(false)}
+                    />
+                )}
                 <Divider sx={{my: 4}}/>
                 <Button variant="contained" onClick={handleDialogOpen}
                         sx={{
