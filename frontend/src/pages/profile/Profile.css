@@ -1,0 +1,60 @@
+.profilePage {
+  width: 100vw;
+}
+
+.profileWrapper {
+  padding: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profileHeader {
+  gap: 4vh;
+  display: flex;
+  padding-left: 5vh;
+  padding-top: 2vh;
+}
+
+.profileInfo {
+  width: 80vw;
+  padding-top: 2.5vh;
+}
+
+.follows {
+  display: flex;
+  width: fit-content;
+  gap: 1.5vw;
+}
+
+.followsButton {
+  gap: 0.2vw;
+  border: none;
+  display: flex;
+  color: grey;
+  font-size: 1rem;
+  font-weight: 400;
+  background: transparent;
+}
+
+.followsButton:hover {
+  border: none;
+  color: black;
+  font-weight: 500;
+  background: transparent;
+}
+
+.bookShelvesWrapper {
+  gap: 1vh;
+  width: 50%;
+  display: flex;
+  padding-top: 2vh;
+  align-items: center;
+  flex-direction: column;
+}
+
+.bookShelvesTitle {
+  font-weight: 500;
+  font-size: 1.8rem;
+  font-family: monospace;
+}
