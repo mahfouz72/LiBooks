@@ -3,6 +3,7 @@ package org.example.backend.services;
 import org.example.backend.models.dtos.BookDTO;
 import org.example.backend.models.dtos.BookListingDTO;
 import org.example.backend.models.entities.Book;
+import org.example.backend.models.entities.Review;
 import org.example.backend.repositories.BookRepository;
 import org.example.backend.services.mappers.BookDTOMapper;
 import org.example.backend.services.mappers.BookListingDTOMapper;
@@ -52,5 +53,13 @@ public class BookService {
             bookDTO = bookDTOMapper.apply(book);
         }
         return bookDTO;
+    }
+
+    public void addReview(Review review, Integer bookId) {
+        Book reviewedBook = getBookById(bookId);
+        if (reviewedBook != null) {
+            reviewedBook.getReviews().add(review);
+            saveBook(reviewedBook);
+        }
     }
 }
