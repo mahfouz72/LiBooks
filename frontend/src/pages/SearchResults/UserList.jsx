@@ -1,3 +1,4 @@
+import React from 'react';
 import { Grid2, Card, CardMedia, Typography } from "@mui/material";
 
 function UserList({ users, sx }) {

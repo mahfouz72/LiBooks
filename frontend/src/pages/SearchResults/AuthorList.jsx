@@ -1,14 +1,8 @@
 import { Grid2, Card, CardMedia, Typography } from "@mui/material";
 
-function AuthorList({ authors, sx }) {
-    const truncateText = (text, maxLength) => {
-        if (text.length > maxLength) {
-            return `${text.substring(0, maxLength)}...`;
-        }
-        return text;
-    };
+function AuthorList({ authors, sx }) { 
 
-    const renderedAuthors = authors.map(({ id, name, authorPicture, bio }) => (
+    const renderedAuthors = authors.map(({ id, name, authorPicture }) => (
         <Grid2 key={id}>
             <Card sx={{ padding: 2, width: 300 }}>
                 <CardMedia
@@ -18,9 +12,6 @@ function AuthorList({ authors, sx }) {
                 />
                 <Typography variant="h6" sx={{ marginBottom: 1 }}>
                     {name}
-                </Typography>
-                <Typography variant="body2" sx={{ color: "gray" }}>
-                    {truncateText(bio, 100)} {/* Truncate bio to 100 characters */}
                 </Typography>
             </Card>
         </Grid2>

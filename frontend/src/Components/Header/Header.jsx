@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import './Header.css';
 import { HOME } from '../../constants/Constants';
+import { useNavigate } from 'react-router-dom';
+
 
 const Header = () => {
+  const navigate = useNavigate();  
   const [searchCategory, setSearchCategory] = useState('Books');
   const [searchQuery, setSearchQuery] = useState('');
   const token = localStorage.getItem("token");
@@ -28,6 +31,7 @@ const Header = () => {
         console.log(searchQuery);
         const results = await response.json();
         console.log(results);
+        navigate(`/search/${searchCategory}`, { state: { results } });
         // Handle results (e.g., display them in the UI)
     } catch (error) {
         console.error("Error fetching search results:", error);

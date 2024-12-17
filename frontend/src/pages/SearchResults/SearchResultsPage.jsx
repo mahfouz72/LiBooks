@@ -1,43 +1,31 @@
+import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Stack } from "@mui/material";
 import Header from "../../Components/Header/Header";
 import BookList from "../BookBrowsing/BookList";
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import AuthorList from "./AuthorList";
+import UserList from "./UserList";
 
 function SearchResultsPage() {
-    const [searchResults, setSearchResults] = useState([]);
-    const [loading, setLoading] = useState(true);
     const location = useLocation();
-    const params = new URLSearchParams(location.search);
-    const query = params.get("query");
+    const [searchResults, setSearchResults] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    // Accessing results from the state passed via navigate
+    const results = location.state?.results || [];
     const category = location.pathname.split("/").pop();
-    const token = localStorage.getItem("token");
 
     useEffect(() => {
-        const fetchSearchResults = async () => {
-            try {
-                setLoading(true);
-                const response = await fetch(
-                    `http://localhost:8080/search/${category}?query=${encodeURIComponent(query)}`,
-                    {
-                        method: "GET",
-                        headers: { Authorization: `Bearer ${token}` },
-                    }
-                );
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                setSearchResults(data);
-            } catch (error) {
-                console.error("Error fetching search results:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchSearchResults();
-    }, [query, category, token]);
+        if (results.length === 0) {
+            setLoading(true);
+            // In case the results are empty (which shouldn't happen if passed correctly)
+            // you can fetch the data from the backend if necessary, but it's not needed 
+            // if the data is passed as `results` in state.
+            setLoading(false);
+        } else {
+            setSearchResults(results);
+        }
+    }, [results]);
 
     if (loading) {
         return (

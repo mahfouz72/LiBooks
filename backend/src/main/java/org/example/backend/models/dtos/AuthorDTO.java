@@ -1,5 +1,4 @@
 package org.example.backend.models.dtos;
 
-public record AuthorDTO(String authorName, byte[] authorPhoto,
-                        String biography) {
+public record AuthorDTO(Integer id, String authorName, byte[] authorPhoto) {
 }
