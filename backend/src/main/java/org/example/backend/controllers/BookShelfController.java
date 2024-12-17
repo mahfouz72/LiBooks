@@ -1,9 +1,11 @@
 package org.example.backend.controllers;
 
 import org.example.backend.models.dtos.BookListingDTO;
-import org.example.backend.models.entities.BookShelf;
-import org.example.backend.models.entities.BooksBookShelf;
+import org.example.backend.models.dtos.BookShelfDTO;
+import org.example.backend.models.dtos.BooksBookShelfDTO;
 import org.example.backend.services.BookShelfService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,22 +21,25 @@ public class BookShelfController {
     }
 
     @GetMapping("/names")
-    public List<String> getBookShelfNames(@RequestParam Integer userId) {
-        return bookShelfService.getBookShelfNames(userId);
+    public List<BookShelfDTO> getBookShelfNames(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        return bookShelfService.getBookShelfNames(pageable);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<BookShelf> addBookShelf(@RequestBody BookShelf bookShelf) {
-        return ResponseEntity.ok(bookShelfService.addBookShelf(bookShelf));
+    public ResponseEntity<BookShelfDTO> addBookShelf(@RequestBody BookShelfDTO bookShelfDTO) {
+        return ResponseEntity.ok(bookShelfService.addBookShelf(bookShelfDTO));
     }
 
     @PutMapping("/rename/{bookShelfId}")
-    public ResponseEntity<BookShelf> renameBookShelf(
+    public ResponseEntity<?> renameBookShelf(
         @PathVariable("bookShelfId") int bookShelfId,
-        @RequestParam("newBookShelfName") String newBookShelfName) {
+        @RequestBody BookShelfDTO bookShelfDTO) {
 
-        BookShelf bookShelf = bookShelfService.renameBookShelf(bookShelfId, newBookShelfName);
-        return ResponseEntity.ok(bookShelf);
+        return bookShelfService.renameBookShelf(bookShelfId, bookShelfDTO);
     }
 
     @DeleteMapping("/delete/{bookShelfId}")
@@ -45,23 +50,26 @@ public class BookShelfController {
 
     @GetMapping("/Books")
     public ResponseEntity<List<BookListingDTO>> getBooksInBookShelf(
-        @RequestParam Integer bookShelfId) {
+        @RequestParam Integer bookShelfId,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "5") int size) {
 
-        return ResponseEntity.ok(bookShelfService.getBooksInBookShelf(bookShelfId));
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(bookShelfService.getBooksInBookShelf(bookShelfId, pageable));
     }
 
     @PostMapping("/Books/add")
-    public ResponseEntity<BooksBookShelf> addBookInBookShelf(
-        @RequestBody BooksBookShelf booksBookShelf) {
+    public ResponseEntity<BookListingDTO> addBookInBookShelf(
+        @RequestBody BooksBookShelfDTO booksBookShelfDTO) {
 
-        return ResponseEntity.ok(bookShelfService.addBookInBookShelf(booksBookShelf));
+        return ResponseEntity.ok(bookShelfService.addBookInBookShelf(booksBookShelfDTO));
     }
 
     @DeleteMapping("/Books/delete")
     public ResponseEntity<?> deleteBookInBookShelf(
-        @RequestBody BooksBookShelf booksBookShelf) {
+        @RequestBody BooksBookShelfDTO booksBookShelfDTO) {
 
-        bookShelfService.deleteBookInBookShelf(booksBookShelf);
+        bookShelfService.deleteBookInBookShelf(booksBookShelfDTO);
         return ResponseEntity.ok("Book is deleted from Book shelf");
     }
 

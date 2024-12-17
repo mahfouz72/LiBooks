@@ -1,12 +1,21 @@
 package org.example.backend.services;
 
 import org.example.backend.models.dtos.BookListingDTO;
+import org.example.backend.models.dtos.BookShelfDTO;
+import org.example.backend.models.dtos.BooksBookShelfDTO;
 import org.example.backend.models.entities.Book;
 import org.example.backend.models.entities.BookShelf;
 import org.example.backend.models.entities.BooksBookShelf;
+import org.example.backend.models.entities.User;
 import org.example.backend.repositories.BookShelfRepository;
 import org.example.backend.repositories.BooksBookShelfRepository;
 import org.example.backend.services.mappers.BookListingDTOMapper;
+import org.example.backend.services.mappers.BookShelfDTOMapper;
+import org.example.backend.services.mappers.BooksBookShelfDTOMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,48 +28,81 @@ public class BookShelfService {
 
     private BooksBookShelfRepository booksBookShelfRepository;
 
+    private UserAuthenticationService userAuthenticationService;
+
+    private BookShelfDTOMapper bookShelfDTOMapper;
+
+    private BooksBookShelfDTOMapper booksBookShelfDTOMapper;
+
     public BookShelfService(BookShelfRepository bookShelfRepository,
-                            BooksBookShelfRepository booksBookShelfRepository) {
+                            BooksBookShelfRepository booksBookShelfRepository,
+                            UserAuthenticationService userAuthenticationService,
+                            BookShelfDTOMapper bookShelfDTOMapper,
+                            BooksBookShelfDTOMapper booksBookShelfDTOMapper) {
         this.bookShelfRepository = bookShelfRepository;
         this.booksBookShelfRepository = booksBookShelfRepository;
+        this.userAuthenticationService = userAuthenticationService;
+        this.bookShelfDTOMapper = bookShelfDTOMapper;
+        this.booksBookShelfDTOMapper = booksBookShelfDTOMapper;
     }
 
-    public List<String> getBookShelfNames(Integer userId) {
-        // TODO pageable
-        return bookShelfRepository.findAllBookShelfNames(userId);
+    public List<BookShelfDTO> getBookShelfNames(Pageable pageable) {
+        User currentUser = getCurrentUser();
+        return bookShelfRepository.findByUserId(currentUser.getId(), pageable)
+            .stream().map(bookShelfDTOMapper).collect(Collectors.toList());
     }
 
-    public BookShelf addBookShelf(BookShelf bookShelf) {
-        return bookShelfRepository.save(bookShelf);
+    public BookShelfDTO addBookShelf(BookShelfDTO bookShelfDTO) {
+        String bookShelfName = bookShelfDTO.bookShelfName();
+        User currentUser = getCurrentUser();
+
+        BookShelf bookShelf = new BookShelf();
+        bookShelf.setBookShelfName(bookShelfName);
+        bookShelf.setUser(currentUser);
+        return bookShelfDTOMapper.apply(bookShelfRepository.save(bookShelf));
     }
 
-    public BookShelf renameBookShelf(Integer bookShelfId, String newBookShelfName) {
-        BookShelf bookShelf = bookShelfRepository.findById(bookShelfId).orElse(null);
-        if (bookShelf != null) {
-            bookShelf.setBookShelfName(newBookShelfName);
-            bookShelfRepository.save(bookShelf);
+    public ResponseEntity<?> renameBookShelf(int bookShelfId, BookShelfDTO bookShelfDTO) {
+        BookShelf bookShelf = bookShelfRepository.findById(bookShelfId).orElseThrow();
+        User currentUser = getCurrentUser();
+
+        if (!currentUser.equals(bookShelf.getUser())) {
+            return new ResponseEntity<>("Not User's Bookshelf ", HttpStatus.UNAUTHORIZED);
         }
-        return bookShelf;
+
+        String newBookShelfName = bookShelfDTO.bookShelfName();
+        bookShelf.setBookShelfName(newBookShelfName);
+        bookShelfRepository.save(bookShelf);
+        return ResponseEntity.ok(bookShelfDTOMapper.apply(bookShelf));
     }
 
     public void deleteBookShelf(Integer bookShelfId) {
+        // TODO check current user
         bookShelfRepository.deleteById(bookShelfId);
     }
 
-    public List<BookListingDTO> getBooksInBookShelf(Integer bookShelfId) {
-        // TODO Pageable
-        BookListingDTOMapper bookDTOMapper = new BookListingDTOMapper();
-        List<Book> books = booksBookShelfRepository.findBooksByBookShelfId(bookShelfId);
+    public List<BookListingDTO> getBooksInBookShelf(Integer bookShelfId, Pageable pageable) {
+        // TODO check current user
+        BookListingDTOMapper bookListingDTOMapper = new BookListingDTOMapper();
+        Page<Book> books = booksBookShelfRepository.findBooksByBookShelfId(bookShelfId, pageable);
         return books.stream()
-            .map(bookDTOMapper).collect(Collectors.toList());
+            .map(bookListingDTOMapper).collect(Collectors.toList());
     }
 
-    public BooksBookShelf addBookInBookShelf(BooksBookShelf booksBookShelf) {
-        // TODO return BooksBookShelf DTO
-        return booksBookShelfRepository.save(booksBookShelf);
+    public BookListingDTO addBookInBookShelf(BooksBookShelfDTO booksBookShelfDTO) {
+        BooksBookShelf booksBookShelf =
+            booksBookShelfRepository.save(booksBookShelfDTOMapper.apply(booksBookShelfDTO));
+
+        BookListingDTOMapper bookListingDTOMapper = new BookListingDTOMapper();
+        return bookListingDTOMapper.apply(booksBookShelf.getBook());
     }
 
-    public void deleteBookInBookShelf(BooksBookShelf booksBookShelf) {
-        booksBookShelfRepository.delete(booksBookShelf);
+    public void deleteBookInBookShelf(BooksBookShelfDTO booksBookShelfDTO) {
+        booksBookShelfRepository.delete(booksBookShelfDTOMapper.apply(booksBookShelfDTO));
+    }
+
+    private User getCurrentUser() {
+        String currentUsername = userAuthenticationService.getCurrentUsername();
+        return userAuthenticationService.getUserByUsername(currentUsername);
     }
 }
