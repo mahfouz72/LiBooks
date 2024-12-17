@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Stack } from "@mui/material";
 import Header from "../../Components/Header/Header";
-import BookList from "../BookBrowsing/BookList";
+import BookList from "./BookList";
 import AuthorList from "./AuthorList";
 import UserList from "./UserList";
 
@@ -18,9 +18,7 @@ function SearchResultsPage() {
     useEffect(() => {
         if (results.length === 0) {
             setLoading(true);
-            // In case the results are empty (which shouldn't happen if passed correctly)
-            // you can fetch the data from the backend if necessary, but it's not needed 
-            // if the data is passed as `results` in state.
+            setSearchResults([]);
             setLoading(false);
         } else {
             setSearchResults(results);
@@ -35,10 +33,23 @@ function SearchResultsPage() {
         );
     }
 
+    const renderMessage = () => {
+        if (searchResults.length === 0) {
+            return (
+                <Stack padding="100px" justifyContent="center">
+                    <h1 style={{ fontSize: '100px' }}>:(</h1>
+                    <h2 style={{ whiteSpace: 'nowrap' }}>Sorry, no {category} matched your search.</h2>
+                </Stack>
+            );
+        }
+        return null;
+    };
+
     return (
         <Stack spacing={4} width="100vw">
             <Header />
             <Stack direction="row" justifyContent="center" spacing={2}>
+                {renderMessage()}
                 {category === "Books" && <BookList books={searchResults} sx={{ width: "70%" }} />}
                 {category === "Authors" && <AuthorList authors={searchResults} sx={{ width: "70%" }} />}
                 {category === "Users" && <UserList users={searchResults} sx={{ width: "70%" }} />}

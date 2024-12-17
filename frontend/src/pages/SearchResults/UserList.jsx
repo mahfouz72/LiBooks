@@ -2,14 +2,9 @@ import React from 'react';
 import { Grid2, Card, CardMedia, Typography } from "@mui/material";
 
 function UserList({ users, sx }) {
-    const renderedUsers = users.map(({ id, username, profilePicture }) => (
+    const renderedUsers = users.map(({ id, username }) => (
         <Grid2 key={id}>
             <Card sx={{ padding: 2, width: 300 }}>
-                <CardMedia
-                    component="img"
-                    image={`data:image/jpeg;base64,${profilePicture}`}
-                    sx={{ width: "100%", height: "150px", objectFit: "cover" }}
-                />
                 <Typography variant="h6">{username}</Typography>
             </Card>
         </Grid2>

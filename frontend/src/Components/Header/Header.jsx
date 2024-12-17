@@ -31,7 +31,7 @@ const Header = () => {
         console.log(searchQuery);
         const results = await response.json();
         console.log(results);
-        navigate(`/search/${searchCategory}`, { state: { results } });
+        navigate(`/search/${searchCategory}?query=${encodeURIComponent(searchQuery)}`, { state: { results } });
         // Handle results (e.g., display them in the UI)
     } catch (error) {
         console.error("Error fetching search results:", error);
