@@ -59,6 +59,11 @@ public class EmailVerificationService {
         return String.format("%06d", new Random().nextInt(MAX_RANDOM_CODE));
     }
 
+    /**
+     *
+     * @param verificationDTO
+     * @return
+     */
     public ResponseEntity<String> checkVerificationCode(VerificationDTO verificationDTO) {
         String email = verificationDTO.email();
         String sentCode = verificationDTO.code();
@@ -72,7 +77,8 @@ public class EmailVerificationService {
         if (verificationCode.checkVerificationCode(sentCode)) {
             responseMessage = "Email is verified";
             status = HttpStatus.OK;
-        } else {
+        }
+        else {
             responseMessage = "Invalid verification code or code is expired";
             status = HttpStatus.UNAUTHORIZED;
         }
