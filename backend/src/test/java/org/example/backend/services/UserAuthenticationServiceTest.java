@@ -1,5 +1,6 @@
 package org.example.backend.services;
 
+import org.example.backend.exceptions.UsernameAlreadyExistsException;
 import org.example.backend.models.dtos.UserDTO;
 import org.example.backend.models.dtos.UserRegistrationDTO;
 import org.example.backend.models.entities.User;
@@ -23,8 +24,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -49,6 +52,8 @@ public class UserAuthenticationServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
+    @Mock
+    private UserService userService;
     @InjectMocks
     private UserAuthenticationService userAuthenticationService;
 
@@ -116,4 +121,37 @@ public class UserAuthenticationServiceTest {
         }
 
     }
+    @Test
+    public void testLoginByGmailSuccess() {
+        when(userRepository.findByEmail("testemail@gmail.com")).thenReturn(Optional.of(user));
+        when(jwtService.generateToken(user.getUsername())).thenReturn("mockToken");
+
+        ResponseEntity<String> response = userAuthenticationService.loginByGmail("testemail@gmail.com");
+
+        assertEquals("mockToken", response.getBody());
+        assertEquals(200, response.getStatusCodeValue());
+    }
+
+    @Test
+    public void testLoginByGmailUserNotRegistered() {
+        when(userRepository.findByEmail("nonexistent@gmail.com")).thenReturn(Optional.empty());
+
+        ResponseEntity<String> response = userAuthenticationService.loginByGmail("nonexistent@gmail.com");
+
+        assertEquals("User is not registered", response.getBody());
+        assertEquals(401, response.getStatusCodeValue());
+    }
+
+    @Test
+    public void testCheckUsernameUniquenessThrowsException() {
+        when(userRepository.existsUserByUsername("testUser")).thenReturn(true);
+
+        UsernameAlreadyExistsException exception = assertThrows(
+                UsernameAlreadyExistsException.class,
+                () -> userAuthenticationService.register(userRegistrationDTO)
+        );
+
+        assertEquals("Username already exists!", exception.getMessage());
+    }
+
 }
