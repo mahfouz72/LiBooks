@@ -23,8 +23,8 @@
 
 .follows {
   display: flex;
-  padding-top: 1vh;
   width: fit-content;
+  gap: 1.5vw;
 }
 
 .followsButton {
