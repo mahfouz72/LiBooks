@@ -16,7 +16,11 @@ function BookShelfItem({ id, name, numberOfBooks, onRequestModal, onShelfClick }
         >
             <p className="shelfName">{name}</p>
             {isHovered? 
-                <EditIcon className="editIcon" onClick={() => onRequestModal(id)}/> 
+                <EditIcon className="editIcon" onClick={(e) => {
+                    e.stopPropagation();
+                    onRequestModal(id)
+                    }}
+                /> 
                 :
                 <p className="numberOfBooks">{numberOfBooks} books</p>
             }
