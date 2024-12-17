@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,6 +40,7 @@ public class ForgetPasswordService {
 
     public ResponseEntity<String> forgetPassord(UserDTO userDTO) {
 
+        ResponseEntity<String> response = null;
         Boolean emailSent = false;
         System.out.println(userDTO.email());
         User user = userRepository.findByEmail(userDTO.email()).orElse(null);
@@ -46,17 +48,26 @@ public class ForgetPasswordService {
             emailSent = sendEmail(user);
         }
         if (emailSent) {
-            return ResponseEntity.status(HttpStatus.OK).body("Email sent successfully");
+            response = ResponseEntity.status(HttpStatus.OK).body("Email sent successfully");
         }
         else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email is not found");
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email is not found");
         }
+        return response;
     }
 
+    /**
+     * Resets the password for a user based on the provided token.
+     *
+     * @param password the new password to be set
+     * @param token the token used to validate the password reset request
+     * @return a ResponseEntity indicating the result of the password reset operation
+     */
     public ResponseEntity<String> resetPassword(
             String password,
             String token) {
 
+        ResponseEntity<String> response = null;
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token)
                                                                             .orElse(null);
         if (passwordResetToken != null) {
@@ -65,19 +76,27 @@ public class ForgetPasswordService {
                 user.setPassword(passwordEncoder.encode(password));
                 userRepository.save(user);
                 passwordResetTokenRepository.delete(passwordResetToken);
-                return ResponseEntity.status(HttpStatus.OK).body("Password reset successfully");
+                response = ResponseEntity.status(HttpStatus.OK).body("Password reset successfully");
             }
             else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token is expired");
+                response = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token is expired");
             }
         }
         else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Token is not found");
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body("Token is not found");
         }
+        return response;
     }
 
+    /**
+     * Sends a password reset email to the specified user.
+     *
+     * @param user the user to whom the password reset email will be sent
+     * @return true if the email was sent successfully, false otherwise
+     */
     public Boolean sendEmail(User user) {
 
+        boolean emailSent = false;
         try {
             String resetLink = generateResetLink(user);
 
@@ -88,14 +107,25 @@ public class ForgetPasswordService {
             msg.setText(mailText + "\n" + resetLink);
             javaMailSender.send(msg);
 
-            return true;
+            emailSent = true;
         }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
+        /**
+         * Handles exceptions that occur while sending the email.
+         *
+         * @param mailSendError the exception thrown during email sending
+         */
+        catch (MailException mailSendError) {
+            mailSendError.printStackTrace();
         }
+        return emailSent;
     }
 
+    /**
+     * Generates a password reset link for the given user.
+     *
+     * @param user the user for whom the reset link is generated
+     * @return the generated reset link
+     */
     private String generateResetLink(User user) {
 
         UUID uuid = UUID.randomUUID();
@@ -108,11 +138,12 @@ public class ForgetPasswordService {
         passwordResetToken.setExpiryDate(expiryTime);
 
         PasswordResetToken token = passwordResetTokenRepository.save(passwordResetToken);
+        String endpointUrl = null;
         if (token != null) {
-            String endpointUrl = "http://localhost:3000/resetPassword";
-            return  endpointUrl + "/" + passwordResetToken.getToken();
+            endpointUrl = "http://localhost:3000/resetPassword";
+            endpointUrl = endpointUrl + "/" + passwordResetToken.getToken();
         }
-        return null;
+        return endpointUrl;
     }
 
 }

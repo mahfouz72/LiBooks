@@ -1,7 +1,6 @@
 package org.example.backend.controllers;
 
 import org.example.backend.models.dtos.UserDTO;
-import org.example.backend.repositories.PasswordResetTokenRepository;
 import org.example.backend.services.ForgetPasswordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
