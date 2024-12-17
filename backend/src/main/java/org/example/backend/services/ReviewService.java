@@ -14,19 +14,16 @@ import java.util.List;
 @Service
 public class ReviewService {
     private final ReviewRepository reviewRepository;
-    private final BookRepository bookRepository;
     private final BookService bookService;
     private final UserService userService;
     private final ReviewDTOMapper reviewDTOMapper;
 
     public ReviewService(ReviewRepository reviewRepository, BookService bookService,
-                         UserService userService, ReviewDTOMapper reviewDTOMapper,
-                         BookRepository bookRepository) {
+                         UserService userService, ReviewDTOMapper reviewDTOMapper) {
         this.reviewRepository = reviewRepository;
         this.bookService = bookService;
         this.userService = userService;
         this.reviewDTOMapper = reviewDTOMapper;
-        this.bookRepository = bookRepository;
     }
 
     public ReviewDTO addReview(Review review, Integer bookId) {
