@@ -59,15 +59,9 @@ public class BookService {
         Book reviewedBook = getBookById(bookId);
         if (reviewedBook != null) {
             reviewedBook.getReviews().add(review);
+            reviewedBook.setRatingsCount(reviewedBook.getRatingsCount() + 1);
             saveBook(reviewedBook);
         }
-        incrementBookRatingCount(bookId);
-    }
-
-    public void incrementBookRatingCount(Integer bookId) {
-        Book book = getBookById(bookId);
-        book.setRatingsCount(book.getRatingsCount() + 1);
-        bookRepository.save(book);
     }
 
 }
