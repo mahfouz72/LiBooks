@@ -99,8 +99,4 @@ public class UserAuthenticationService {
     private User getUserByGmail(String gmail) {
         return userRepository.findByEmail(gmail.toLowerCase()).orElse(null);
     }
-
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow();
-    }
 }
