@@ -68,8 +68,8 @@ public class ForgetPasswordService {
             String token) {
 
         ResponseEntity<String> response = null;
-        token = token.trim();
-        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token)
+        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token
+                                                                                        .trim())
                                                                             .orElse(null);
         if (passwordResetToken != null) {
             if (passwordResetToken.getExpiryDate().isAfter(java.time.LocalDateTime.now())) {
