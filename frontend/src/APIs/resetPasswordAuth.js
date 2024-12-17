@@ -5,7 +5,7 @@ axios.defaults.baseURL = BACKEND_BASE;
 
 const resetPasswordRequest = async (password, token) => {
     try {
-        const response = await fetch(BACKEND_BASE + RESETPASSWORD_API +`?passwprd=${password}&token=${token}`,{
+        const response = await axios.post(BACKEND_BASE + RESETPASSWORD_API +`?password=${password}&token=${token}`,{
             method: "POST",
             headers: {"Content-Type": "application/json"},
         });

@@ -49,7 +49,7 @@ function ResetPasswordForm(){
             else{
                 const errorMessage = await response.text();
                 console.log(errorMessage);
-                setErrorMessage("Something went wrong, Try again later!");
+                setErrorMessage("Reset link is expired, Try to send another reset request");
             }
 
         } catch (error) {

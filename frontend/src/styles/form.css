@@ -34,6 +34,16 @@ form h1 {
     border: 1px solid #F4EEE0;
     border-radius: 30px;
     font-size: 14px;
+    box-sizing: border-box;
+}
+
+.icon {
+    position: absolute;
+    top: 50%;
+    right: 15px; 
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #797979; 
 }
 
 .rememberme-forget {
