@@ -4,6 +4,7 @@ import org.example.backend.models.dtos.ReviewDTO;
 import org.example.backend.models.entities.Book;
 import org.example.backend.models.entities.Review;
 import org.example.backend.models.entities.User;
+import org.example.backend.repositories.BookRepository;
 import org.example.backend.repositories.ReviewRepository;
 import org.example.backend.services.mappers.ReviewDTOMapper;
 import org.springframework.stereotype.Service;
@@ -13,21 +14,25 @@ import java.util.List;
 @Service
 public class ReviewService {
     private final ReviewRepository reviewRepository;
+    private final BookRepository bookRepository;
     private final BookService bookService;
     private final UserService userService;
     private final ReviewDTOMapper reviewDTOMapper;
 
     public ReviewService(ReviewRepository reviewRepository, BookService bookService,
-                         UserService userService, ReviewDTOMapper reviewDTOMapper) {
+                         UserService userService, ReviewDTOMapper reviewDTOMapper,
+                         BookRepository bookRepository) {
         this.reviewRepository = reviewRepository;
         this.bookService = bookService;
         this.userService = userService;
         this.reviewDTOMapper = reviewDTOMapper;
+        this.bookRepository = bookRepository;
     }
 
     public ReviewDTO addReview(Review review, Integer bookId) {
         addBookToReview(review, bookId);
         addUserToReview(review);
+        incBookRatingCount(bookId);
         bookService.addReview(review, bookId);
         reviewRepository.save(review);
         return reviewDTOMapper.apply(review);
@@ -48,4 +53,11 @@ public class ReviewService {
         List<Review> bookReviews = reviewRepository.findAllByBook(book);
         return bookReviews.stream().map(reviewDTOMapper).toList();
     }
+
+    private void incBookRatingCount(Integer bookId) {
+        Book book = bookService.getBookById(bookId);
+        book.setRatingsCount(book.getRatingsCount() + 1);
+        bookRepository.save(book);
+    }
+
 }

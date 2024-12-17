@@ -15,46 +15,47 @@ function BookDetailsPage() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const token = localStorage.getItem("token");
 
-    useEffect(() => {
-        const fetchBook = async () => {
-            try {
-                const response = await fetch(
-                    `http://localhost:8080/books/${bookId}`,
-                    {
-                        method: 'GET',
-                        headers: {"Authorization": `Bearer ${token}`},
-                    }
-                );
-                if (!response.ok) {
-                    throw new Error("Failed to fetch book details");
+    const fetchBook = async () => {
+        try {
+            const response = await fetch(
+                `http://localhost:8080/books/${bookId}`,
+                {
+                    method: 'GET',
+                    headers: {"Authorization": `Bearer ${token}`},
                 }
-                const data = await response.json();
-                setBook(data);
-            } catch (error) {
-                console.error("Error fetching book details:", error);
+            );
+            if (!response.ok) {
+                throw new Error("Failed to fetch book details");
             }
-        };
+            const data = await response.json();
+            setBook(data);
+        } catch (error) {
+            console.error("Error fetching book details:", error);
+        }
+    };
 
+    useEffect(() => {
         fetchBook().then(r => console.log(book));
     }, [bookId, token]);
 
-    useEffect(() => {
-        const fetchReviews = async () => {
-            try {
-                const response = await fetch(`http://localhost:8080/reviews/${bookId}`, {
-                    method: 'GET',
-                    headers: {"Authorization": `Bearer ${token}`},
-                });
-                if (!response.ok) {
-                    throw new Error("Failed to fetch reviews");
-                }
-                const data = await response.json();
-                setReviews(data);
-            } catch (error) {
-                console.error("Error fetching reviews:", error);
-            }
-        };
 
+    const fetchReviews = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/reviews/${bookId}`, {
+                method: 'GET',
+                headers: {"Authorization": `Bearer ${token}`},
+            });
+            if (!response.ok) {
+                throw new Error("Failed to fetch reviews");
+            }
+            const data = await response.json();
+            setReviews(data);
+        } catch (error) {
+            console.error("Error fetching reviews:", error);
+        }
+    };
+
+    useEffect(() => {
         fetchReviews().then(r => console.log(reviews));
     }, [bookId, token]);
 
@@ -81,11 +82,15 @@ function BookDetailsPage() {
             }
             const newReviewData = await response.json();
             setReviews([...reviews, newReviewData]);
+
+            fetchBook();
+            
             handleDialogClose();
         } catch (error) {
             console.error("Error submitting review:", error);
         }
     };
+
 
     return (
         <Stack spacing={4} width="100vw" justifyContent="center" alignItems="center">
