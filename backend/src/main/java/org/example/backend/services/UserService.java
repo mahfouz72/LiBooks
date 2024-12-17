@@ -11,15 +11,19 @@ import java.util.Optional;
 @Service
 public class UserService {
     private UserRepository userRepository;
-    public UserService(UserRepository userRepository){
+
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     public User getUserByGmail(String email) {
         return userRepository.findByEmail(email.toLowerCase()).orElse(null);
     }
+
     public ResponseEntity<String> verifyUserExistenceByGmail(String email) {
         Optional<User> user = userRepository.findByEmail(email.toLowerCase());
-        if(user.isPresent()){
+
+        if(user.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("This Email already exists! please log in");
         }
         else {

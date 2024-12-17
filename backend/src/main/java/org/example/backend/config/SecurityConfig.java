@@ -53,7 +53,8 @@ public class SecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers("/login/**", "/register/**", "/verification/**").permitAll()
+                                .requestMatchers("/login/**", "/register/**", "/verification/**")
+                                .permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

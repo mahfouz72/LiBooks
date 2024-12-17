@@ -27,6 +27,7 @@ public class UserAuthenticationService {
     private AuthenticationManager authenticationManager;
     private JWTService jwtService;
     private UserService userService;
+
     public UserAuthenticationService(UserRepository userRepository,
                                      UserDTOMapper userDTOMapper,
                                      UserRegistrationDTOMapper userRegistrationDTOMapper,
@@ -96,6 +97,4 @@ public class UserAuthenticationService {
 
         return response;
     }
-
-
 }
