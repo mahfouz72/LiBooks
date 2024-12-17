@@ -6,6 +6,7 @@ import org.example.backend.services.UserAuthenticationService;
 import org.example.backend.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/register")
 

@@ -50,6 +50,11 @@ public class EmailVerificationService {
         mailSender.send(message);
     }
 
+    /**
+     * Generates a six-digit random verification code.
+     *
+     * @return A six-digit string code.
+     */
     public String generateSixDigitCode() {
         return String.format("%06d", new Random().nextInt(MAX_RANDOM_CODE));
     }
