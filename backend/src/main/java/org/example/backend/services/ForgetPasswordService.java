@@ -95,7 +95,7 @@ public class ForgetPasswordService {
      * @param user the user to whom the password reset email will be sent
      * @return true if the email was sent successfully, false otherwise
      */
-    public Boolean sendEmail(User user) {
+    private Boolean sendEmail(User user) {
 
         boolean emailSent = false;
         try {
