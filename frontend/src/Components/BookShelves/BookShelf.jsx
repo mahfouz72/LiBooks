@@ -2,20 +2,21 @@ import "./BookShelves.css";
 import { useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 
-function BookShelfItem({ key, name, numberOfBooks }) {
+function BookShelfItem({ id, name, numberOfBooks, onRequestModal, onShelfClick }) {
 
     const [isHovered, setIsHovered] = useState(false);
 
     return (
         <li 
             className="bookShelfItem" 
-            key={key}
+            key={id}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            onClick={() => onShelfClick(id)}
         >
             <p className="shelfName">{name}</p>
             {isHovered? 
-                <EditIcon className="editIcon" /> 
+                <EditIcon className="editIcon" onClick={() => onRequestModal(id)}/> 
                 :
                 <p className="numberOfBooks">{numberOfBooks} books</p>
             }
