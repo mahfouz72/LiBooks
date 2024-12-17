@@ -5,6 +5,7 @@ import { HOME } from '../../constants/Constants';
 const Header = () => {
   const [searchCategory, setSearchCategory] = useState('Books');
   const [searchQuery, setSearchQuery] = useState('');
+  const token = localStorage.getItem("token");
 
   const handleCategoryChange = (event) => {
     setSearchCategory(event.target.value);
@@ -14,10 +15,24 @@ const Header = () => {
     setSearchQuery(event.target.value);
   };
 
-  const handleSearchSubmit = (event) => {
+  const handleSearchSubmit = async (event) => {
     event.preventDefault();
-    console.log(`Searching for "${searchQuery}" in ${searchCategory}`);
-  };
+    try {
+        const response = await fetch(
+            `http://localhost:8080/search/${searchCategory}?query=${encodeURIComponent(searchQuery)}`, {
+              method: 'GET',
+              headers: {"Authorization": `Bearer ${token}`},
+          }
+        );
+        console.log(searchCategory);
+        console.log(searchQuery);
+        const results = await response.json();
+        console.log(results);
+        // Handle results (e.g., display them in the UI)
+    } catch (error) {
+        console.error("Error fetching search results:", error);
+    }
+};
 
   
   return (

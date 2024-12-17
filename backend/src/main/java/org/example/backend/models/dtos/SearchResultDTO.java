@@ -1,4 +1,4 @@
 package org.example.backend.models.dtos;
 
-public record SearchResultDTO() {
+public record SearchResultDTO(String name, String type) {
 }

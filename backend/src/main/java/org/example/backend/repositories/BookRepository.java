@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
     // Query methods to be added here
-    List<Book> findByTitleContainingIgnoreCase(String title);
+    List<Book> findByBookTitleContainingIgnoreCase(String title);
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.example.backend.models.dtos.SearchResultDTO;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SearchService {
@@ -26,15 +27,15 @@ public class SearchService {
     public List<SearchResultDTO> search(String category, String query) {
         switch (category.toLowerCase()) {
             case "books":
-                return bookRepository.findByTitleContainingIgnoreCase(query)
+                return bookRepository.findByBookTitleContainingIgnoreCase(query)
                         .stream()
-                        .map(book -> new SearchResultDTO(book.getTitle(), "Book"))
+                        .map(book -> new SearchResultDTO(book.getBookTitle(), "Book"))
                         .collect(Collectors.toList());
 
             case "authors":
-                return authorRepository.findByNameContainingIgnoreCase(query)
+                return authorRepository.findByAuthorNameContainingIgnoreCase(query)
                         .stream()
-                        .map(author -> new SearchResultDTO(author.getName(), "Author"))
+                        .map(author -> new SearchResultDTO(author.getAuthorName(), "Author"))
                         .collect(Collectors.toList());
 
             case "users":
