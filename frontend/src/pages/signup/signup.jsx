@@ -55,6 +55,10 @@ const Signup = () => {
       setPasswordError("The password must be at least 8 characters");
       return;
     }
+    if(password.length > 50){
+      setPasswordError("The password must be at most 50 characters");
+      return;
+    }
 
     // Clear errors
     setFormError('');
