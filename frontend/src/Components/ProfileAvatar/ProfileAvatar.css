@@ -1,0 +1,30 @@
+.profile-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #d1d5db;
+    border-radius: 100%;
+  }
+  
+  .profile-avatar.small {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .profile-avatar.large {
+    width: 10rem;
+    height: 10rem;
+  }
+  
+  .profile-avatar .initials {
+    font-weight: 600;
+    color: #4b5563;
+  }
+  
+  .profile-avatar.small .initials {
+    font-size: 0.875rem;
+  }
+  
+  .profile-avatar.large .initials {
+    font-size: 2.5rem;
+  }
