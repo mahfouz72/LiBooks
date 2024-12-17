@@ -61,7 +61,6 @@ class BookShelfServiceTest {
 
         users = new ArrayList<>();
         bookShelves = new ArrayList<>();
-        //bookShelvesDtos = new ArrayList<>();
         for (int i = 1; i <= 2; i++) {
             User user = new User();
             user.setId(i);
@@ -93,8 +92,7 @@ class BookShelfServiceTest {
 
         Page<BookShelf> bookShelfPage = new PageImpl<>(paginatedBookShelves);
 
-        when(userAuthenticationService.getCurrentUsername()).thenReturn("user1");
-        when(userService.getUserByUsername("user1")).thenReturn(user1);
+        when(userService.getCurrentUser()).thenReturn(user1);
         when(bookShelfRepository.findByUserId(user1.getId(), pageable))
             .thenReturn(bookShelfPage);
         when(bookShelfDTOMapper.apply(any(BookShelf.class))).
@@ -116,8 +114,7 @@ class BookShelfServiceTest {
         BookShelf bookShelf = new BookShelf(2, users.get(0), "book2");
         BookShelfDTO bookShelfDTO = new BookShelfDTO(2, "book2");
 
-        when(userAuthenticationService.getCurrentUsername()).thenReturn("user1");
-        when(userService.getUserByUsername("user1")).thenReturn(users.get(0));
+        when(userService.getCurrentUser()).thenReturn(users.get(0));
         when(bookShelfRepository.save(any(BookShelf.class))).thenReturn(bookShelf);
         when(bookShelfDTOMapper.apply(bookShelf)).
             thenReturn(new BookShelfDTO(2, "book2"));
@@ -139,7 +136,7 @@ class BookShelfServiceTest {
 
         when(bookShelfRepository.findById(bookShelfId)).thenReturn(Optional.of(bookShelf));
         when(userAuthenticationService.getCurrentUsername()).thenReturn("user1");
-        when(userService.getUserByUsername("user1")).thenReturn(users.get(0));
+        when(userService.getCurrentUser()).thenReturn(users.get(0));
         when(bookShelfRepository.save(bookShelf)).thenReturn(bookShelf);
         when(bookShelfDTOMapper.apply(bookShelf)).thenReturn(bookShelfDTO);
 

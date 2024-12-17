@@ -28,8 +28,6 @@ public class BookShelfService {
 
     private BooksBookShelfRepository booksBookShelfRepository;
 
-    private UserAuthenticationService userAuthenticationService;
-
     private UserService userService;
 
     private BookShelfDTOMapper bookShelfDTOMapper;
@@ -43,21 +41,20 @@ public class BookShelfService {
                             BooksBookShelfDTOMapper booksBookShelfDTOMapper) {
         this.bookShelfRepository = bookShelfRepository;
         this.booksBookShelfRepository = booksBookShelfRepository;
-        this.userAuthenticationService = userAuthenticationService;
         this.userService = userService;
         this.bookShelfDTOMapper = bookShelfDTOMapper;
         this.booksBookShelfDTOMapper = booksBookShelfDTOMapper;
     }
 
     public List<BookShelfDTO> getBookShelfNames(Pageable pageable) {
-        User currentUser = getCurrentUser();
+        User currentUser = userService.getCurrentUser();
         return bookShelfRepository.findByUserId(currentUser.getId(), pageable)
             .stream().map(bookShelfDTOMapper).collect(Collectors.toList());
     }
 
     public BookShelfDTO addBookShelf(BookShelfDTO bookShelfDTO) {
         String bookShelfName = bookShelfDTO.bookShelfName();
-        User currentUser = getCurrentUser();
+        User currentUser = userService.getCurrentUser();
 
         BookShelf bookShelf = new BookShelf();
         bookShelf.setBookShelfName(bookShelfName);
@@ -67,7 +64,7 @@ public class BookShelfService {
 
     public ResponseEntity<?> renameBookShelf(int bookShelfId, BookShelfDTO bookShelfDTO) {
         BookShelf bookShelf = bookShelfRepository.findById(bookShelfId).orElseThrow();
-        User currentUser = getCurrentUser();
+        User currentUser = userService.getCurrentUser();
         ResponseEntity<?> response;
         if (!currentUser.equals(bookShelf.getUser())) {
             response = new ResponseEntity<>("Not User's Bookshelf ", HttpStatus.UNAUTHORIZED);
@@ -104,10 +101,5 @@ public class BookShelfService {
 
     public void deleteBookInBookShelf(BooksBookShelfDTO booksBookShelfDTO) {
         booksBookShelfRepository.delete(booksBookShelfDTOMapper.apply(booksBookShelfDTO));
-    }
-
-    private User getCurrentUser() {
-        String currentUsername = userAuthenticationService.getCurrentUsername();
-        return userService.getUserByUsername(currentUsername);
     }
 }
