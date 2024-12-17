@@ -32,7 +32,7 @@ public class ReviewService {
     public ReviewDTO addReview(Review review, Integer bookId) {
         addBookToReview(review, bookId);
         addUserToReview(review);
-        incBookRatingCount(bookId);
+        bookService.incrementBookRatingCount(bookId);
         bookService.addReview(review, bookId);
         reviewRepository.save(review);
         return reviewDTOMapper.apply(review);
@@ -52,12 +52,6 @@ public class ReviewService {
         Book book = bookService.getBookById(bookId);
         List<Review> bookReviews = reviewRepository.findAllByBook(book);
         return bookReviews.stream().map(reviewDTOMapper).toList();
-    }
-
-    private void incBookRatingCount(Integer bookId) {
-        Book book = bookService.getBookById(bookId);
-        book.setRatingsCount(book.getRatingsCount() + 1);
-        bookRepository.save(book);
     }
 
 }

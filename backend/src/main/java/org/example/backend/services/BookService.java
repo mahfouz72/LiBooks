@@ -62,4 +62,11 @@ public class BookService {
             saveBook(reviewedBook);
         }
     }
+
+    public void incrementBookRatingCount(Integer bookId) {
+        Book book = getBookById(bookId);
+        book.setRatingsCount(book.getRatingsCount() + 1);
+        bookRepository.save(book);
+    }
+
 }
