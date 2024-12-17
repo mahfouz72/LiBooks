@@ -4,7 +4,6 @@ import org.example.backend.models.dtos.ReviewDTO;
 import org.example.backend.models.entities.Book;
 import org.example.backend.models.entities.Review;
 import org.example.backend.models.entities.User;
-import org.example.backend.repositories.BookRepository;
 import org.example.backend.repositories.ReviewRepository;
 import org.example.backend.services.mappers.ReviewDTOMapper;
 import org.springframework.stereotype.Service;
