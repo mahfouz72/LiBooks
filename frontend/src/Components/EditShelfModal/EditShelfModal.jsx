@@ -10,15 +10,16 @@ function EditShelfModal({onCancel, onRename, onDelete, name}) {
             <div className="modal">
                 <h2>Edit Bookshelf</h2>
                 <input 
+                    className="inputRename"
                     type="text" 
                     value={newName}
                     onChange={(e) => setNewName(e.target.value)}
                     placeholder = {name}
                 />
                 <div className="buttons">
-                    <button className="rename" onClick={() => onRename(newName)}>Rename</button>
-                    <button className="cancel" onClick={onCancel}>Cancel</button>
-                    <button className="delete" onClick={onDelete}>Delete</button>
+                    <button className="rename shelfModalButton" onClick={() => onRename(newName)}>Rename</button>
+                    <button className="cancel shelfModalButton" onClick={onCancel}>Cancel</button>
+                    <button className="delete shelfModalButton" onClick={onDelete}>Delete</button>
                 </div>
             </div>
         </div>
