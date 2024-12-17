@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { forgetPasswordResponse } from "../../APIs/forgetPasswordAuth";
 import '../../styles/form.css'
 
@@ -9,7 +9,6 @@ function ForgetPasswordForm(){
     const [confirmMessage, setConfirmMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
-    const navigate = useNavigate();
 
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -67,7 +66,10 @@ function ForgetPasswordForm(){
 
                 <p className="error">{errorMessage}</p>
                 <p className="confirm">{confirmMessage}</p>
-                <button type="button" className="btn" onClick={handleSubmit}>Confirm</button>
+                <button type="button" className="btn" 
+                    onClick={handleSubmit}
+                    disabled={!!confirmMessage}
+                    >Confirm</button>
                 <div className="register">
                     <p>Back to login? <Link to="/login">login</Link></p>
                 </div>

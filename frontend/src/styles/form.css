@@ -65,6 +65,12 @@ button:hover{
     background-color: #373b32; 
 }
 
+.btn:disabled {
+    border: 1px solid #898c87;
+    background-color: #898c87;
+    cursor: not-allowed;
+}
+
 .register p {
     margin-top: 20px;
     font-size: 14px;
@@ -77,5 +83,10 @@ button:hover{
 
 .error{
     color: red;
-    font-size: 10px;
+    font-size: 14px;
+}
+
+.confirm{
+    color: rgb(99, 222, 68);
+    font-size: 15px;
 }
