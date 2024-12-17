@@ -48,4 +48,5 @@ public class ReviewService {
         List<Review> bookReviews = reviewRepository.findAllByBook(book);
         return bookReviews.stream().map(reviewDTOMapper).toList();
     }
+
 }
