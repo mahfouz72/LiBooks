@@ -17,6 +17,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserAuthenticationService {
 
@@ -26,22 +28,19 @@ public class UserAuthenticationService {
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
     private JWTService jwtService;
-    private UserService userService;
 
     public UserAuthenticationService(UserRepository userRepository,
                                      UserDTOMapper userDTOMapper,
                                      UserRegistrationDTOMapper userRegistrationDTOMapper,
                                      PasswordEncoder passwordEncoder,
                                      AuthenticationManager authenticationManager,
-                                     JWTService jwtService,
-                                     UserService userService) {
+                                     JWTService jwtService) {
         this.userRepository = userRepository;
         this.userDTOMapper = userDTOMapper;
         this.userRegistrationDTOMapper = userRegistrationDTOMapper;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
-        this.userService = userService;
     }
 
     public UserDTO register(UserRegistrationDTO userRegistrationDTO) {
@@ -84,11 +83,12 @@ public class UserAuthenticationService {
     }
 
     public ResponseEntity<String> loginByGmail(String gmail) {
-        User user = userService.getUserByGmail(gmail);
+        Optional<User> user = userRepository.findByEmail(gmail);
         ResponseEntity<String> response;
 
-        if (user != null) {
-            String username = user.getUsername();
+        if (user.isPresent()) {
+            User u = user.get();
+            String username = u.getUsername();
             response = new ResponseEntity<>(jwtService.generateToken(username), HttpStatus.OK);
         }
         else {

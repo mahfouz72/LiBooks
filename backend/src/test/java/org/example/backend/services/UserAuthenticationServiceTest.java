@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -122,7 +123,7 @@ public class UserAuthenticationServiceTest {
     }
     @Test
     public void testLoginByGmailSuccess() {
-        when(userService.getUserByGmail("testemail@gmail.com")).thenReturn(user);
+        when(userRepository.findByEmail("testemail@gmail.com")).thenReturn(Optional.of(user));
         when(jwtService.generateToken(user.getUsername())).thenReturn("mockToken");
 
         ResponseEntity<String> response = userAuthenticationService.loginByGmail("testemail@gmail.com");
@@ -133,7 +134,7 @@ public class UserAuthenticationServiceTest {
 
     @Test
     public void testLoginByGmailUserNotRegistered() {
-        when(userService.getUserByGmail("nonexistent@gmail.com")).thenReturn(null);
+        when(userRepository.findByEmail("nonexistent@gmail.com")).thenReturn(Optional.empty());
 
         ResponseEntity<String> response = userAuthenticationService.loginByGmail("nonexistent@gmail.com");
 
