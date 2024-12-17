@@ -10,12 +10,23 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserAuthenticationService userAuthenticationService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository,
+                       UserAuthenticationService userAuthenticationService) {
         this.userRepository = userRepository;
+        this.userAuthenticationService = userAuthenticationService;
     }
 
+    public String getCurrentUsername() {
+        return userAuthenticationService.getCurrentUsername();
+    }
+
+    public User getCurrentUser() {
+        return userRepository.findByUsername(getCurrentUsername()).orElse(null);
+    }
+  
     public User getUserByGmail(String email) {
         return userRepository.findByEmail(email.toLowerCase()).orElse(null);
     }
@@ -28,5 +39,5 @@ public class UserService {
                     .body("This Email already exists! Please log in.");
         }
         return ResponseEntity.ok("Email is unique and could be registered.");
-    }
+    }  
 }
