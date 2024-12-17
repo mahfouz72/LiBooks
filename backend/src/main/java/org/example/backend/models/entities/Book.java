@@ -58,6 +58,9 @@ public class Book {
     @OneToMany(mappedBy = "book")
     private List<AuthorBook> authorBooks;
 
+    @OneToMany(mappedBy = "book")
+    private List<Review> reviews;
+
     public List<String> getAuthors() {
         List<String> authors = new ArrayList<>();
         if (authorBooks != null) {
