@@ -1,5 +1,4 @@
-import {Grid2} from "@mui/material";
-
+import { Grid2, Card, CardMedia, Typography } from "@mui/material";
 
 function UserList({ users, sx }) {
     const renderedUsers = users.map(({ id, username, profilePicture }) => (
