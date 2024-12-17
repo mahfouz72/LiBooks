@@ -74,4 +74,48 @@ public class ForgetPasswordControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    void testResetPasswordWithValidToken() throws Exception {
+
+        ResponseEntity<String> mockResponse = ResponseEntity.ok("Password reset successfully");
+        when(forgetPasswordService.resetPassword(Mockito.any(), Mockito.any())).thenReturn(mockResponse);
+
+        this.mockMvc.perform(
+                        post("/resetPassword")
+                                .param("password", "testPassword1")
+                                .param("token", "testToken1")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testResetPasswordWithExpiredToken() throws Exception {
+
+        ResponseEntity<String> mockResponse = ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                                            .body("Token is expired");
+        when(forgetPasswordService.resetPassword(Mockito.any(), Mockito.any())).thenReturn(mockResponse);
+
+        this.mockMvc.perform(
+                        post("/resetPassword")
+                                .param("password", "testPassword2")
+                                .param("token", "testToken2")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void testResetPasswordWithNotFoundToken() throws Exception {
+
+        ResponseEntity<String> mockResponse = ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                                            .body("Token is not found");
+        when(forgetPasswordService.resetPassword(Mockito.any(), Mockito.any())).thenReturn(mockResponse);
+
+        this.mockMvc.perform(
+                        post("/resetPassword")
+                                .param("password", "testPassword3")
+                                .param("token", "testToken3")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
 }
