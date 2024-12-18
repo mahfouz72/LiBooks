@@ -4,7 +4,6 @@ import { HOME, PROFILE } from '../../constants/Constants';
 import { useNavigate } from 'react-router-dom';
 import ProfileAvatar from '../ProfileAvatar/ProfileAvatar';
 
-
 const Header = () => {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
