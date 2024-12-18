@@ -18,7 +18,8 @@ public class AuthorFilter implements SearchFilter {
     public List<AuthorDTO> applyFilter(String query) {
         return authorRepository.findByAuthorNameContainingIgnoreCase(query)
                 .stream()
-                .map(author -> new AuthorDTO(author.getAuthorId(), author.getAuthorName(), author.getAuthorPhoto()))
+                .map(author -> new AuthorDTO(author.getAuthorId(),
+                        author.getAuthorName(), author.getAuthorPhoto()))
                 .collect(Collectors.toList());
     }   
 }

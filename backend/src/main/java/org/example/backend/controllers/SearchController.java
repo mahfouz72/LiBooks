@@ -1,7 +1,5 @@
 package org.example.backend.controllers;
 
-import java.util.List;
-
 import org.example.backend.services.filters.FilterFactory;
 import org.example.backend.services.filters.SearchFilter;
 import org.springframework.http.HttpStatus;

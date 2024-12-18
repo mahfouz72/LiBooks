@@ -22,15 +22,20 @@ public class FilterFactory {
     }
 
     public SearchFilter getFilter(String category) {
+        SearchFilter searchFilter = null;
         switch (category.toLowerCase()) {
             case "books":
-                return new BookFilter(bookRepository);
+                searchFilter = new BookFilter(bookRepository);
+                break;
             case "users":
-                return new UserFilter(userRepository);
+                searchFilter = new UserFilter(userRepository);
+                break;
             case "authors":
-                return new AuthorFilter(authorRepository);
+                searchFilter = new AuthorFilter(authorRepository);
+                break;
             default:
                 throw new IllegalArgumentException("Unknown category: " + category);
         }
+        return searchFilter;
     }
 }

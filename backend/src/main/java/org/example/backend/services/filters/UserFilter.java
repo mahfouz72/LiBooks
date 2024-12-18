@@ -17,7 +17,8 @@ public class UserFilter implements SearchFilter {
     public List<UserDTO> applyFilter(String query) {
         return userRepository.findByUsernameContainingIgnoreCase(query)
                 .stream()
-                .map(user -> new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getDateOfBirth(), user.getDateCreated()))
+                .map(user -> new UserDTO(user.getId(), user.getUsername(), user.getEmail(),
+                        user.getDateOfBirth(), user.getDateCreated()))
                 .collect(Collectors.toList());
     }
 }
