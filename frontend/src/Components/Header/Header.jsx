@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Header.css';
 import { HOME, PROFILE } from '../../constants/Constants';
 import { useNavigate } from 'react-router-dom';
 import ProfileAvatar from '../ProfileAvatar/ProfileAvatar';
-import { useEffect, useState } from 'react';
+
 
 const Header = () => {
   const navigate = useNavigate();
@@ -65,8 +65,6 @@ const Header = () => {
         <h1>LIBOOKS</h1>
       </div>
       <div className="header-menu">
-        <a href={HOME} className="header-link">Home</a>
-        <a href={HOME} className="header-link">Books</a>
         <div className="header-search">
         <form onSubmit={handleSearchSubmit} className="search-form">
           <select
@@ -88,6 +86,8 @@ const Header = () => {
           <button type="submit" className="search-button">Search</button>
         </form>
       </div>
+        <a href={HOME} className="header-link">Home</a>
+        <a href={HOME} className="header-link">Books</a>
            <div className="header-user">
                     {/* Take first letter of Username or uploaded photo from user */}
                     <a href={PROFILE} className="header-link">
