@@ -1,0 +1,62 @@
+.addToShelfModalWrapper {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.addToShelfModal {
+    width: 33%;
+    height: 40vh;
+    padding: 2rem;
+    border-radius: 10px;
+    background-color: rgb(215, 209, 198);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.addToBookShelvesList {
+    width: 100%;
+    height: 27vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    cursor: pointer;
+}
+
+.addToBookShelvesList::-webkit-scrollbar {
+    width: 2vh;
+}
+
+.addToBookShelvesList::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 1vh;
+}
+
+.addToBookShelvesList::-webkit-scrollbar-thumb {
+    background: #62544a;
+    border-radius: 1vh;
+}
+
+.addToBookShelvesList::-webkit-scrollbar-thumb:hover {
+    background: #474040;
+    cursor: grab;
+}
+
+.addToBookShelfItem {
+    width: 80%;
+    height: 5vh;
+    display: flex;
+    margin-top: 0.5vh;
+    padding-left: 2vh;
+    border-radius: 2vh;
+    align-items: center;
+    border-top: 0.4vh solid #e0e0e0;
+    border-bottom: 0.4vh solid #e0e0e0;
+    background: transparent;
+}
