@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.example.backend.services.filters.FilterFactory;
 import org.example.backend.services.filters.SearchFilter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,10 +26,13 @@ public class SearchController {
             @PathVariable("category") String category,
             @RequestParam("query") String query
     ) {
-        SearchFilter filter = filterFactory.getFilter(category);
-        List<?> results = filter.applyFilter(query);
-
-        return ResponseEntity.ok(results);
+        try {
+            SearchFilter filter = filterFactory.getFilter(category);
+            return ResponseEntity.ok(filter.applyFilter(query));
+        }
+        catch (IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        }
     }
 
 }
