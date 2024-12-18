@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './Header.css';
-import { HOME } from '../../constants/Constants';
+import { HOME, PROFILE } from '../../constants/Constants';
 import { useNavigate } from 'react-router-dom';
-
+import ProfileAvatar from '../ProfileAvatar/ProfileAvatar';
 
 const Header = () => {
   const navigate = useNavigate();  
@@ -68,13 +68,15 @@ const Header = () => {
           <button type="submit" className="search-button">Search</button>
         </form>
       </div>
-    </div>
-    <div className="header-user">
-        {/* Take first letter of Username or uploaded photo from user*/}
-        <div className="header-avatar">A</div>
+           <div className="header-user">
+                    {/* Take first letter of Username or uploaded photo from user */}
+                    <a href={PROFILE} className="header-link">
+                        <ProfileAvatar firstName="Youssif" lastName="Khaled" size="small" />
+                    </a>
+            </div>
     </div>
   </div>
   );
-};
+
 
 export default Header;

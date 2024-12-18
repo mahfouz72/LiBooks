@@ -1,0 +1,82 @@
+.bookShelves {
+    width: 100%;
+    height: 37vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    cursor: pointer;
+}
+
+.bookShelves::-webkit-scrollbar {
+    width: 2vh;
+}
+
+.bookShelves::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 1vh;
+}
+
+.bookShelves::-webkit-scrollbar-thumb {
+    background: #62544a;
+    border-radius: 1vh;
+}
+
+.bookShelves::-webkit-scrollbar-thumb:hover {
+    background: #474040;
+    cursor: grab;
+}
+
+.bookShelfItem {
+    width: 80%;
+    height: 5vh;
+    display: flex;
+    margin-top: 0.5vh;
+    padding-left: 2vh;
+    border-radius: 2vh;
+    align-items: center;
+    flex-direction: row;
+    border-top: 0.4vh solid #e0e0e0;
+    border-bottom: 0.4vh solid #e0e0e0;
+}
+
+.bookShelfItem:hover {
+    background-color: #9d673b;
+}
+
+.shelfName {
+    max-width: 80%;
+    overflow: hidden;
+    font-weight: 500;
+    font-size: 1.2rem;
+    white-space: nowrap;
+    font-family: monospace;
+    text-overflow: ellipsis;
+}
+
+.bookShelfItem:hover .shelfName {
+    color: white;
+}
+
+.numberOfBooks {
+    color: grey;
+    max-width: 20%;
+    font-size: 1rem;
+    overflow: hidden;
+    font-weight: 400;
+    margin-left: auto;
+    margin-right: 2vh;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.editIcon {
+    color: white;
+    margin-left: auto;
+    margin-right: 2vh;
+}
+
+.editIcon:hover {
+    color: black;
+    cursor: pointer;
+}

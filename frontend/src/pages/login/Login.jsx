@@ -5,8 +5,9 @@ import { LOGIN_API } from "../../constants/Constants";
 import { HOME } from "../../constants/Constants";
 import { loginWithGoogle } from "../../APIs/auth"; 
 import { useGoogleLogin } from '@react-oauth/google';
+import Password from '../../Components/Fields/Password/password';
 
-import './login.css'
+import '../../styles/form.css'
 
 function LoginForm(){
 
@@ -41,6 +42,11 @@ function LoginForm(){
         if(password.length < 7){
             setPasswordError("The password must be at least 8 characters");
             return
+        }
+        
+        if(password.length > 50){
+            setPasswordError("The password must be at most 50 characters");
+            return;
         }
 
         console.log("Login attempt with:", { username, password });
@@ -96,6 +102,7 @@ function LoginForm(){
         handleLoginGoogle();
     };
 
+    
     return(
         <div className="box-wrapper">
         <div className="wrapper">
@@ -112,17 +119,17 @@ function LoginForm(){
                 </div>
 
                 <div className="input-box">
-                    <input type="password" 
-                        placeholder="password"
+                    <Password
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        setValue={setPassword}
+                        placeholder="Password"
                     />
                     <p className="error">{passwordError}</p>
                 </div>
 
                 <div className="rememberme-forget">
                     <label htmlFor=""><input type="checkbox"/>Remember me</label>
-                    <a href="#1">Forget password</a>
+                    <Link to="/forgetPassword">Forget password</Link>
                 </div>
                 <p className="error">{errorMessage}</p>
                 <button className="login-btn" type="button" onClick={handleSubmit}>Log in</button>

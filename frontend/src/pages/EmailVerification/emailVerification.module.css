@@ -1,0 +1,140 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f0e4;
+    color: #333;
+}
+
+/* This will be the wrapper that holds the background styling */
+.backgroundWrapper { 
+    background-size: cover; 
+    background-position: center center;  
+    background-attachment: fixed;  
+    margin-top: -1%; 
+    min-height: 100vh;  
+    display: flex; /* Change to flex */
+    flex-direction: column; 
+    align-items: center; /* Horizontally center */
+    justify-content: center; /* Vertically center - changed from flex-start */
+    padding: 2rem; 
+}
+/*Header Style*/
+.headerContainer {
+    text-align: center;
+    color: #32362d;
+    padding: 0rem;
+  }
+  
+  .headerTitle {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+/* Verification Form Container */
+.verificationContainer {
+    background-color: #fff;
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+.verificationContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto; /* Horizontal centering as a fallback */
+    width: 100%; 
+    max-width: 400px;
+}
+
+.verificationForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formHeader {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.formTitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+}
+
+.formSubtitle {
+    font-size: 14px;
+    margin: 10px 0 0;
+    color: #666;
+}
+
+/* Code Input Styles */
+.codeInputContainer {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 10px;
+}
+
+.codeInput {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    text-align: center;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.codeInput:focus {
+    border-color: #2575fc;
+    box-shadow: 0 0 5px rgba(37, 117, 252, 0.5);
+}
+
+/* Error Message */
+.errorMessage {
+    color: #d9534f;
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+/* Buttons */
+.verifyButton {
+    background-color: #2575fc;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.verifyButton:hover {
+    background-color: #1a5fcc;
+}
+
+.resendContainer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.resendLink {
+    background: none;
+    border: none;
+    color: #2575fc;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+}
+
+
