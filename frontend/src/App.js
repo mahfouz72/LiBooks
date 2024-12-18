@@ -7,6 +7,7 @@ import Signup from './pages/signup/signup';
 import Profile from './pages/profile/Profile';
 import GmailSignup from './pages/welcome/welcome'; 
 import BookBrowsingPage from "./pages/BookBrowsing/BookBrowsingPage";
+import SearchResultsPage from "./pages/SearchResults/SearchResultsPage";
 import ForgetPasswordForm from './pages/forgetPassword/ForgetPasswordForm';
 import ResetPasswordForm from './pages/forgetPassword/ResetPasswordForm';
 import BookDetailsPage from "./pages/BookDetails/BookDetailsPage";
@@ -25,6 +26,7 @@ function App() {
               <Route path="/register" element={<GmailSignup />} />
               <Route path="/" element={<Login />} />
               <Route path="/BookBrowsingPage" element={<BookBrowsingPage />} />
+              <Route path="/search/:category" element={<SearchResultsPage />} />
               <Route path="/forgetPassword" element={<ForgetPasswordForm />} />
               <Route path="/resetPassword/:token" element={<ResetPasswordForm />} />
               <Route path="/book/:bookId" element={<BookDetailsPage />} />
