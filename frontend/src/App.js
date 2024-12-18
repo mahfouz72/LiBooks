@@ -12,6 +12,7 @@ import ForgetPasswordForm from './pages/forgetPassword/ForgetPasswordForm';
 import ResetPasswordForm from './pages/forgetPassword/ResetPasswordForm';
 import BookDetailsPage from "./pages/BookDetails/BookDetailsPage";
 import BookShelfBooks from "./Components/BookShelves/BookShelfBooks.jsx";
+import EmailVerification from './pages/EmailVerification/emailVerification.jsx';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
               <Route path="/search/:category" element={<SearchResultsPage />} />
               <Route path="/forgetPassword" element={<ForgetPasswordForm />} />
               <Route path="/resetPassword/:token" element={<ResetPasswordForm />} />
+              <Route path="/verify-email" element={<EmailVerification />} />
               <Route path="/book/:bookId" element={<BookDetailsPage />} />
               <Route path="/book/:bookId" element={<BookDetailsPage />} />
               <Route path="/BookBrowsingPage" element={<BookBrowsingPage />} />
