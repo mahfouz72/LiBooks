@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google'; 
 import { useNavigate, Link } from 'react-router-dom';
+import { verifyEmail } from '../../APIs/auth';
+import { sendVerificationEmail } from '../../APIs/auth';
 import styles from './welcome.module.css';
 import Footer from '../../Components/Footer/footer';
 
@@ -14,15 +16,31 @@ const GmailSignup = () => {
         return emailRegex.test(email);
     };
 
-    const handleManualEmailSubmit = (e) => {
+    const handleManualEmailSubmit = async (e) => {
         e.preventDefault();
+        setEmailError('');
+    
         if (!validateEmail(email)) {
-            setEmailError('** Please enter a valid Gmail address');
+            setEmailError('Please enter a valid Gmail address');
             return;
         }
-        // Navigate to signup page with email
-        navigate('/signup', { state: { email } });
+    
+        try {
+            await verifyEmail(email);/*Check if email is unique or not*/
+            console.log("Email is unique");
+            // If email is unique,send the email and navigate to verification page
+            await sendVerificationEmail(email);
+            console.log("Email sent");
+            navigate('/verify-email', { state: { email } });
+        } catch (error) {
+            if (error.response && error.response.status === 409) {
+                setEmailError('This email is already registered');
+            } else {
+                setEmailError('Unable to verify email at the moment');
+            }
+        }
     };
+
 
     const handleGoogleLogin = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
@@ -35,11 +53,17 @@ const GmailSignup = () => {
                 const userInfo = await userInfoResponse.json();
                 const primaryEmail = userInfo.emailAddresses[0].value;
 
+                await verifyEmail(primaryEmail); /*Check if email is unique or not*/
                 // Navigate to signup page with Google-retrieved email
                 navigate('/signup', { state: { email: primaryEmail } });
             } catch (error) {
-                console.error('Failed to fetch Google user info:', error);
-                setEmailError('** Unable to verify email with Google');
+                if(error.response && error.response.status === 409){
+                    setEmailError('** This email is already registered');
+                }
+                else{
+                    console.error('Failed to fetch Google user info:', error);
+                    setEmailError('** Unable to verify email with Google');
+                }
             }
         },
         onError: (error) => {
@@ -47,6 +71,20 @@ const GmailSignup = () => {
             setEmailError('** Google login failed, please try again');
         },
     });
+
+    const checkEmailUniqueness = async (email) => {
+        try{
+            const response = await verifyEmail(email);
+
+        }
+        catch(error){
+            if(error.response && error.response.status === 409){
+                setEmailError('** This email is already registered');
+                throw new Error(error.response.data);
+            }
+            throw new Error("Unable to verify email at the moment.");
+        }
+    }
 
     return (
         <div className={styles.backgroundWrapper}>

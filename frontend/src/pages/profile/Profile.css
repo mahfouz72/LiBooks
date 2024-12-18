@@ -24,7 +24,6 @@
 .follows {
   display: flex;
   width: fit-content;
-  gap: 1.5vw;
 }
 
 .followsButton {

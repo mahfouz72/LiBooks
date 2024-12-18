@@ -6,6 +6,7 @@ import org.example.backend.models.dtos.UserRegistrationDTO;
 import org.example.backend.models.entities.User;
 import org.example.backend.security.JWTService;
 import org.example.backend.services.UserAuthenticationService;
+import org.example.backend.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -35,6 +36,8 @@ public class RegisterControllerTest {
     @MockBean
     private UserAuthenticationService userAuthenticationService;
 
+    @MockBean
+    private UserService userService;
 
     @MockBean
     private JWTService jwtService;
