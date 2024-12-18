@@ -22,7 +22,7 @@ const Header = () => {
     event.preventDefault();
     try {
         const response = await fetch(
-            `http://localhost:8081/search/${searchCategory}?query=${encodeURIComponent(searchQuery)}`, {
+            `http://localhost:8080/search/${searchCategory}?query=${encodeURIComponent(searchQuery)}`, {
               method: 'GET',
               headers: {"Authorization": `Bearer ${token}`},
           }
