@@ -42,7 +42,6 @@ public class ForgetPasswordService {
 
         ResponseEntity<String> response = null;
         Boolean emailSent = false;
-        System.out.println(userDTO.email());
         User user = userRepository.findByEmail(userDTO.email()).orElse(null);
         if (user != null) {
             emailSent = sendEmail(user);
