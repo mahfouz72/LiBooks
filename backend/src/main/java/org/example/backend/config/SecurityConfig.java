@@ -52,7 +52,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login/**", "/register/**", "/verification/**")
+                        .requestMatchers("/login/**", "/register/**",
+                                         "/forgetPassword", "/resetPassword", "/verification/**")
                         .permitAll()
                         .anyRequest().authenticated()
                 )
