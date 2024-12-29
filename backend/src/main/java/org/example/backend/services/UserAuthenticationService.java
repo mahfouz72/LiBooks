@@ -67,7 +67,7 @@ public class UserAuthenticationService {
                         ));
 
         ResponseEntity<String> response;
-        if (authentication.isAuthenticated() && authentication.getName().equals(username)) {
+        if (authentication.isAuthenticated()) {
             String token = jwtService.generateToken(username);
             response = new ResponseEntity<>(token, HttpStatus.OK);
         }

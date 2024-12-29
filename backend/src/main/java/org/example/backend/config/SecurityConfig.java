@@ -40,10 +40,10 @@ public class SecurityConfig {
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
         jdbcUserDetailsManager.setUsersByUsernameQuery(
-                "select username, password, 'true' as enabled from bookworm where username = ?"
+                "select username, password, 'true' as enabled from bookworm where binary username = ?"
         );
         jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
-                "select username, 'ROLE_USER' as role from bookworm where username = ?"
+                "select username, 'ROLE_USER' as role from bookworm where binary username = ?"
         );
         return jdbcUserDetailsManager;
     }
