@@ -12,7 +12,7 @@ const GmailSignup = () => {
     const [emailError, setEmailError] = useState('');
 
     const validateEmail = (email) => {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return emailRegex.test(email);
     };
 
@@ -21,7 +21,7 @@ const GmailSignup = () => {
         setEmailError('');
     
         if (!validateEmail(email)) {
-            setEmailError('Please enter a valid Gmail address');
+            setEmailError('Please enter a valid email address');
             return;
         }
     
@@ -103,10 +103,10 @@ const GmailSignup = () => {
                         <p className={styles.formSubtitle}>Discover, discuss, and dive into stories, books don't lie</p>
                     </div>
                     <div className={styles.formField}>
-                        <label>Enter your Gmail:</label>
+                        <label>Enter your Email:</label>
                         <input
                             type="email"
-                            placeholder="example@gmail.com"
+                            placeholder="example@domain.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -114,7 +114,7 @@ const GmailSignup = () => {
                     </div>
 
                     <button type="submit" className={styles.signupButton}>
-                        Sign Up with Gmail
+                        Sign Up with email
                     </button>
 
                     <div className={styles.orContainer}>
