@@ -31,4 +31,9 @@ public class BookController {
     public BookDTO getBookById(@PathVariable Integer id) {
         return bookService.getBookPageViewById(id);
     }
+
+    @GetMapping("/books/latest")
+    public List<BookListingDTO> getLatestBooks() {
+        return bookService.getLatestBooks();
+    }
 }

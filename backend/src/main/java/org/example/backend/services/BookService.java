@@ -7,7 +7,9 @@ import org.example.backend.models.entities.Review;
 import org.example.backend.repositories.BookRepository;
 import org.example.backend.services.mappers.BookDTOMapper;
 import org.example.backend.services.mappers.BookListingDTOMapper;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,6 +48,13 @@ public class BookService {
                 .stream().map(bookListingDTOMapper).collect(Collectors.toList());
     }
 
+    public List<BookListingDTO> getLatestBooks() {
+        Pageable pageable = PageRequest.of(0, 10,
+            Sort.by(Sort.Direction.DESC, "bookId"));
+
+        return bookRepository.findAll(pageable)
+                .stream().map(bookListingDTOMapper).collect(Collectors.toList());
+    }
     public BookDTO getBookPageViewById(Integer bookId) {
         Book book = bookRepository.findById(bookId).orElse(null);
         BookDTO bookDTO = null;
