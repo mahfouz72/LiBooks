@@ -41,15 +41,15 @@ public class AuthorService {
         return ResponseEntity.ok("Author added successfully");
     }
 
-    public List<AuthorDTO> getAllAuthors() {
-        List<Author> author = authorRepository.findAll();
+    public List<AuthorDTO> getAllAuthors(Pageable pageable) {
+        List<Author> author = authorRepository.findAll(pageable).toList();
         return author.stream()
                 .map(authorDTOMapper)
                 .toList();
     }
 
-    public List<String> getAuthorsNames() {
-        return authorRepository.getAuthorsNames();
+    public List<AuthorDTO> getAuthorsNames(Pageable pageable) {
+        return authorRepository.getAuthorsNames(pageable);
     }
 
     public AuthorDTO getAuthorById(Integer id) {
@@ -91,5 +91,9 @@ public class AuthorService {
         Page<Book> books = authorRepository.getAuthorBooks(id, pageable);
         return books.stream()
                 .map(bookListingDTOMapper).collect(Collectors.toList());
+    }
+
+    public Long getAuthorsCount() {
+        return authorRepository.count();
     }
 }

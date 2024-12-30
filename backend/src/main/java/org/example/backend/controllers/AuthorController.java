@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/authors")
 public class AuthorController {
 
     private AuthorService authorService;
@@ -27,27 +27,40 @@ public class AuthorController {
         return authorService.addAuthor(authorDTO);
     }
 
-    @GetMapping("/authors")
-    public List<AuthorDTO> getAllAuthors() {
-        return authorService.getAllAuthors();
+    @GetMapping("/count")
+    public Long getAuthorsCount() {
+        return authorService.getAuthorsCount();
     }
 
-    @GetMapping("/authors/names")
-    public List<String> getAuthorsNames() {
-        return authorService.getAuthorsNames();
+    @PostMapping("/all")
+    public List<AuthorDTO> getAllAuthors(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "5") Integer size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return authorService.getAllAuthors(pageable);
     }
 
-    @GetMapping("/authors/{id}")
+    @PostMapping("/names")
+    public List<AuthorDTO> getAuthorsNames(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "5") Integer size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return authorService.getAuthorsNames(pageable);
+    }
+
+    @GetMapping("/{id}")
     public AuthorDTO getAuthorById(@PathVariable Integer id) {
         return authorService.getAuthorById(id);
     }
 
-    @GetMapping("/authors/{id}/books-ids")
+    @GetMapping("/{id}/books-ids")
     public List<Integer> getAuthorBooksIds(@PathVariable Integer id) {
         return authorService.getAuthorBooksIds(id);
     }
 
-    @PostMapping("/authors/books")
+    @PostMapping("/books")
     public List<BookListingDTO> getAuthorBooks(
             @RequestParam Integer id,
             @RequestParam(defaultValue = "0") Integer page,
@@ -57,14 +70,14 @@ public class AuthorController {
         return authorService.getAuthorBooks(id, pageable);
     }
 
-    @PutMapping("/authors/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> updateAuthor(
             @RequestBody AuthorDTO authorDTO
     ) {
         return authorService.updateAuthor(authorDTO);
     }
 
-    @DeleteMapping("/authors/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAuthor(@PathVariable Integer id) {
         return authorService.deleteAuthor(id);
     }

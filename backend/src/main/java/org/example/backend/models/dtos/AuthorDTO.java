@@ -13,4 +13,8 @@ public record AuthorDTO(
     public AuthorDTO(Integer authorId, String authorName, byte[] authorPhoto) {
         this(authorId, authorName, authorPhoto, null, null, null);
     }
+
+    public AuthorDTO(Integer authorId, String authorName) {
+        this(authorId, authorName, null, null, null, null);
+    }
 }

@@ -1,5 +1,6 @@
 package org.example.backend.repositories;
 
+import org.example.backend.models.dtos.AuthorDTO;
 import org.example.backend.models.entities.Author;
 import org.example.backend.models.entities.Book;
 import org.springframework.data.domain.Page;
@@ -16,8 +17,11 @@ public interface AuthorRepository extends JpaRepository<Author, Integer> {
     // Query methods to be added here
     List<Author> findByAuthorNameContainingIgnoreCase(String name);
 
-    @Query("SELECT a.authorName FROM Author a")
-    List<String> getAuthorsNames();
+    @Query("""
+            SELECT new org.example.backend.models.dtos.AuthorDTO(a.authorId, a.authorName) 
+            FROM Author a
+            """)
+    List<AuthorDTO> getAuthorsNames(Pageable pageable);
 
     @Query("SELECT ab.book.bookId FROM AuthorBook ab JOIN ab.author a WHERE a.authorId = :id")
     List<Integer> getAuthorBooksIds(@Param("id") Integer id);
