@@ -28,6 +28,7 @@ public class ReviewService {
     public ReviewDTO addReview(Review review, Integer bookId) {
         addBookToReview(review, bookId);
         addUserToReview(review);
+        removeExistingReview(review);
         bookService.addReview(review, bookId);
         reviewRepository.save(review);
         return reviewDTOMapper.apply(review);
@@ -41,6 +42,13 @@ public class ReviewService {
     private void addUserToReview(Review review) {
         User user = userService.getCurrentUser();
         review.setUser(user);
+    }
+
+    private void removeExistingReview(Review review) {
+        Review existingReview = reviewRepository.findByUserAndBook(review.getUser(), review.getBook());
+        if (existingReview != null) {
+            reviewRepository.delete(existingReview);
+        }
     }
 
     public List<ReviewDTO> findAllByBookId(Integer bookId) {
