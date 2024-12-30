@@ -3,7 +3,6 @@ import './Header.css';
 import { HOME, PROFILE } from '../../constants/Constants';
 import { useNavigate } from 'react-router-dom';
 import ProfileAvatar from '../ProfileAvatar/ProfileAvatar';
-import { useEffect, useState } from 'react';
 
 
 const Header = () => {
