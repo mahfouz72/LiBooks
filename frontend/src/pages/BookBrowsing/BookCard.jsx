@@ -17,7 +17,7 @@ import {useNavigate} from "react-router-dom";
 
 
     return (
-      <Card sx={{ position: "relative", width: 150, height: 350, cursor: "pointer",}}
+      <Card sx={{ position: "relative", width: 175, height: 350, cursor: "pointer",}}
             title={bookTitle}
             onClick={handleBookClick}>
         <CardMedia
