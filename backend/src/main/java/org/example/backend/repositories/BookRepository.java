@@ -12,8 +12,8 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Integer> {
     // Query methods to be added here
     List<Book> findByBookTitleContainingIgnoreCase(String title);
-
     // get top 10 books based on popularity = rating * number of reviews
     @Query("SELECT b FROM Book b ORDER BY b.rating * b.ratingsCount DESC")
     List<Book> getTopRatedBooks(Pageable pageable);
+    Book findByIsbn(String isbn);
 }

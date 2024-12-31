@@ -57,10 +57,10 @@ public class Book {
     @Column(length = MAX_GENRE_LENGTH)
     private String genre;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AuthorBook> authorBooks;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 
     public List<String> getAuthors() {
