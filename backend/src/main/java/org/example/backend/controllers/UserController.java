@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
 public class UserController {
     private UserService userService;
 
@@ -23,12 +22,12 @@ public class UserController {
         return userService.getCurrentUsername();
     }
 
-    @GetMapping("/count")
+    @GetMapping("/users/count")
     public Long getUsersCount() {
         return userService.getUsersCount();
     }
 
-    @GetMapping("/all")
+    @GetMapping("/users/all")
     public List<UserDTO> getAllUsers(
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer size
@@ -37,21 +36,21 @@ public class UserController {
         return userService.getAllUsers(pageable);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/users/{id}")
     public UserDTO getUserById(
             @PathVariable Integer id
     ) {
         return userService.getUserById(id);
     }
 
-    @GetMapping("")
+    @GetMapping("/users")
     public ResponseEntity<UserDTO> getUserByUsername(
             @RequestParam String username
     ) {
         return userService.getUserByUsername(username);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/users/{id}")
     public ResponseEntity<String> updateUser(
             @PathVariable Integer id,
             @RequestBody UserDTO userDTO
@@ -59,14 +58,14 @@ public class UserController {
         return userService.updateUser(id, userDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/users/{id}")
     public ResponseEntity<String> deleteUser(
             @PathVariable Integer id
     ) {
         return userService.deleteUser(id);
     }
 
-    @DeleteMapping("")
+    @DeleteMapping("/users")
     public ResponseEntity<String> deleteUserByUsername(
             @RequestParam String username
     ) {

@@ -28,4 +28,7 @@ public interface AuthorRepository extends JpaRepository<Author, Integer> {
 
     @Query("SELECT b FROM AuthorBook ab JOIN ab.book b WHERE ab.author.authorId = :id")
     Page<Book> getAuthorBooks(Integer id, Pageable pageable);
+
+    Author findByAuthorName(String authorName);
+
 }

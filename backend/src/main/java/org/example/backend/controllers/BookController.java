@@ -5,6 +5,7 @@ import org.example.backend.models.dtos.BookListingDTO;
 import org.example.backend.services.BookService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,5 +31,31 @@ public class BookController {
     @GetMapping("/books/{id}")
     public BookDTO getBookById(@PathVariable Integer id) {
         return bookService.getBookPageViewById(id);
+    }
+
+    @GetMapping("/books/count")
+    public Long getBooksCount() {
+        return bookService.getBooksCount();
+    }
+
+    @PostMapping("/books/add-book")
+    public ResponseEntity<String> addBook(@RequestBody BookDTO bookDTO) {
+        System.out.println(bookDTO);
+        return bookService.addBook(bookDTO);
+    }
+
+    @PutMapping("/books/{id}")
+    public ResponseEntity<String> updateBook(
+            @PathVariable Integer id,
+            @RequestBody BookDTO bookDTO
+    ) {
+        return bookService.updateBook(id, bookDTO);
+    }
+
+    @DeleteMapping("/books/delete-by-isbn")
+    public ResponseEntity<String> deleteBookByIsbn(
+            @RequestParam String isbn
+    ) {
+        return bookService.deleteBookByIsbn(isbn);
     }
 }
