@@ -1,10 +1,14 @@
 package org.example.backend.controllers;
 
+import org.example.backend.models.dtos.UserDTO;
 import org.example.backend.services.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/users")
 public class UserController {
     private UserService userService;
 
@@ -16,4 +20,55 @@ public class UserController {
     public String getUsername() {
         return userService.getCurrentUsername();
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> getUsersCount() {
+        return userService.getUsersCount();
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllUsers(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "5") Integer size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return userService.getAllUsers(pageable);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUserById(
+            @PathVariable Integer id
+    ) {
+        return userService.getUserById(id);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<UserDTO> getUserByUsername(
+            @RequestParam String username
+    ) {
+        return userService.getUserByUsername(username);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateUser(
+            @PathVariable Integer id,
+            @RequestBody UserDTO userDTO
+    ) {
+        return userService.updateUser(id, userDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(
+            @PathVariable Integer id
+    ) {
+        return userService.deleteUser(id);
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<String> deleteUserByUsername(
+            @RequestParam String username
+    ) {
+        return userService.deleteUserByUsername(username);
+    }
+
 }

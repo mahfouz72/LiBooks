@@ -1,7 +1,9 @@
 package org.example.backend.services;
 
+import org.example.backend.models.dtos.UserDTO;
 import org.example.backend.models.entities.User;
 import org.example.backend.repositories.UserRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final UserAuthenticationService userAuthenticationService;
-
+    private final String userDeleted = "User deleted successfully!";
     public UserService(UserRepository userRepository,
                        UserAuthenticationService userAuthenticationService) {
         this.userRepository = userRepository;
@@ -39,5 +41,74 @@ public class UserService {
                     .body("This Email already exists! Please log in.");
         }
         return ResponseEntity.ok("Email is unique and could be registered.");
-    }  
+    }
+
+
+    public ResponseEntity<UserDTO> getUserById(Integer id) {
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        UserDTO userDTO = new UserDTO(user.get().getId(), user.get().getUsername(),
+                user.get().getEmail(), user.get().getDateOfBirth(), user.get().getDateCreated());
+        return ResponseEntity.ok(userDTO);
+    }
+
+    public ResponseEntity<UserDTO> getUserByUsername(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        UserDTO userDTO = new UserDTO(user.get().getId(), user.get().getUsername(),
+                user.get().getEmail(), user.get().getDateOfBirth(), user.get().getDateCreated());
+        return ResponseEntity.ok(userDTO);
+    }
+
+    public ResponseEntity<String> updateUser(Integer id, UserDTO userDTO) {
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        User userToUpdate = User.builder()
+                .id(user.get().getId())
+                .username(userDTO.username())
+                .password(user.get().getPassword())
+                .email(userDTO.email())
+                .dateOfBirth(userDTO.dateOfBirth())
+                .dateCreated(user.get().getDateCreated())
+                .build();
+        userRepository.save(userToUpdate);
+        return ResponseEntity.ok("User updated successfully!");
+    }
+
+    public ResponseEntity<String> deleteUser(Integer id) {
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        userRepository.deleteById(id);
+        return ResponseEntity.ok(userDeleted);
+    }
+
+    public ResponseEntity<String> deleteUserByUsername(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        userRepository.deleteByUsername(username);
+        return ResponseEntity.ok(userDeleted);
+    }
+
+    public ResponseEntity<Long> getUsersCount() {
+        return ResponseEntity.ok(userRepository.count());
+    }
+
+    public ResponseEntity<?> getAllUsers(Pageable pageable) {
+        return ResponseEntity.ok(userRepository.findAll(pageable));
+    }
 }
