@@ -11,9 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import org.example.backend.repositories.*;
 import org.example.backend.models.entities.*;
+import org.springframework.data.domain.PageRequest;
 import org.example.backend.models.dtos.BookListingDTO;
-import org.example.backend.repositories.RecommendationRepository;
 import org.example.backend.services.mappers.BookListingDTOMapper;
 
 @ExtendWith(MockitoExtension.class)
@@ -21,12 +22,16 @@ public class RecommendationServiceTest {
     
     @Mock
     private UserService userService;
+
+    @Mock
+    private BookRepository bookRepository;
     
     @Mock
     private RecommendationRepository recommendationRepository;
     
     @Mock
     private BookListingDTOMapper bookListingDTOMapper;
+
     
     @InjectMocks
     private RecommendationService recommendationService;
@@ -71,5 +76,41 @@ public class RecommendationServiceTest {
         verify(recommendationRepository, times(1)).findAllByUserId(user.getId());
         verify(bookListingDTOMapper, times(1)).apply(book1);
         verify(bookListingDTOMapper, times(1)).apply(book2);
+    }
+
+    @Test
+    public void testListRecommendationsWhenNoRecommendations() {
+        
+        User user = User.builder()
+                        .id(1)
+                        .email("mock@gmail.com")
+                        .password("password")
+                        .username("mockedUser")
+                        .build();
+                    
+        Book book = Book.builder().bookId(1)
+            .bookTitle("book 1").build();
+
+        BookListingDTO bookListingDTO =
+            new BookListingDTO(
+                    1,
+                    "book 1",
+                    null,
+                    null,
+                    null
+            );
+        
+        when(userService.getCurrentUser()).thenReturn(user);
+        when(recommendationRepository.findAllByUserId(any(Integer.class)))
+        .thenReturn(Collections.emptyList());
+        when(bookRepository.getTopRatedBooks(any(PageRequest.class)))
+        .thenReturn(List.of(book));
+        when(bookListingDTOMapper.apply(book)).thenReturn(bookListingDTO);
+
+        List<BookListingDTO> result = recommendationService.listRecommendations();
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("book 1", result.get(0).bookTitle());
     }
 }
