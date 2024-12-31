@@ -25,7 +25,11 @@ public class ConnectionService {
     }
 
     public void followUser(String followingUsername, String followerUsername) {
-        User following = userService.getUserByUsername(followerUsername);
+        if(followingUsername.equals(followerUsername)) {
+            throw new IllegalStateException("User cannot be a follower to him/her self");
+        }
+
+        User following = userService.getUserByUsername(followingUsername);
         User follower = userService.getUserByUsername(followerUsername);
 
         if(connectionsRepository.existsByFollowerAndFollowing(follower, following)) {
@@ -40,7 +44,11 @@ public class ConnectionService {
     }
 
     public void unfollowUser(String followingUsername, String followerUsername) {
-        User following = userService.getUserByUsername(followerUsername);
+        if(followingUsername.equals(followerUsername)) {
+            throw new IllegalStateException("User cannot unfollow him/her self");
+        }
+
+        User following = userService.getUserByUsername(followingUsername);
         User follower = userService.getUserByUsername(followerUsername);
 
         if(!connectionsRepository.existsByFollowerAndFollowing(follower, following)) {
@@ -62,5 +70,15 @@ public class ConnectionService {
         return ResponseEntity.ok(connectionsRepository.findByFollower(user).stream()
                 .map(connection -> userDTOMapper.apply(connection.getFollowing()))
                 .collect(Collectors.toList()));
+    }
+
+    public ResponseEntity<Integer> getNumberOfFollowers(String username) {
+        User user = userService.getUserByUsername(username);
+        return ResponseEntity.ok(connectionsRepository.countFollowers(user));
+    }
+
+    public ResponseEntity<Integer> getNumberOfFollowings(String username) {
+        User user = userService.getUserByUsername(username);
+        return ResponseEntity.ok(connectionsRepository.countFollowing(user));
     }
 }

@@ -50,11 +50,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login/**", "/register/**", "/forgetPassword",
-                                "/resetPassword", "/verification/**", "/search/**")
+                                "/resetPassword", "/verification/**", "/search/**",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs.yaml",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html", "/connection/**")
                         .permitAll()
                         .anyRequest().authenticated()
                 )
