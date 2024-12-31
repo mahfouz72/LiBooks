@@ -20,7 +20,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public List<BookListingDTO> getAllBooks(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size) {
