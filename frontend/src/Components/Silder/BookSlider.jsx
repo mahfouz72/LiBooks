@@ -13,6 +13,47 @@ const settings = {
     slidesToShow: 6,
     slidesToScroll: 1,
     speed: 500,
+    responsive: [
+        {
+            breakpoint: 1120,
+            settings: {
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            infinite: true,
+            }
+        },
+        {
+            breakpoint: 1024,
+            settings: {
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            infinite: true,
+            }
+        },
+        {
+            breakpoint: 800,
+            settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            infinite: true,
+            }
+        },
+        {
+            breakpoint: 600,
+            settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            initialSlide: 2
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+            }
+        }
+    ]
 };
 
 function BookSlider({books, title, linkTitle, link , isloading}) {
