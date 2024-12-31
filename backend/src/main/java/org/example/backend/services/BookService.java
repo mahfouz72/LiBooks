@@ -2,14 +2,21 @@ package org.example.backend.services;
 
 import org.example.backend.models.dtos.BookDTO;
 import org.example.backend.models.dtos.BookListingDTO;
+import org.example.backend.models.entities.Author;
+import org.example.backend.models.entities.AuthorBook;
 import org.example.backend.models.entities.Book;
 import org.example.backend.models.entities.Review;
+import org.example.backend.models.entities.compositeKeys.AuthorBookID;
+import org.example.backend.repositories.AuthorRepository;
 import org.example.backend.repositories.BookRepository;
+import org.example.backend.repositories.AuthorBookRepository;
 import org.example.backend.services.mappers.BookDTOMapper;
 import org.example.backend.services.mappers.BookListingDTOMapper;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +28,18 @@ public class BookService {
     private BookListingDTOMapper bookListingDTOMapper;
 
     private final BookDTOMapper bookDTOMapper;
+    private final AuthorBookRepository authorBookRepository;
+    private final AuthorRepository authorRepository;
 
     public BookService(BookDTOMapper bookDTOMapper, BookRepository bookRepository,
-                       BookListingDTOMapper bookListingDTOMapper) {
+                       BookListingDTOMapper bookListingDTOMapper,
+                       AuthorBookRepository authorBookRepository,
+                       AuthorRepository authorRepository) {
         this.bookDTOMapper = bookDTOMapper;
         this.bookRepository = bookRepository;
         this.bookListingDTOMapper = bookListingDTOMapper;
+        this.authorBookRepository = authorBookRepository;
+        this.authorRepository = authorRepository;
     }
 
     public Book saveBook(Book book) {
@@ -64,4 +77,55 @@ public class BookService {
         }
     }
 
+    public Long getBooksCount() {
+        return bookRepository.count();
+    }
+
+    /**
+     * Adds a new book to the repository.
+     *
+     * @param bookDTO the data transfer object containing book details
+     * @return a ResponseEntity with a success message
+     */
+    public ResponseEntity<String> addBook(BookDTO bookDTO) {
+        Book book = Book.builder()
+                .bookTitle(bookDTO.bookTitle())
+                .isbn(bookDTO.isbn())
+                .ratingsCount(0)
+                .rating(new BigDecimal(0))
+                .summary(bookDTO.summary())
+                .bookCover(bookDTO.bookCover())
+                .languageOfOrigin(bookDTO.languageOfOrigin())
+                .publicationDate(bookDTO.publicationDate())
+                .publisher(bookDTO.publisher())
+                .genre(bookDTO.genre())
+                .build();
+
+        List<Author> authors = bookDTO.authors().stream()
+                .map(authorRepository::findByAuthorName)
+                .toList();
+
+        bookRepository.save(book);
+        authors.forEach(author -> authorBookRepository.save(new AuthorBook(
+                new AuthorBookID(author.getAuthorId(), book.getBookId()),
+                author,
+                book)));
+        return ResponseEntity.ok("Book added successfully");
+    }
+
+    public ResponseEntity<String> updateBook(Integer id, BookDTO bookDTO) {
+        // To be implemented later
+        return ResponseEntity.ok("Book updated successfully");
+    }
+
+    public ResponseEntity<String> deleteBookByIsbn(String isbn) {
+        Book book = bookRepository.findByIsbn(isbn);
+        if (book != null) {
+            bookRepository.delete(book);
+            return ResponseEntity.ok("Book deleted successfully");
+        }
+        else {
+            return ResponseEntity.badRequest().body("Book not found");
+        }
+    }
 }
