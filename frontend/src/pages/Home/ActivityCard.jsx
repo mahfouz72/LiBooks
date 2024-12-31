@@ -7,8 +7,6 @@ function ActivityCard({bookName,review}) {
     const now = new Date();
     now.setHours(now.getHours() + 2);
 
-    console.log("Given Date:", givenDate.toISOString());
-    console.log("Now:", now.toISOString());
     const diffMs = now - givenDate;
     
     const diffMins = Math.floor(diffMs / (1000 * 60));
@@ -26,10 +24,9 @@ function ActivityCard({bookName,review}) {
     else
         time = `${diffWeeks} weeks ago`;
 
-    console.log(time);
     return (
-        <Box width="50%" minHeight="200px" p={4} border="2px solid #974903" borderRadius="30px" bgcolor="aliceblue">
-            <Box height="100%" width="100%">
+        <Box width="590px" minHeight="200px" p={4} border="2px solid #974903" borderRadius="30px" bgcolor="aliceblue">
+            <Box >
                 <Stack direction="row" alignItems="center" spacing={2}>
                     <Avatar>{username[0]}</Avatar>
                     <Typography variant="h5" fontWeight="bold" >
