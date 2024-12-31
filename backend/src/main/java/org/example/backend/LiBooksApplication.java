@@ -21,9 +21,12 @@ public class LiBooksApplication {
             new Thread(() -> handleShutdown()));
     }
 
+    /**
+     * Handles the shutdown process by loading recommendations.
+     */
     private static void handleShutdown() {
         
-        String ERROR_MESSAGE = "Error: Failed to load recommendations.";
+        String errorMessage = "Error: Failed to load recommendations.";
 
         try {
             System.out.println("Recommendations loading...");
@@ -33,10 +36,10 @@ public class LiBooksApplication {
             process.waitFor();
         }
         catch (IOException execFailed) {
-            System.out.println(ERROR_MESSAGE + execFailed.getMessage());
+            System.out.println(errorMessage + execFailed.getMessage());
         }
         catch (InterruptedException waitFailed) {
-            System.out.println(ERROR_MESSAGE + waitFailed.getMessage());
+            System.out.println(errorMessage + waitFailed.getMessage());
         }
     }
 }
