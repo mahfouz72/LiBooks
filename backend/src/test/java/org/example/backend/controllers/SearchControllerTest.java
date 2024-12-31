@@ -83,7 +83,7 @@ public class SearchControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].authorId").value(1))
                 .andExpect(jsonPath("$[0].authorName").value("John Doe"));
     }
 
