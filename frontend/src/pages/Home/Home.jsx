@@ -29,7 +29,7 @@ function Home() {
         <Header />
         <Stack mt={5} width="80%" mx="auto" spacing={5}>
             <BookSlider isloading={isloading} books={books} title="Latest Books" linkTitle="All Books" link="/BookBrowsingPage"/>
-            <BookSlider isloading={isloading} books={books} title="Recommend Books" linkTitle="See more" link="/BookBrowsingPage"/>
+            <BookSlider isloading={isloading} books={books} title="Recommend Books"/>
             {/* Recent Activity */}
       </Stack>
     </Box>
