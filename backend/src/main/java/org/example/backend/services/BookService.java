@@ -32,7 +32,9 @@ public class BookService {
     private final AuthorRepository authorRepository;
 
     public BookService(BookDTOMapper bookDTOMapper, BookRepository bookRepository,
-                       BookListingDTOMapper bookListingDTOMapper, AuthorBookRepository authorBookRepository, AuthorRepository authorRepository) {
+                       BookListingDTOMapper bookListingDTOMapper,
+                       AuthorBookRepository authorBookRepository,
+                       AuthorRepository authorRepository) {
         this.bookDTOMapper = bookDTOMapper;
         this.bookRepository = bookRepository;
         this.bookListingDTOMapper = bookListingDTOMapper;
@@ -79,6 +81,12 @@ public class BookService {
         return bookRepository.count();
     }
 
+    /**
+     * Adds a new book to the repository.
+     *
+     * @param bookDTO the data transfer object containing book details
+     * @return a ResponseEntity with a success message
+     */
     public ResponseEntity<String> addBook(BookDTO bookDTO) {
         Book book = Book.builder()
                 .bookTitle(bookDTO.bookTitle())
@@ -106,7 +114,7 @@ public class BookService {
     }
 
     public ResponseEntity<String> updateBook(Integer id, BookDTO bookDTO) {
-        //To be implemented later
+        // To be implemented later
         return ResponseEntity.ok("Book updated successfully");
     }
 
@@ -115,7 +123,8 @@ public class BookService {
         if (book != null) {
             bookRepository.delete(book);
             return ResponseEntity.ok("Book deleted successfully");
-        } else {
+        }
+        else {
             return ResponseEntity.badRequest().body("Book not found");
         }
     }
