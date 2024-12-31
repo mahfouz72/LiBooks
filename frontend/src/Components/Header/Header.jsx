@@ -87,7 +87,7 @@ const Header = () => {
         </form>
       </div>
         <a href={HOME} className="header-link">Home</a>
-        <a href={HOME} className="header-link">Books</a>
+        <a href={"/BookBrowsingPage"} className="header-link">Books</a>
            <div className="header-user">
                     {/* Take first letter of Username or uploaded photo from user */}
                     <a href={PROFILE} className="header-link">
