@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/books")
 public class BookController {
 
     private BookService bookService;
@@ -20,7 +21,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/books")
+    @GetMapping("")
     public List<BookListingDTO> getAllBooks(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size) {
@@ -28,23 +29,23 @@ public class BookController {
         return bookService.listBooks(pageable);
     }
 
-    @GetMapping("/books/{id}")
+    @GetMapping("/{id}")
     public BookDTO getBookById(@PathVariable Integer id) {
         return bookService.getBookPageViewById(id);
     }
 
-    @GetMapping("/books/count")
+    @GetMapping("/count")
     public Long getBooksCount() {
         return bookService.getBooksCount();
     }
 
-    @PostMapping("/books/add-book")
+    @PostMapping("/add-book")
     public ResponseEntity<String> addBook(@RequestBody BookDTO bookDTO) {
         System.out.println(bookDTO);
         return bookService.addBook(bookDTO);
     }
 
-    @PutMapping("/books/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> updateBook(
             @PathVariable Integer id,
             @RequestBody BookDTO bookDTO
@@ -52,7 +53,7 @@ public class BookController {
         return bookService.updateBook(id, bookDTO);
     }
 
-    @DeleteMapping("/books/delete-by-isbn")
+    @DeleteMapping("/delete-by-isbn")
     public ResponseEntity<String> deleteBookByIsbn(
             @RequestParam String isbn
     ) {
