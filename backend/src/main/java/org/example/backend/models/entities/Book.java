@@ -34,7 +34,7 @@ public class Book {
     @Column(length = MAX_ISBN_LENGTH, unique = true)
     private String isbn;
 
-    @Formula("(SELECT COUNT(r.id) FROM review r WHERE r.book_id = book_id)")
+    @Formula("(SELECT COUNT(r.review_id) FROM review r WHERE r.book_id = book_id)")
     private Integer ratingsCount;
 
     @Formula("(SELECT AVG(r.rating) FROM review r WHERE r.book_id = book_id)")

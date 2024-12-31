@@ -13,6 +13,7 @@ import ResetPasswordForm from './pages/forgetPassword/ResetPasswordForm';
 import BookDetailsPage from "./pages/BookDetails/BookDetailsPage";
 import BookShelfBooks from "./Components/BookShelves/BookShelfBooks.jsx";
 import EmailVerification from './pages/EmailVerification/emailVerification.jsx';
+import Home from './pages/Home/Home.jsx';
 
 function App() {
   return (
@@ -20,21 +21,19 @@ function App() {
       <Router>
           <main>
             <Routes>
-              <Route path="/" element={<Login />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/register" element={<GmailSignup />} />
-              <Route path="/" element={<Login />} />
-              <Route path="/BookBrowsingPage" element={<BookBrowsingPage />} />
               <Route path="/search/:category" element={<SearchResultsPage />} />
               <Route path="/forgetPassword" element={<ForgetPasswordForm />} />
               <Route path="/resetPassword/:token" element={<ResetPasswordForm />} />
               <Route path="/verify-email" element={<EmailVerification />} />
               <Route path="/book/:bookId" element={<BookDetailsPage />} />
-              <Route path="/book/:bookId" element={<BookDetailsPage />} />
               <Route path="/BookBrowsingPage" element={<BookBrowsingPage />} />
               <Route path="/bookshelf/:bookShelfId" element={<BookShelfBooks />} />
+              <Route path='/home' element={<Home />} />
             </Routes>
           </main>
       </Router>

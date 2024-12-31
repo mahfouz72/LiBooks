@@ -34,6 +34,11 @@ public class BookController {
         return bookService.getBookPageViewById(id);
     }
 
+    @GetMapping("/latest")
+    public List<BookListingDTO> getLatestBooks() {
+        return bookService.getLatestBooks();
+    }
+  
     @GetMapping("/count")
     public Long getBooksCount() {
         return bookService.getBooksCount();
