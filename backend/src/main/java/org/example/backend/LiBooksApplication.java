@@ -1,5 +1,6 @@
 package org.example.backend;
 
+import java.io.IOException;
 import java.nio.file.Paths;
 
 import org.springframework.boot.SpringApplication;
@@ -15,10 +16,15 @@ public class LiBooksApplication {
             try {
                 System.out.println("Recommendations computation...");
                 Process process = Runtime.getRuntime().exec(
-                    "python " + Paths.get("").toAbsolutePath().toString() + "\\recommendation-system\\RecommendationModel.py");
+                    "python " + Paths.get("").toAbsolutePath().toString()
+                    + "\\recommendation-system\\RecommendationModel.py");
                 process.waitFor();
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
+            }
+            catch (IOException execFailed) {
+                System.out.println("Error: " + execFailed.getMessage());
+            }
+            catch (InterruptedException waitFailed) {
+                System.out.println("Error: " + waitFailed.getMessage());
             }
         }));
     }
