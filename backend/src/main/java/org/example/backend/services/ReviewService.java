@@ -30,7 +30,6 @@ public class ReviewService {
         addUserToReview(review);
         removeExistingReview(review);
         bookService.addReview(review, bookId);
-        reviewRepository.save(review);
         return reviewDTOMapper.apply(review);
     }
 
