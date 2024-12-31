@@ -1,31 +1,22 @@
 package org.example.backend.models.entities;
 
-import java.util.Date;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.Builder;
+import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
 
 @Data
+@Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Entity
-@Table(name = "review")
-public class Review {
+@Table(name = "recommendation")
+public class Recommendation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer reviewId;
-
-    private String reviewText;
-
-    private BigDecimal rating;
-
-    private Date date;
+    private Integer recommendationId;
 
     @ManyToOne
     @JoinColumn(name = "book_id")
