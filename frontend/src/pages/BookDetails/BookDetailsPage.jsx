@@ -8,6 +8,7 @@ import Header from "../../Components/Header/Header";
 import ReviewList from "../BookBrowsing/ReviewList";
 import ReviewForm  from "../BookBrowsing/ReviewForm";
 import AddToShelvesModal from "../../Components/AddToShelvesModal/AddToShelvesModal";
+import ShowOffersButton from "../BookOffers/ShowOffersButton";
 
 function BookDetailsPage() {
     const {bookId} = useParams();
@@ -83,7 +84,9 @@ function BookDetailsPage() {
                 throw new Error("Failed to submit review");
             }
             const newReviewData = await response.json();
-            setReviews([...reviews, newReviewData]);
+            // filter out the review of the same user if it exists
+            const filteredReviews = reviews.filter(review => review.userId !== newReviewData.userId);
+            setReviews([...filteredReviews, newReviewData]);
 
             fetchBook();
             
@@ -106,6 +109,7 @@ function BookDetailsPage() {
                         <BookDetails book={book}/>
                         <Divider sx={{my: 2}}/>
                         <BookAdditionalInfo book={book}/>
+                        <ShowOffersButton bookId={bookId}/>
                     </Grid>
                 </Grid>
                 <Button 

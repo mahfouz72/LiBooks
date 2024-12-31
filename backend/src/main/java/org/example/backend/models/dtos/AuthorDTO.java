@@ -1,4 +1,20 @@
 package org.example.backend.models.dtos;
 
-public record AuthorDTO(Integer id, String authorName, byte[] authorPhoto) {
+import java.util.Date;
+
+public record AuthorDTO(
+        Integer authorId,
+        String authorName,
+        byte[] authorPhoto,
+        String authorBiography,
+        Date authorBirthDate,
+        String nationality
+) {
+    public AuthorDTO(Integer authorId, String authorName, byte[] authorPhoto) {
+        this(authorId, authorName, authorPhoto, null, null, null);
+    }
+
+    public AuthorDTO(Integer authorId, String authorName) {
+        this(authorId, authorName, null, null, null, null);
+    }
 }

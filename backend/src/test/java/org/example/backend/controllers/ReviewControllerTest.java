@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -49,7 +50,7 @@ public class ReviewControllerTest {
     public void testAddReview() throws Exception {
         Integer bookId = 1;
         when(reviewService.addReview(any(Review.class), eq(bookId)))
-                .thenReturn(new ReviewDTO("mahfouz", "content", new BigDecimal(4)));
+                .thenReturn(new ReviewDTO("mahfouz", "content", new BigDecimal(4), new Date()));
 
         mockMvc.perform(post("/reviews/add")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -62,8 +63,8 @@ public class ReviewControllerTest {
     public void testFindAllByBookId() throws Exception {
         Integer bookId = 1;
         List<ReviewDTO> reviewDTOList = Arrays.asList(
-                new ReviewDTO("mahfouz", "content", new BigDecimal(4)),
-                new ReviewDTO("mahfouz", "content", new BigDecimal(4)));
+                new ReviewDTO("mahfouz", "content", new BigDecimal(4), new Date()),
+                new ReviewDTO("mahfouz", "content", new BigDecimal(4), new Date()));
 
         when(reviewService.findAllByBookId(bookId)).thenReturn(reviewDTOList);
 

@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -49,7 +50,8 @@ public class ReviewServiceTest {
         ReviewDTO reviewDTO = new ReviewDTO(
                 "mahfouz",
                 "content",
-                new BigDecimal(4)
+                new BigDecimal(4),
+                new Date()
         );
 
         when(bookService.getBookById(bookId)).thenReturn(book);
@@ -78,7 +80,8 @@ public class ReviewServiceTest {
         ReviewDTO reviewDTO = new ReviewDTO(
                 "mahfouz",
                 "content",
-                new BigDecimal(4)
+                new BigDecimal(4),
+                new Date()
         );
 
         when(bookService.getBookById(bookId)).thenReturn(book);

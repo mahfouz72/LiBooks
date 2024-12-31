@@ -13,7 +13,8 @@ public class ReviewDTOMapper implements Function<Review, ReviewDTO> {
         return new ReviewDTO(
                 review.getUser().getUsername(),
                 review.getReviewText(),
-                review.getRating()
+                review.getRating(),
+                review.getDate()
         );
     }
 }

@@ -82,8 +82,8 @@ function BookSlider({books, title, linkTitle, link , isloading}) {
             <Typography ml={4} variant="h5" color="error" fontWeight="bold" fontStyle="italic">
                 {title}
             </Typography>
-            <Stack border="5px solid #974903" borderRadius="30px" bgcolor="aliceblue">
-                <Stack alignItems="flex-end">
+            <Stack border="3px solid #974903" borderRadius="30px" bgcolor="aliceblue">
+                <Stack alignItems="flex-end" minHeight="20px">
                     <Link to={link} style={{textDecorationColor: '#1976d2'}}>
                         <Typography mr={2} color="primary"  variant="body1" fontWeight="bold">
                             {linkTitle}
