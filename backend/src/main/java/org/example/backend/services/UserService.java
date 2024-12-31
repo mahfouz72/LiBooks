@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,6 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserAuthenticationService userAuthenticationService;
     private final String userDeleted = "User deleted successfully!";
+
     public UserService(UserRepository userRepository,
                        UserAuthenticationService userAuthenticationService) {
         this.userRepository = userRepository;
@@ -108,7 +110,10 @@ public class UserService {
         return ResponseEntity.ok(userRepository.count());
     }
 
-    public ResponseEntity<?> getAllUsers(Pageable pageable) {
-        return ResponseEntity.ok(userRepository.findAll(pageable));
+    public List<UserDTO> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable).stream()
+                .map(user -> new UserDTO(user.getId(), user.getUsername(),
+                        user.getEmail(), user.getDateOfBirth(), user.getDateCreated()))
+                .toList();
     }
 }

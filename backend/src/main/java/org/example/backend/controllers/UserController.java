@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -27,7 +29,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllUsers(
+    public List<UserDTO> getAllUsers(
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer size
     ) {
