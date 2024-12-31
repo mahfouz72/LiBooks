@@ -1,7 +1,9 @@
 import { Box, Stack} from "@mui/material";
 import Header from "../../Components/Header/Header";
+import Footer from "../../Components/Footer/footer";
 import BookSlider from "../../Components/Silder/BookSlider";
 import { useEffect, useState } from "react";
+import ActivityList from "./ActivityList";
 
 function Home() {
     const [books, setBooks] = useState([]);
@@ -31,7 +33,9 @@ function Home() {
             <BookSlider isloading={isloading} books={books} title="Latest Books" linkTitle="All Books" link="/BookBrowsingPage"/>
             <BookSlider isloading={isloading} books={books} title="Recommend Books" linkTitle="See more" link="/BookBrowsingPage"/>
             {/* Recent Activity */}
-      </Stack>
+            <ActivityList/>
+        </Stack>
+        <Footer/>
     </Box>
   );
 }
