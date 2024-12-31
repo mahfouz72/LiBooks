@@ -15,16 +15,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.mockito.Mock;
 import org.mockito.InjectMocks;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.PageRequest;
 
 import java.util.*;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -180,5 +178,36 @@ public class BookServiceTest {
         BookDTO result = bookService.getBookPageViewById(0);
 
         assertEquals(bookDTOMapper.apply(books.get(0)), result);
+    }
+
+    @Test
+    void getLatestBooks_shouldReturnBooksInDescendingOrder() {
+        List<BookListingDTO> bookListingDTOs = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Book book1 = books.get(i);
+            BookListingDTO bookListingDTO1 =
+                new BookListingDTO(book1.getBookId(), book1.getBookTitle(), book1.getRating()
+                ,book1.getBookCover(),book1.getAuthors());
+
+            bookListingDTOs.add(bookListingDTO1);
+        }
+
+        int pageSize = 10;
+        Pageable pageable = PageRequest.of(0, pageSize,
+            Sort.by(Sort.Direction.DESC, "bookId"));
+        List<Book> paginatedBooks = books.subList(0, Math.min(books.size(), pageSize));
+        Page<Book> bookPage = new PageImpl<>(paginatedBooks,pageable,books.size());
+
+        when(bookRepository.findAll(pageable)).thenReturn(bookPage);
+        when(bookListingDTOMapper.apply(any(Book.class)))
+            .thenAnswer(invocation -> {
+                Book book = invocation.getArgument(0);
+                return new BookListingDTO(book.getBookId(), book.getBookTitle(), book.getRating()
+                    ,book.getBookCover(),book.getAuthors());
+            });
+
+        List<BookListingDTO> result = bookService.getLatestBooks();
+
+        assertEquals(bookListingDTOs, result);
     }
 }
