@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/books")
 public class BookController {
 
     private BookService bookService;
@@ -19,7 +20,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/books")
+    @GetMapping("/all")
     public List<BookListingDTO> getAllBooks(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size) {
@@ -27,12 +28,12 @@ public class BookController {
         return bookService.listBooks(pageable);
     }
 
-    @GetMapping("/books/{id}")
+    @GetMapping("/{id}")
     public BookDTO getBookById(@PathVariable Integer id) {
         return bookService.getBookPageViewById(id);
     }
 
-    @GetMapping("/books/latest")
+    @GetMapping("/latest")
     public List<BookListingDTO> getLatestBooks() {
         return bookService.getLatestBooks();
     }
