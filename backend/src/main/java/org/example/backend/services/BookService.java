@@ -12,7 +12,9 @@ import org.example.backend.repositories.BookRepository;
 import org.example.backend.repositories.AuthorBookRepository;
 import org.example.backend.services.mappers.BookDTOMapper;
 import org.example.backend.services.mappers.BookListingDTOMapper;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +57,16 @@ public class BookService {
     }
 
     public List<BookListingDTO> listBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable)
+                .stream().map(bookListingDTOMapper).collect(Collectors.toList());
+    }
+
+    public List<BookListingDTO> getLatestBooks() {
+        // get 10 latest added book
+        final int pageSize = 10;
+        Pageable pageable = PageRequest.of(0, pageSize,
+            Sort.by(Sort.Direction.DESC, "bookId"));
+
         return bookRepository.findAll(pageable)
                 .stream().map(bookListingDTOMapper).collect(Collectors.toList());
     }

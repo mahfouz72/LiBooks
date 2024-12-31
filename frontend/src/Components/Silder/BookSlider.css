@@ -1,0 +1,21 @@
+.slick-prev::before,
+.slick-next::before{
+    color: black;
+    font-size: 20px;
+}
+
+.custom-slider {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.slick-slide > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 10px; 
+}
