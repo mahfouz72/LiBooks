@@ -14,7 +14,9 @@ public class LiBooksApplication {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 System.out.println("Recommendations computation...");
-                Runtime.getRuntime().exec("python " + Paths.get("").toAbsolutePath().toString() + "\\recommendation-system\\RecommendationModel.py");
+                Process process = Runtime.getRuntime().exec(
+                    "python " + Paths.get("").toAbsolutePath().toString() + "\\recommendation-system\\RecommendationModel.py");
+                process.waitFor();
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
