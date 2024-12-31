@@ -22,7 +22,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.*;
-import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -86,8 +85,6 @@ public class BookServiceTest {
                 .bookId(i)
                 .bookTitle("testBook"+i)
                 .isbn("123456789"+i)
-                .ratingsCount(1)
-                .rating(new BigDecimal("5.0"))
                 .summary("testSummary"+i)
                 .bookCover(new byte[0])
                 .languageOfOrigin("English")
