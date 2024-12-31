@@ -56,7 +56,6 @@ public class ReviewServiceTest {
 
         when(bookService.getBookById(bookId)).thenReturn(book);
         when(userService.getCurrentUser()).thenReturn(user);
-        when(reviewRepository.save(review)).thenReturn(review);
         when(reviewDTOMapper.apply(review)).thenReturn(reviewDTO);
 
         ReviewDTO result = reviewService.addReview(review, bookId);
