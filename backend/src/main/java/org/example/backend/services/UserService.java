@@ -4,6 +4,7 @@ import org.example.backend.models.entities.User;
 import org.example.backend.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -39,5 +40,10 @@ public class UserService {
                     .body("This Email already exists! Please log in.");
         }
         return ResponseEntity.ok("Email is unique and could be registered.");
-    }  
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username).
+                orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
 }
