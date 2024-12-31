@@ -8,6 +8,7 @@ import Header from "../../Components/Header/Header";
 import ReviewList from "../BookBrowsing/ReviewList";
 import ReviewForm  from "../BookBrowsing/ReviewForm";
 import AddToShelvesModal from "../../Components/AddToShelvesModal/AddToShelvesModal";
+import ShowOffersButton from "../BookOffers/ShowOffersButton";
 
 function BookDetailsPage() {
     const {bookId} = useParams();
@@ -106,6 +107,7 @@ function BookDetailsPage() {
                         <BookDetails book={book}/>
                         <Divider sx={{my: 2}}/>
                         <BookAdditionalInfo book={book}/>
+                        <ShowOffersButton bookId={bookId}/>
                     </Grid>
                 </Grid>
                 <Button 
