@@ -1,17 +1,22 @@
 package org.example.backend.repositories;
 
 import org.example.backend.models.entities.Book;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 import org.example.backend.models.entities.Recommendation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RecommendationRepository extends JpaRepository<Recommendation, Integer> {
 
-    @Query("SELECT r.book FROM Recommendation r WHERE r.user.id = :userId")
-    List<Book> findAllByUserId(Integer userId);
-
+    @Query("""
+        SELECT r.book
+        FROM Recommendation r
+        WHERE r.user.id = :userId
+    """)
+    List<Book> findAllByUserId(@Param("userId") Integer userId);
 }
