@@ -44,7 +44,7 @@ public class UserControllerTest {
 
     @Test
     public void testGetUsersCount() throws Exception {
-        Mockito.when(userService.getUsersCount()).thenReturn(ResponseEntity.ok(10L));
+        Mockito.when(userService.getUsersCount()).thenReturn(10L);
 
         mockMvc.perform(get("/api/users/count"))
                 .andExpect(status().isOk())
@@ -71,7 +71,7 @@ public class UserControllerTest {
     @Test
     public void testGetUserById() throws Exception {
         UserDTO user = new UserDTO(1, "JohnDoe", "john@example.com", LocalDate.of(1990, 1, 1), LocalDate.now());
-        Mockito.when(userService.getUserById(anyInt())).thenReturn(ResponseEntity.ok(user));
+        Mockito.when(userService.getUserById(anyInt())).thenReturn(user);
 
         mockMvc.perform(get("/api/users/1"))
                 .andExpect(status().isOk())

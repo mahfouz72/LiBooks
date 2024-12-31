@@ -46,15 +46,15 @@ public class UserService {
     }
 
 
-    public ResponseEntity<UserDTO> getUserById(Integer id) {
+    public UserDTO getUserById(Integer id) {
         Optional<User> user = userRepository.findById(id);
 
         if (user.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return null;
         }
         UserDTO userDTO = new UserDTO(user.get().getId(), user.get().getUsername(),
                 user.get().getEmail(), user.get().getDateOfBirth(), user.get().getDateCreated());
-        return ResponseEntity.ok(userDTO);
+        return userDTO;
     }
 
     public ResponseEntity<UserDTO> getUserByUsername(String username) {
@@ -106,8 +106,8 @@ public class UserService {
         return ResponseEntity.ok(userDeleted);
     }
 
-    public ResponseEntity<Long> getUsersCount() {
-        return ResponseEntity.ok(userRepository.count());
+    public Long getUsersCount() {
+        return userRepository.count();
     }
 
     public List<UserDTO> getAllUsers(Pageable pageable) {
