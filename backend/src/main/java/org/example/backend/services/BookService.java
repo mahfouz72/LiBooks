@@ -13,7 +13,6 @@ import org.example.backend.repositories.AuthorBookRepository;
 import org.example.backend.services.mappers.BookDTOMapper;
 import org.example.backend.services.mappers.BookListingDTOMapper;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
