@@ -36,7 +36,8 @@ public class RecommendationService {
         User user = userService.getCurrentUser();
         List<Book> recommendedBooks = recommendationRepository.findAllByUserId(user.getId());
         if (recommendedBooks.isEmpty()) {
-            PageRequest pageable = PageRequest.of(0, 10);
+            final int pageSize = 10;
+            PageRequest pageable = PageRequest.of(0, pageSize);
             recommendedBooks = bookRepository.getTopRatedBooks(pageable);
         }
         return recommendedBooks.stream().map(bookListingDTOMapper).collect(Collectors.toList());

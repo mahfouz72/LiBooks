@@ -45,7 +45,8 @@ public class ReviewService {
     }
 
     private void removeExistingReview(Review review) {
-        Review existingReview = reviewRepository.findByUserAndBook(review.getUser(), review.getBook());
+        Review existingReview = reviewRepository.findByUserAndBook(
+            review.getUser(), review.getBook());
         if (existingReview != null) {
             reviewRepository.delete(existingReview);
         }
