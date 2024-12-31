@@ -37,7 +37,7 @@ public class UserControllerTest {
     public void testGetUsername() throws Exception {
         Mockito.when(userService.getCurrentUsername()).thenReturn("testUser");
 
-        mockMvc.perform(get("/api/users/username"))
+        mockMvc.perform(get("/username"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("testUser"));
     }
@@ -46,10 +46,20 @@ public class UserControllerTest {
     public void testGetUsersCount() throws Exception {
         Mockito.when(userService.getUsersCount()).thenReturn(10L);
 
-        mockMvc.perform(get("/api/users/count"))
+        mockMvc.perform(get("/users/count"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("10"));
     }
+
+    @Test
+    public void testGetUsersCount2() throws Exception {
+        Mockito.when(userService.getUsersCount()).thenReturn(0L);
+
+        mockMvc.perform(get("/users/count"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("0"));
+    }
+
 
     @Test
     public void testGetAllUsers() throws Exception {
@@ -59,7 +69,7 @@ public class UserControllerTest {
         );
         Mockito.when(userService.getAllUsers(any())).thenReturn(users);
 
-        mockMvc.perform(get("/api/users/all")
+        mockMvc.perform(get("/users/all")
                         .param("page", "0")
                         .param("size", "5"))
                 .andExpect(status().isOk())
@@ -73,7 +83,7 @@ public class UserControllerTest {
         UserDTO user = new UserDTO(1, "JohnDoe", "john@example.com", LocalDate.of(1990, 1, 1), LocalDate.now());
         Mockito.when(userService.getUserById(anyInt())).thenReturn(user);
 
-        mockMvc.perform(get("/api/users/1"))
+        mockMvc.perform(get("/users/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value("JohnDoe"));
     }
@@ -83,7 +93,7 @@ public class UserControllerTest {
         UserDTO user = new UserDTO(1, "JohnDoe", "john@example.com", LocalDate.of(1990, 1, 1), LocalDate.now());
         Mockito.when(userService.getUserByUsername(anyString())).thenReturn(ResponseEntity.ok(user));
 
-        mockMvc.perform(get("/api/users")
+        mockMvc.perform(get("/users")
                         .param("username", "JohnDoe"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value("JohnDoe"));
@@ -95,7 +105,7 @@ public class UserControllerTest {
         Mockito.when(userService.updateUser(anyInt(), any(UserDTO.class)))
                 .thenReturn(ResponseEntity.ok("User updated successfully"));
 
-        mockMvc.perform(put("/api/users/1")
+        mockMvc.perform(put("/users/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"id\":1,\"username\":\"JohnDoe\",\"email\":\"john@example.com\",\"dateOfBirth\":\"1990-01-01\",\"dateCreated\":\"2023-01-01\"}"))
                 .andExpect(status().isOk())
@@ -107,7 +117,7 @@ public class UserControllerTest {
         Mockito.when(userService.deleteUser(anyInt()))
                 .thenReturn(ResponseEntity.ok("User deleted successfully"));
 
-        mockMvc.perform(delete("/api/users/1"))
+        mockMvc.perform(delete("/users/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("User deleted successfully"));
     }
@@ -117,7 +127,7 @@ public class UserControllerTest {
         Mockito.when(userService.deleteUserByUsername(anyString()))
                 .thenReturn(ResponseEntity.ok("User deleted successfully"));
 
-        mockMvc.perform(delete("/api/users")
+        mockMvc.perform(delete("/users")
                         .param("username", "JohnDoe"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("User deleted successfully"));
