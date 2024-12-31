@@ -49,12 +49,15 @@ public class BookService {
     }
 
     public List<BookListingDTO> getLatestBooks() {
-        Pageable pageable = PageRequest.of(0, 10,
+        // get 10 latest added book
+        final int pageSize = 10;
+        Pageable pageable = PageRequest.of(0, pageSize,
             Sort.by(Sort.Direction.DESC, "bookId"));
 
         return bookRepository.findAll(pageable)
                 .stream().map(bookListingDTOMapper).collect(Collectors.toList());
     }
+
     public BookDTO getBookPageViewById(Integer bookId) {
         Book book = bookRepository.findById(bookId).orElse(null);
         BookDTO bookDTO = null;
