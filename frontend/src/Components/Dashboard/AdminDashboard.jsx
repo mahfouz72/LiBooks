@@ -1,0 +1,441 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+function AdminDashboard() {
+  // State for managing data
+  const [books, setBooks] = useState([]);
+  const [authors, setAuthors] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [totalBooks, setTotalBooks] = useState(0);
+  const [totalAuthors, setTotalAuthors] = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
+
+  // State for form inputs
+  const [bookForm, setBookForm] = useState({
+    title: "",
+    cover: null,
+    isbn: "",
+    genre: "",
+    language: "",
+    publicationDate: "",
+    summary: "",
+    authors: [],
+  });
+
+  const [authorForm, setAuthorForm] = useState({
+    name: "",
+    photo: null,
+    biography: "",
+    dob: "",
+    nationality: "",
+  });
+  const [isbnToDelete, setIsbnToDelete] = useState("");
+
+
+  const fetchData = async (url, setter, method = "GET", data = null) => {
+    try {
+        let response;
+        if (method === "POST") {
+            response = await axios.post(url, data);
+        } 
+        else if (method === "PUT") {
+            response = await axios.put(url);
+        }
+        else if (method === "DELETE") {
+            response = await axios.delete(url);
+        }
+        else {
+            response = await axios.get(url);
+        } 
+        setter(response.data);
+        console.log(response.data);
+    } catch (error) {
+        console.error("Error fetching data:", error);
+    }
+};
+
+useEffect(() => {
+    fetchData('http://localhost:8080/api/authors/count', setTotalAuthors, 'GET');
+    fetchData('http://localhost:8080/books/count', setTotalBooks, 'GET');
+    fetchData('http://localhost:8080/users/count', setTotalUsers, 'GET');
+}, []);
+
+  // Handlers for adding a new book
+  const handleAddBook = (e) => {
+    e.preventDefault();
+    setBooks([...books, bookForm]);
+    setBookForm({
+      title: "",
+      cover: null,
+      isbn: "",
+      genre: "",
+      language: "",
+      publicationDate: "",
+      summary: "",
+      authors: [],
+    });
+  };
+
+  // Handlers for adding a new author
+  const handleAddAuthor = (e) => {
+    e.preventDefault();
+    setAuthors([...authors, authorForm]);
+    setAuthorForm({ name: "", photo: null, biography: "", dob: "", nationality: "" });
+  };
+
+  // Handle image preview for books and authors
+  const handleImageUpload = (e, field) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (field === "cover") {
+        setBookForm({ ...bookForm, cover: reader.result });
+      } else if (field === "photo") {
+        setAuthorForm({ ...authorForm, photo: reader.result });
+      }
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Toggle user disabled status
+  const toggleUserStatus = (id) => {
+    setUsers(
+      users.map((user) =>
+        user.id === id ? { ...user, disabled: !user.disabled } : user
+      )
+    );
+  };
+
+  // Delete book by ISBN
+    const handleDeleteBook = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.delete(`http://localhost:8080/books/delete-by-isbn?isbn=${isbnToDelete}`);
+            if (response.status === 200) {
+                setTotalBooks(totalBooks - 1);
+                setIsbnToDelete("");
+            }
+        } catch (error) {
+            console.error("Error deleting book:", error);
+        }
+    };
+
+  return (
+    <div style={containerStyle}>
+      <h1 style={headerStyle}>Admin Dashboard</h1>
+
+      {/* Dashboard Stats */}
+      <div style={statsStyle}>
+        <div style={statCardStyle}>
+          Number of Books: <strong>{totalBooks}</strong>
+        </div>
+        <div style={statCardStyle}>
+          Number of Authors: <strong>{totalAuthors}</strong>
+        </div>
+        <div style={statCardStyle}>
+          Number of Users: <strong>{totalUsers}</strong>
+        </div>
+      </div>
+
+      {/* Add New Book Form */}
+      <h2 style={formTitleStyle}>Add New Book</h2>
+      <form onSubmit={handleAddBook} style={formStyle}>
+        <input
+          type="text"
+          placeholder="Title"
+          value={bookForm.title}
+          onChange={(e) => setBookForm({ ...bookForm, title: e.target.value })}
+          required
+          style={inputStyle}
+        />
+        <input
+          type="file"
+          onChange={(e) => handleImageUpload(e, "cover")}
+          accept="image/*"
+          style={inputStyle}
+        />
+        {bookForm.cover && <img src={bookForm.cover} alt="Book Cover" style={imagePreviewStyle} />}
+        <input
+          type="text"
+          placeholder="ISBN"
+          value={bookForm.isbn}
+          onChange={(e) => setBookForm({ ...bookForm, isbn: e.target.value })}
+          style={inputStyle}
+        />
+        <input
+          type="text"
+          placeholder="Genre"
+          value={bookForm.genre}
+          onChange={(e) => setBookForm({ ...bookForm, genre: e.target.value })}
+          style={inputStyle}
+        />
+        <input
+          type="text"
+          placeholder="Language"
+          value={bookForm.language}
+          onChange={(e) => setBookForm({ ...bookForm, language: e.target.value })}
+          style={inputStyle}
+        />
+        <input
+          type="date"
+          value={bookForm.publicationDate}
+          onChange={(e) => setBookForm({ ...bookForm, publicationDate: e.target.value })}
+          style={inputStyle}
+        />
+        <textarea
+          placeholder="Summary"
+          value={bookForm.summary}
+          onChange={(e) => setBookForm({ ...bookForm, summary: e.target.value })}
+          style={textareaStyle}
+        ></textarea>
+        <button type="submit" style={buttonStyle}>Add Book</button>
+      </form>
+      
+      {/* Delete Book Form */}
+      <h2 style={formTitleStyle}>Delete Book by ISBN</h2>
+      <form onSubmit={handleDeleteBook} style={formStyle}>
+        <input
+          type="text"
+          placeholder="Enter ISBN to Delete"
+          value={isbnToDelete}
+          onChange={(e) => setIsbnToDelete(e.target.value)}
+          style={inputStyle}
+        />
+        <button type="submit" style={buttonStyle}>Delete Book</button>
+      </form>
+
+      {/* Add New Author Form */}
+      <h2 style={formTitleStyle}>Add New Author</h2>
+      <form onSubmit={handleAddAuthor} style={formStyle}>
+        <input
+          type="text"
+          placeholder="Name"
+          value={authorForm.name}
+          onChange={(e) => setAuthorForm({ ...authorForm, name: e.target.value })}
+          required
+          style={inputStyle}
+        />
+        <input
+          type="file"
+          onChange={(e) => handleImageUpload(e, "photo")}
+          accept="image/*"
+          style={inputStyle}
+        />
+        {authorForm.photo && <img src={authorForm.photo} alt="Author" style={imagePreviewStyle} />}
+        <textarea
+          placeholder="Biography"
+          value={authorForm.biography}
+          onChange={(e) => setAuthorForm({ ...authorForm, biography: e.target.value })}
+          style={textareaStyle}
+        ></textarea>
+        <input
+          type="date"
+          value={authorForm.dob}
+          onChange={(e) => setAuthorForm({ ...authorForm, dob: e.target.value })}
+          style={inputStyle}
+        />
+        <input
+          type="text"
+          placeholder="Nationality"
+          value={authorForm.nationality}
+          onChange={(e) => setAuthorForm({ ...authorForm, nationality: e.target.value })}
+          style={inputStyle}
+        />
+        <button type="submit" style={buttonStyle}>Add Author</button>
+      </form>
+
+      {/* Authors Table */}
+      <h2 style={tableTitleStyle}>All Authors</h2>
+      <table style={tableStyle}>
+        <thead>
+          <tr style={tableHeaderStyle}>
+            <th>Name</th>
+            <th>Photo</th>
+            <th>Biography</th>
+            <th>Date of Birth</th>
+            <th>Nationality</th>
+          </tr>
+        </thead>
+        <tbody>
+          {authors.map((author, index) => (
+            <tr key={index} style={index % 2 === 0 ? rowStyleEven : rowStyleOdd}>
+              <td>{author.name}</td>
+              <td><img src={author.photo} alt={author.name} style={imageCellStyle} /></td>
+              <td>{author.biography}</td>
+              <td>{author.dob}</td>
+              <td>{author.nationality}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Users Table */}
+      <h2 style={tableTitleStyle}>All Users</h2>
+      <table style={tableStyle}>
+        <thead>
+          <tr style={tableHeaderStyle}>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.id} style={userRowStyle(user.disabled)}>
+              <td>{user.name}</td>
+              <td>{user.disabled ? "Disabled" : "Active"}</td>
+              <td>
+                <button onClick={() => toggleUserStatus(user.id)} style={toggleButtonStyle}>
+                  {user.disabled ? "Enable" : "Disable"}
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// Styling
+
+const containerStyle = {
+  backgroundColor: "#f0f4f8",
+  padding: "30px",
+  fontFamily: "'Roboto', sans-serif",
+  maxWidth: "1200px",
+  margin: "0 auto",
+  borderRadius: "10px",
+};
+
+const headerStyle = {
+  fontSize: "36px",
+  color: "#333",
+  textAlign: "center",
+  marginBottom: "40px",
+  textTransform: "uppercase",
+};
+
+const statsStyle = {
+  display: "flex",
+  justifyContent: "space-between",
+  marginBottom: "30px",
+};
+
+const statCardStyle = {
+  backgroundColor: "#fff",
+  padding: "15px 30px",
+  borderRadius: "8px",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+  width: "30%",
+  textAlign: "center",
+};
+
+const formTitleStyle = {
+  fontSize: "24px",
+  marginBottom: "20px",
+};
+
+const formStyle = {
+  backgroundColor: "#fff",
+  padding: "20px",
+  borderRadius: "8px",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+  marginBottom: "40px",
+};
+
+const inputStyle = {
+  padding: "12px",
+  margin: "10px 0",
+  borderRadius: "5px",
+  border: "1px solid #ccc",
+  width: "100%",
+  maxWidth: "400px",
+  boxSizing: "border-box",
+  fontSize: "16px",
+};
+
+const textareaStyle = {
+  padding: "12px",
+  margin: "10px 0",
+  borderRadius: "5px",
+  border: "1px solid #ccc",
+  width: "100%",
+  height: "120px",
+  fontSize: "16px",
+};
+
+const buttonStyle = {
+  padding: "12px 30px",
+  backgroundColor: "#4CAF50",
+  color: "#fff",
+  border: "none",
+  borderRadius: "5px",
+  fontSize: "16px",
+  cursor: "pointer",
+  marginTop: "15px",
+  transition: "background-color 0.3s",
+};
+
+const buttonHoverStyle = {
+  backgroundColor: "#45a049",
+};
+
+const tableStyle = {
+  width: "100%",
+  marginTop: "20px",
+  borderCollapse: "collapse",
+  borderRadius: "8px",
+  overflow: "hidden",
+};
+
+const tableHeaderStyle = {
+  backgroundColor: "#f2f2f2",
+  textAlign: "left",
+  fontWeight: "bold",
+};
+
+const rowStyleEven = {
+  backgroundColor: "#fff",
+};
+
+const rowStyleOdd = {
+  backgroundColor: "#f9f9f9",
+};
+
+const imageCellStyle = {
+  width: "50px",
+  height: "50px",
+  objectFit: "cover",
+  borderRadius: "50%",
+};
+
+const tableTitleStyle = {
+  fontSize: "24px",
+  marginBottom: "20px",
+};
+
+const userRowStyle = (disabled) => ({
+  backgroundColor: disabled ? "#f8d7da" : "#fff",
+});
+
+const toggleButtonStyle = {
+  padding: "8px 15px",
+  backgroundColor: "#007bff",
+  color: "#fff",
+  border: "none",
+  borderRadius: "5px",
+  cursor: "pointer",
+};
+
+const imagePreviewStyle = {
+    width: "150px",
+    height: "auto",
+    marginTop: "10px",
+    borderRadius: "8px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+};
+  
+export default AdminDashboard;

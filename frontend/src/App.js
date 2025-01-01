@@ -14,6 +14,7 @@ import BookDetailsPage from "./pages/BookDetails/BookDetailsPage";
 import BookShelfBooks from "./Components/BookShelves/BookShelfBooks.jsx";
 import EmailVerification from './pages/EmailVerification/emailVerification.jsx';
 import Home from './pages/Home/Home.jsx';
+import AdminDashboard from './Components/Dashboard/AdminDashboard.jsx';
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
               <Route path="/BookBrowsingPage" element={<BookBrowsingPage />} />
               <Route path="/bookshelf/:bookShelfId" element={<BookShelfBooks />} />
               <Route path='/home' element={<Home />} />
+              <Route path='/dashboard' element={<AdminDashboard />} />
+
             </Routes>
           </main>
       </Router>
