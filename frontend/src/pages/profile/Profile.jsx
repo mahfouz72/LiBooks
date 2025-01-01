@@ -9,6 +9,10 @@ function Profile() {
     const [username, setUserName] = useState("")
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
+    const [isFollowing, setIsFollowing] = useState(false);
+    const [followersCount, setFollowersCount] = useState(0);
+    const [followingCount, setFollowingCount] = useState(0);
+
     const followersNumber = 2;
     const followingNumber = 1;
 
@@ -22,14 +26,17 @@ function Profile() {
                     headers: {"Authorization": `Bearer ${token}`},
                 }
             );
-            const data = await response.text();
-            console.log(data)
-            setUserName(data)
-            setFirstName(data)
-            setLastName(data)
+            const data = await response.json();
+            setUserName(data.username)
+            setFirstName(data.username)
+            setLastName(data.username)
+            setFollowersCount(data.followersCount);
+            setFollowingCount(data.followingCount);
+            setIsFollowing(data.isFollowing);
         };
         getUserName();
     }, [username, token]);
+
     return (
         <div className="profilePage">
             <Header />
@@ -42,10 +49,10 @@ function Profile() {
                         <p>@{username}</p>
                         <div className="follows">
                             <button className="followsButton">
-                                <span>{followersNumber}</span> Followers 
+                                <span>{followersCount}</span> Followers 
                             </button>
                             <button className="followsButton">
-                                <span>{followingNumber}</span> Following
+                                <span>{followingCount}</span> Following
                             </button>
                         </div>
                     </div>
