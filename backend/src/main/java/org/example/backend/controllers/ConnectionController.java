@@ -22,13 +22,13 @@ public class ConnectionController {
 
     @PostMapping("/follow/{followingUsername}/{followerUsername}")
     public void followUser(@PathVariable("followingUsername") String followingUsername,
-                                           @PathVariable("followerUsername") String followerUsername) {
+                           @PathVariable("followerUsername") String followerUsername) {
         connectionService.followUser(followingUsername, followerUsername);
     }
 
     @DeleteMapping("/unfollow/{followingUsername}/{followerUsername}")
     public void unfollowUser(@PathVariable("followingUsername") String followingUsername,
-                                             @PathVariable("followerUsername") String followerUsername) {
+                             @PathVariable("followerUsername") String followerUsername) {
         connectionService.unfollowUser(followingUsername, followerUsername);
     }
 
@@ -44,17 +44,20 @@ public class ConnectionController {
     }
 
     @GetMapping("/followings/{username}")
-    public ResponseEntity<List<UserDTO>> getFollowings(@PathVariable("username") String username) {
+    public ResponseEntity<List<UserDTO>> getFollowings(
+            @PathVariable("username") String username) {
         return connectionService.getAllFollowings(username);
     }
 
     @GetMapping("/number/followers/{username}")
-    public ResponseEntity<Integer> getNumberOfFollowers(@PathVariable("username") String username) {
+    public ResponseEntity<Integer> getNumberOfFollowers(
+            @PathVariable("username") String username) {
         return connectionService.getNumberOfFollowers(username);
     }
 
     @GetMapping("/number/followings/{username}")
-    public ResponseEntity<Integer> getNumberOfFollowings(@PathVariable("username") String username) {
+    public ResponseEntity<Integer> getNumberOfFollowings(
+            @PathVariable("username") String username) {
         return connectionService.getNumberOfFollowings(username);
     }
 }

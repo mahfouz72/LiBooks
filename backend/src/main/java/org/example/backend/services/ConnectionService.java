@@ -24,16 +24,23 @@ public class ConnectionService {
         this.userService = userService;
         this.userDTOMapper = userDTOMapper;
     }
-
+    /**
+     * Establishes a connection between a follower and a user being followed.
+     *
+     * @param followingUsername the username of the user to be followed
+     * @param followerUsername the username of the user who wants to follow
+     * @throws IllegalStateException if a user tries to follow themselves
+     *                               or if the follower is already following the user
+     */
     public void followUser(String followingUsername, String followerUsername) {
-        if(followingUsername.equals(followerUsername)) {
+        if (followingUsername.equals(followerUsername)) {
             throw new IllegalStateException("User cannot be a follower to him/her self");
         }
 
         User following = userService.getUserByUsername(followingUsername);
         User follower = userService.getUserByUsername(followerUsername);
 
-        if(connectionsRepository.existsByFollowerAndFollowing(follower, following)) {
+        if (connectionsRepository.existsByFollowerAndFollowing(follower, following)) {
             throw new IllegalStateException("Already following this user");
         }
 
@@ -46,14 +53,14 @@ public class ConnectionService {
 
     @Transactional
     public void unfollowUser(String followingUsername, String followerUsername) {
-        if(followingUsername.equals(followerUsername)) {
+        if (followingUsername.equals(followerUsername)) {
             throw new IllegalStateException("User cannot unfollow him/her self");
         }
 
         User following = userService.getUserByUsername(followingUsername);
         User follower = userService.getUserByUsername(followerUsername);
 
-        if(!connectionsRepository.existsByFollowerAndFollowing(follower, following)) {
+        if (!connectionsRepository.existsByFollowerAndFollowing(follower, following)) {
             throw new IllegalStateException("This connection does not exist");
         }
 
