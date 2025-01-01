@@ -22,7 +22,7 @@ function Bookworm() {
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/users/${username}`, {
+                const response = await fetch(`http://localhost:8080/bookworms/${username}`, {
                     method: 'GET',
                     headers: {
                         "Authorization": `Bearer ${token}`,
