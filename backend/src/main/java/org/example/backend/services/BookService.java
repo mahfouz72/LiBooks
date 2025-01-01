@@ -99,6 +99,10 @@ public class BookService {
      * @return a ResponseEntity with a success message
      */
     public ResponseEntity<String> addBook(BookDTO bookDTO) {
+        Book existingBook = bookRepository.findByIsbn(bookDTO.isbn());
+        if (existingBook != null) {
+            return ResponseEntity.badRequest().body("Book already exists");
+        }
         Book book = Book.builder()
                 .bookTitle(bookDTO.bookTitle())
                 .isbn(bookDTO.isbn())

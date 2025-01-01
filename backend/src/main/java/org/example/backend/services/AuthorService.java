@@ -28,6 +28,10 @@ public class AuthorService {
     }
 
     public ResponseEntity<String> addAuthor(AuthorDTO authorDTO) {
+        Author existAuthor = authorRepository.findByAuthorName(authorDTO.authorName());
+        if (existAuthor != null) {
+            return ResponseEntity.badRequest().body("Author already exists");
+        }
         Author author = Author.builder()
                 .authorName(authorDTO.authorName())
                 .authorPhoto(authorDTO.authorPhoto())

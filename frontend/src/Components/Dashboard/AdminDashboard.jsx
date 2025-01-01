@@ -14,11 +14,11 @@ function AdminDashboard() {
 
   // State for form inputs
   const [bookForm, setBookForm] = useState({
-    title: "",
-    cover: null,
+    bookTitle: "",
+    bookCover: null,
     isbn: "",
     genre: "",
-    language: "",
+    languageOfOrigin: "",
     publicationDate: "",
     summary: "",
     authors: [],
@@ -73,19 +73,28 @@ useEffect(() => {
 }, [totalUsers]);
 
   // Handlers for adding a new book
-  const handleAddBook = (e) => {
+  const handleAddBook = async (e) => {
     e.preventDefault();
-    setBooks([...books, bookForm]);
-    setBookForm({
-      title: "",
-      cover: null,
-      isbn: "",
-      genre: "",
-      language: "",
-      publicationDate: "",
-      summary: "",
-      authors: [],
-    });
+    console.log(bookForm);
+    try {
+        const response = await axios.post('http://localhost:8080/books/add-book', bookForm);
+        if (response.status === 200) {
+            setTotalBooks(totalBooks + 1);
+            setBookForm({
+                bookTitle: "",
+                bookCover: null,
+                isbn: "",
+                genre: "",
+                languageOfOrigin: "",
+                publicationDate: "",
+                summary: "",
+                authors: [],
+              });
+        }
+    } catch (error) {
+        console.error("Error adding book:", error);
+    }
+    
   };
 
   // Handlers for adding a new author
@@ -146,7 +155,7 @@ useEffect(() => {
                 console.error("Error deleting book:", error);
             }
         }
-      };
+    };
 
   return (
     <div style={containerStyle}>
@@ -166,58 +175,97 @@ useEffect(() => {
       </div>
 
       {/* Add New Book Form */}
-      <h2 style={formTitleStyle}>Add New Book</h2>
-      <form onSubmit={handleAddBook} style={formStyle}>
+    <h2 style={formTitleStyle}>Add New Book</h2>
+    <form onSubmit={handleAddBook} style={formStyle}>
+    <input
+        type="text"
+        placeholder="Title"
+        value={bookForm.bookTitle}
+        onChange={(e) => setBookForm({ ...bookForm, bookTitle: e.target.value })}
+        required
+        style={inputStyle}
+    />
+    <input
+        type="file"
+        onChange={(e) => handleImageUpload(e, "cover")}
+        accept="image/*"
+        style={inputStyle}
+    />
+    {bookForm.bookCover && <img src={bookForm.bookCover} alt="Book Cover" style={imagePreviewStyle} />}
+    <input
+        type="text"
+        placeholder="ISBN"
+        value={bookForm.isbn}
+        onChange={(e) => setBookForm({ ...bookForm, isbn: e.target.value })}
+        style={inputStyle}
+    />
+    <input
+        type="text"
+        placeholder="Genre"
+        value={bookForm.genre}
+        onChange={(e) => setBookForm({ ...bookForm, genre: e.target.value })}
+        style={inputStyle}
+    />
+    <input
+        type="text"
+        placeholder="Language"
+        value={bookForm.languageOfOrigin}
+        onChange={(e) => setBookForm({ ...bookForm, languageOfOrigin: e.target.value })}
+        style={inputStyle}
+    />
+    <input
+        type="date"
+        value={bookForm.publicationDate}
+        onChange={(e) => setBookForm({ ...bookForm, publicationDate: e.target.value })}
+        style={inputStyle}
+    />
+    <textarea
+        placeholder="Summary"
+        value={bookForm.summary}
+        onChange={(e) => setBookForm({ ...bookForm, summary: e.target.value })}
+        style={textareaStyle}
+    ></textarea>
+
+  {/* Authors Input */}
+    <div>
+    <h3>Authors</h3>
+    {bookForm.authors.map((author, index) => (
+      <div key={index} style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
         <input
           type="text"
-          placeholder="Title"
-          value={bookForm.title}
-          onChange={(e) => setBookForm({ ...bookForm, title: e.target.value })}
-          required
+          placeholder={`Author ${index + 1}`}
+          value={author}
+          onChange={(e) => {
+            const updatedAuthors = [...bookForm.authors];
+            updatedAuthors[index] = e.target.value;
+            setBookForm({ ...bookForm, authors: updatedAuthors });
+          }}
           style={inputStyle}
         />
-        <input
-          type="file"
-          onChange={(e) => handleImageUpload(e, "cover")}
-          accept="image/*"
-          style={inputStyle}
-        />
-        {bookForm.cover && <img src={bookForm.cover} alt="Book Cover" style={imagePreviewStyle} />}
-        <input
-          type="text"
-          placeholder="ISBN"
-          value={bookForm.isbn}
-          onChange={(e) => setBookForm({ ...bookForm, isbn: e.target.value })}
-          style={inputStyle}
-        />
-        <input
-          type="text"
-          placeholder="Genre"
-          value={bookForm.genre}
-          onChange={(e) => setBookForm({ ...bookForm, genre: e.target.value })}
-          style={inputStyle}
-        />
-        <input
-          type="text"
-          placeholder="Language"
-          value={bookForm.language}
-          onChange={(e) => setBookForm({ ...bookForm, language: e.target.value })}
-          style={inputStyle}
-        />
-        <input
-          type="date"
-          value={bookForm.publicationDate}
-          onChange={(e) => setBookForm({ ...bookForm, publicationDate: e.target.value })}
-          style={inputStyle}
-        />
-        <textarea
-          placeholder="Summary"
-          value={bookForm.summary}
-          onChange={(e) => setBookForm({ ...bookForm, summary: e.target.value })}
-          style={textareaStyle}
-        ></textarea>
-        <button type="submit" style={buttonStyle}>Add Book</button>
-      </form>
+        <button
+          type="button"
+          onClick={() => {
+            const updatedAuthors = bookForm.authors.filter((_, i) => i !== index);
+            setBookForm({ ...bookForm, authors: updatedAuthors });
+          }}
+          style={buttonStyle}
+        >
+          Remove
+        </button>
+      </div>
+    ))}
+    <button
+      type="button"
+      onClick={() =>
+        setBookForm({ ...bookForm, authors: [...bookForm.authors, ""] })
+      }
+      style={buttonStyle}
+    >
+      Add Author
+    </button>
+    </div>
+    <button type="submit" style={buttonStyle}>Add Book</button>
+    </form>
       
       {/* Delete Book Form */}
       <h2 style={formTitleStyle}>Delete Book by ISBN</h2>
