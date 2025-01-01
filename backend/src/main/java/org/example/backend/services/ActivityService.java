@@ -25,6 +25,12 @@ public class ActivityService {
         this.reviewService = reviewService;
     }
 
+    /**
+     * Retrieves the 10 most recent activities from the current user's followings,
+     * sorted by date in descending order.
+     *
+     * @return a list of up to 10 {@link ActivityDTO} objects.
+     */
     public List<ActivityDTO> getAllActivities() {
         final String currentUsername = userAuthenticationService.getCurrentUsername();
         ResponseEntity<List<UserDTO>> getAllFollowingResponse =
