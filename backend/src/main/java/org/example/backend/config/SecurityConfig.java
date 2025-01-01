@@ -47,15 +47,25 @@ public class SecurityConfig {
         );
         return jdbcUserDetailsManager;
     }
+    /**
+     * Configures the security filter chain for the application.
+     *
+     * @param http the {@link HttpSecurity} object used to configure security
+     * @return the configured {@link SecurityFilterChain}
+     * @throws Exception if an error occurs while configuring the security filter chain
+     */
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login/**", "/register/**", "/forgetPassword",
                                 "/resetPassword", "/verification/**", "/search/**",
-                                "/books/**", "/api/**", "/users/**")
+                                "/books/**", "/api/**", "/users/**",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs.yaml",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html", "/connection/**")
                         .permitAll()
                         .anyRequest().authenticated()
                 )

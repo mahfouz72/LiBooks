@@ -6,6 +6,7 @@ import org.example.backend.repositories.UserRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,6 +46,10 @@ public class UserService {
         return ResponseEntity.ok("Email is unique and could be registered.");
     }
 
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
 
     public UserDTO getUserById(Integer id) {
         Optional<User> user = userRepository.findById(id);
@@ -57,7 +62,7 @@ public class UserService {
         return userDTO;
     }
 
-    public ResponseEntity<UserDTO> getUserByUsername(String username) {
+    public ResponseEntity<UserDTO> getUserDTOByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
 
         if (user.isEmpty()) {

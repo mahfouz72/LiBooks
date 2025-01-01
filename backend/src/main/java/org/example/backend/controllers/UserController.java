@@ -2,9 +2,12 @@ package org.example.backend.controllers;
 
 import org.example.backend.models.dtos.UserDTO;
 import org.example.backend.services.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,11 +18,6 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @GetMapping("/username")
-    public String getUsername() {
-        return userService.getCurrentUsername();
     }
 
     @GetMapping("/users/count")
@@ -47,7 +45,7 @@ public class UserController {
     public ResponseEntity<UserDTO> getUserByUsername(
             @RequestParam String username
     ) {
-        return userService.getUserByUsername(username);
+        return userService.getUserDTOByUsername(username);
     }
 
     @PutMapping("/users/{id}")
