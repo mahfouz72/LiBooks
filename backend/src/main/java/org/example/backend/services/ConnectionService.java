@@ -32,6 +32,7 @@ public class ConnectionService {
      * @throws IllegalStateException if a user tries to follow themselves
      *                               or if the follower is already following the user
      */
+
     public void followUser(String followingUsername, String followerUsername) {
         if (followingUsername.equals(followerUsername)) {
             throw new IllegalStateException("User cannot be a follower to him/her self");

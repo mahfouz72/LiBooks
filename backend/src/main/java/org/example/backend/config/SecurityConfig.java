@@ -54,6 +54,7 @@ public class SecurityConfig {
      * @return the configured {@link SecurityFilterChain}
      * @throws Exception if an error occurs while configuring the security filter chain
      */
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
