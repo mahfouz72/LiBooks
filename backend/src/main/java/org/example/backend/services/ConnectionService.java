@@ -7,6 +7,7 @@ import org.example.backend.repositories.ConnectionsRepository;
 import org.example.backend.services.mappers.UserDTOMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +44,7 @@ public class ConnectionService {
         connectionsRepository.save(connection);
     }
 
+    @Transactional
     public void unfollowUser(String followingUsername, String followerUsername) {
         if(followingUsername.equals(followerUsername)) {
             throw new IllegalStateException("User cannot unfollow him/her self");

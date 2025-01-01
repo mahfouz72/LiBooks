@@ -13,6 +13,7 @@ import ResetPasswordForm from './pages/forgetPassword/ResetPasswordForm';
 import BookDetailsPage from "./pages/BookDetails/BookDetailsPage";
 import BookShelfBooks from "./Components/BookShelves/BookShelfBooks.jsx";
 import EmailVerification from './pages/EmailVerification/emailVerification.jsx';
+import BookWorm from './pages/bookworm/Bookworm.jsx';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
               <Route path="/book/:bookId" element={<BookDetailsPage />} />
               <Route path="/BookBrowsingPage" element={<BookBrowsingPage />} />
               <Route path="/bookshelf/:bookShelfId" element={<BookShelfBooks />} />
+              <Route path="/:username" element={<BookWorm />} />
             </Routes>
           </main>
       </Router>
