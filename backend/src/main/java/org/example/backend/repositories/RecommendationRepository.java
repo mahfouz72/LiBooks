@@ -17,6 +17,6 @@ public interface RecommendationRepository extends JpaRepository<Recommendation, 
         SELECT r.book
         FROM Recommendation r
         WHERE r.user.id = :userId
-    """)
+        """)
     List<Book> findAllByUserId(@Param("userId") Integer userId);
 }
