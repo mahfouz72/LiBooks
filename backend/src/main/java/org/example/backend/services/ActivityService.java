@@ -40,7 +40,8 @@ public class ActivityService {
         }
 
         activities.sort(Comparator.comparing(ActivityDTO::date).reversed());
-        return activities.subList(0, Math.min(10, activities.size()));
+        final int count = 10;
+        return activities.subList(0, Math.min(count, activities.size()));
     }
 
     /**
