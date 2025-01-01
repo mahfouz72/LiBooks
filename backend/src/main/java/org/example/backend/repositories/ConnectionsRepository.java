@@ -12,8 +12,11 @@ import java.util.List;
 @Repository
 public interface ConnectionsRepository extends JpaRepository<Connection, Integer> {
     List<Connection> findByFollower(User follower);
+
     List<Connection> findByFollowing(User following);
+
     boolean existsByFollowerAndFollowing(User follower, User following);
+
     void deleteByFollowerAndFollowing(User follower, User following);
 
     @Query("SELECT COUNT(c) FROM Connection c WHERE c.following = :user")
@@ -22,7 +25,10 @@ public interface ConnectionsRepository extends JpaRepository<Connection, Integer
     @Query("SELECT COUNT(c) FROM Connection c WHERE c.follower = :user")
     int countFollowing(@Param("user") User user);
 
-    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END FROM Connection c WHERE c.follower.id = :currentUserId AND c.following.id = :userId")
-    boolean existsByFollowerAndFollowing(@Param("currentUserId") Integer currentUserId, @Param("userId") Integer userId);
-
+    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END " +
+            "FROM Connection c " +
+            "WHERE c.follower.id = :currentUserId AND c.following.id = :userId")
+    boolean existsByFollowerAndFollowing(
+            @Param("currentUserId") Integer currentUserId,
+            @Param("userId") Integer userId);
 }
