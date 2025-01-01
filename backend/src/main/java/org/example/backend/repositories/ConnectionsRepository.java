@@ -15,8 +15,6 @@ public interface ConnectionsRepository extends JpaRepository<Connection, Integer
 
     List<Connection> findByFollowing(User following);
 
-    boolean existsByFollowerAndFollowing(User follower, User following);
-
     void deleteByFollowerAndFollowing(User follower, User following);
 
     @Query("SELECT COUNT(c) FROM Connection c WHERE c.following = :user")
@@ -31,4 +29,6 @@ public interface ConnectionsRepository extends JpaRepository<Connection, Integer
     boolean existsByFollowerAndFollowing(
             @Param("currentUserId") Integer currentUserId,
             @Param("userId") Integer userId);
+
+    boolean existsByFollowerAndFollowing(User follower, User following);
 }
