@@ -1,0 +1,9 @@
+.rating-header {
+    display: flex;
+    flex-direction: row;
+    width: 61vw;
+}
+
+.review-date {
+    margin-left: auto;
+}

@@ -5,6 +5,7 @@ import lombok.Builder;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import java.util.*;
 import java.math.BigDecimal;
@@ -33,9 +34,10 @@ public class Book {
     @Column(length = MAX_ISBN_LENGTH, unique = true)
     private String isbn;
 
+    @Formula("(SELECT COUNT(r.review_id) FROM review r WHERE r.book_id = book_id)")
     private Integer ratingsCount;
 
-    @Column(precision = 2, scale = 1)
+    @Formula("(SELECT AVG(r.rating) FROM review r WHERE r.book_id = book_id)")
     private BigDecimal rating;
 
     @Column(length = MAX_SUMMARY_LENGTH)
@@ -55,10 +57,10 @@ public class Book {
     @Column(length = MAX_GENRE_LENGTH)
     private String genre;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AuthorBook> authorBooks;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 
     public List<String> getAuthors() {

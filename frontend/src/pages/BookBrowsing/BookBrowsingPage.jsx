@@ -43,7 +43,7 @@ function BookBrowsingPage() {
         <Stack spacing={4} width="100vw">
             <Header />
             <Stack direction="row" justifyContent="center" spacing={2}>
-                <BookList books={books} sx={{ width: "70%" }} />
+                <BookList books={books} sx={{ width: "80%"}}/>
             </Stack>
         </Stack>
     );

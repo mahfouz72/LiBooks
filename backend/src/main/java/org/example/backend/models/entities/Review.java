@@ -1,6 +1,6 @@
 package org.example.backend.models.entities;
 
-
+import java.util.Date;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +24,8 @@ public class Review {
     private String reviewText;
 
     private BigDecimal rating;
+
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "book_id")

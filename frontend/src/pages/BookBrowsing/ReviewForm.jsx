@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TextField, Rating, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 
 function ReviewForm({ onSubmit, onClose }) {
-    const [newReview, setNewReview] = useState({rating: 0, reviewText: '' });
+    const [newReview, setNewReview] = useState({rating: 0, reviewText: '' ,date: new Date().toISOString().slice(0, 19)});
 
     const handleInputChange = (e) => {
         setNewReview({ ...newReview, [e.target.name]: e.target.value });
