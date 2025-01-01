@@ -9,8 +9,12 @@ function AdminDashboard() {
   const [totalBooks, setTotalBooks] = useState(0);
   const [totalAuthors, setTotalAuthors] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [currentSize, setCurrentSize] = useState(5);
+  const [currentPage2, setCurrentPage2] = useState(1);
+  const [currentSize2, setCurrentSize2] = useState(5);
+  const [isbnToDelete, setIsbnToDelete] = useState("");
+
 
   // State for form inputs
   const [bookForm, setBookForm] = useState({
@@ -31,7 +35,7 @@ function AdminDashboard() {
     authorBirthDate: "",
     nationality: "",
   });
-  const [isbnToDelete, setIsbnToDelete] = useState("");
+  
 
 
   const fetchData = async (url, setter, method = "GET", data = null) => {
@@ -63,12 +67,12 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-    fetchData(`http://localhost:8080/api/authors/all?page=${currentPage}&size=${currentSize}`, setAuthors, 'POST', { page: currentPage, size: currentSize });
+    fetchData(`http://localhost:8080/api/authors/all?page=${currentPage-1}&size=${currentSize}`, setAuthors, 'POST');
 
-}, []);
+}, [currentPage]);
 
 useEffect(() => {
-    fetchData(`http://localhost:8080/users/all?page=${currentPage}&size=${currentSize}`, setUsers, 'POST', { page: currentPage, size: currentSize });
+    fetchData(`http://localhost:8080/users/all?page=${currentPage-1}&size=${currentSize}`, setUsers, 'POST', { page: currentPage-1, size: currentSize });
 
 }, [totalUsers]);
 
@@ -277,7 +281,7 @@ useEffect(() => {
           onChange={(e) => setIsbnToDelete(e.target.value)}
           style={inputStyle}
         />
-        <button type="submit" style={buttonStyle}>Delete Book</button>
+        <button type="submit" style={deleteButtonStyle}>Delete Book</button>
       </form>
 
       {/* Add New Author Form */}
@@ -344,6 +348,24 @@ useEffect(() => {
           ))}
         </tbody>
       </table>
+        {/* Pagination Controls */}
+        <div style={paginationStyle}>
+        <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            style={paginationButtonStyle}
+        >
+            Previous
+        </button>
+        <span>Page {currentPage} of {Math.ceil(totalAuthors / currentSize)}</span>
+        <button
+            disabled={currentPage === Math.ceil(totalAuthors / currentSize)}
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(totalAuthors / currentSize)))}
+            style={paginationButtonStyle}
+        >
+            Next
+        </button>
+        </div>
 
       {/* Users Table */}
         <h2 style={tableTitleStyle}>All Users</h2>
@@ -369,6 +391,24 @@ useEffect(() => {
             ))}
         </tbody>
         </table>
+        {/* Pagination Controls */}
+        <div style={paginationStyle}>
+        <button
+            disabled={currentPage2 === 1}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            style={paginationButtonStyle}
+        >
+            Previous
+        </button>
+        <span>Page {currentPage2} of {Math.ceil(totalUsers / currentSize2)}</span>
+        <button
+            disabled={currentPage2 === Math.ceil(totalUsers / currentSize2)}
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(totalUsers / currentSize2)))}
+            style={paginationButtonStyle}
+        >
+            Next
+        </button>
+        </div>
     </div>
   );
 }
@@ -379,7 +419,7 @@ const containerStyle = {
   backgroundColor: "#f0f4f8",
   padding: "30px",
   fontFamily: "'Roboto', sans-serif",
-  maxWidth: "1200px",
+  maxWidth: "85%",
   margin: "0 auto",
   borderRadius: "10px",
 };
@@ -453,11 +493,6 @@ const buttonStyle = {
   transition: "background-color 0.3s",
 };
 
-const buttonHoverStyle = {
-  backgroundColor: "#45a049",
-};
-
-
 const rowStyleEven = {
   backgroundColor: "#fff",
 };
@@ -473,20 +508,6 @@ const imageCellStyle = {
   borderRadius: "50%",
 };
 
-
-const userRowStyle = {
-  backgroundColor: "#f8d7da",
-};
-
-const toggleButtonStyle = {
-  padding: "8px 15px",
-  backgroundColor: "#007bff",
-  color: "#fff",
-  border: "none",
-  borderRadius: "5px",
-  cursor: "pointer",
-};
-
 const imagePreviewStyle = {
     width: "150px",
     height: "auto",
@@ -499,6 +520,25 @@ const tableTitleStyle = { textAlign: "center", margin: "20px 0" };
 const tableStyle = { width: "100%", borderCollapse: "collapse" };
 const tableHeaderStyle = { background: "#f2f2f2", textAlign: "left" };
 const tableRowStyle = { borderBottom: "1px solid #ddd" };
-const deleteButtonStyle = { backgroundColor: "red", color: "white", border: "none", cursor: "pointer" };
+const deleteButtonStyle = { backgroundColor: "red", color: "white", border: "none", cursor: "pointer",  borderRadius: "5px"};
+const paginationStyle = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "20px",
+    gap: "10px",
+  };
+  
+  const paginationButtonStyle = {
+
+    padding: "8px 8px",
+    fontSize: "14px",
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+  };
   
 export default AdminDashboard;
