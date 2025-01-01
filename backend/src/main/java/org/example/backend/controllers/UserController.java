@@ -47,7 +47,7 @@ public class UserController {
     public ResponseEntity<UserDTO> getUserByUsername(
             @RequestParam String username
     ) {
-        return userService.getUserByUsername(username);
+        return userService.getUserDTOByUsername(username);
     }
 
     @PutMapping("/users/{id}")
