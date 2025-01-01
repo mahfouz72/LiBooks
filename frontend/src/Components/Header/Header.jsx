@@ -22,10 +22,9 @@ const Header = () => {
                         headers: {"Authorization": `Bearer ${token}`},
                     }
                 );
-                const data = await response.text();
-                console.log(data)
-                setFirstName(data)
-                setLastName(data)
+                const data = await response.json();
+                setFirstName(data.username)
+                setLastName(data.username)
             };
             getUserName();
         }, [firstName,lastName, token]);

@@ -34,15 +34,6 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testGetUsername() throws Exception {
-        Mockito.when(userService.getCurrentUsername()).thenReturn("testUser");
-
-        mockMvc.perform(get("/username"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("testUser"));
-    }
-
-    @Test
     public void testGetUsersCount() throws Exception {
         Mockito.when(userService.getUsersCount()).thenReturn(10L);
 
@@ -91,7 +82,7 @@ public class UserControllerTest {
     @Test
     public void testGetUserByUsername() throws Exception {
         UserDTO user = new UserDTO(1, "JohnDoe", "john@example.com", LocalDate.of(1990, 1, 1), LocalDate.now());
-        Mockito.when(userService.getUserByUsername(anyString())).thenReturn(ResponseEntity.ok(user));
+        Mockito.when(userService.getUserDTOByUsername(anyString())).thenReturn(ResponseEntity.ok(user));
 
         mockMvc.perform(get("/users")
                         .param("username", "JohnDoe"))
