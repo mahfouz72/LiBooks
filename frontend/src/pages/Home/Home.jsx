@@ -48,7 +48,7 @@ function Home() {
         <Header />
         <Stack mt={5} width="80%" mx="auto" spacing={5}>
             <BookSlider isloading={isloading} books={latestBooks} title="Latest Books" linkTitle="All Books" link="/BookBrowsingPage"/>
-            <BookSlider isloading={isloading} books={recommenedBooks} title="Recommend Books" linkTitle="See more" link="/BookBrowsingPage"/>
+            <BookSlider isloading={isloading} books={recommenedBooks} title="Recommend Books"/>
             {/* Recent Activity */}
             <ActivityList/>
         </Stack>

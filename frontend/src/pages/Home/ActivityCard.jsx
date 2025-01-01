@@ -1,11 +1,10 @@
 import { Avatar, Box, Rating, Stack, Typography } from "@mui/material";
 
-function ActivityCard({bookName,review}) {
-    const {username, reviewText, rating, date} = review;
+function ActivityCard({activity}) {
+    const {username, reviewText, rating, date, bookName} = activity;
 
     const givenDate = new Date(date); 
     const now = new Date();
-    now.setHours(now.getHours() + 2);
 
     const diffMs = now - givenDate;
     
@@ -25,7 +24,7 @@ function ActivityCard({bookName,review}) {
         time = `${diffWeeks} weeks ago`;
 
     return (
-        <Box width="590px" minHeight="200px" p={4} border="2px solid #974903" borderRadius="30px" bgcolor="aliceblue">
+        <Box width="70%" minHeight="200px" p={4} border="2px solid #974903" borderRadius="30px" bgcolor="aliceblue">
             <Box >
                 <Stack direction="row" alignItems="center" spacing={2}>
                     <Avatar>{username[0]}</Avatar>
