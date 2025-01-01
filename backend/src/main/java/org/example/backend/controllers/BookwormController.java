@@ -1,7 +1,6 @@
 package org.example.backend.controllers;
 
 import org.example.backend.models.dtos.BookwormDTO;
-import org.example.backend.security.JWTService;
 import org.example.backend.services.BookwormService;
 import org.example.backend.services.UserAuthenticationService;
 import org.springframework.http.ResponseEntity;
