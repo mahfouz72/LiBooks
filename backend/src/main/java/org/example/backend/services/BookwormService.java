@@ -10,17 +10,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookwormService {
 
+    private final String userNotFoundMessage = "User not found";
     private final UserRepository userRepository;
     private final ConnectionsRepository connectionRepository;
 
-    public BookwormService(UserRepository userRepository, ConnectionsRepository connectionRepository) {
+    public BookwormService(UserRepository userRepository,
+                           ConnectionsRepository connectionRepository) {
         this.userRepository = userRepository;
         this.connectionRepository = connectionRepository;
     }
 
     public BookwormDTO getProfile(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(userNotFoundMessage));
         int followersCount = connectionRepository.countFollowers(user);
         int followingCount = connectionRepository.countFollowing(user);
         return new BookwormDTO(
@@ -35,14 +37,18 @@ public class BookwormService {
         );
     }
 
+    /**
+     * Returns Bookworm Data
+    */
     public BookwormDTO getBookwormProfile(String username, String currentUsername) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(userNotFoundMessage));
         User currentUser = userRepository.findByUsername(currentUsername)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException(userNotFoundMessage));
         int followersCount = connectionRepository.countFollowers(user);
         int followingCount = connectionRepository.countFollowing(user);
-        boolean isFollowing = connectionRepository.existsByFollowerAndFollowing(currentUser.getId(), user.getId());
+        boolean isFollowing = connectionRepository
+                .existsByFollowerAndFollowing(currentUser.getId(), user.getId());
 
         return new BookwormDTO(
                 user.getId(),

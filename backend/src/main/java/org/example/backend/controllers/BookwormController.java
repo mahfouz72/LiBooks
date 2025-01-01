@@ -1,8 +1,8 @@
 package org.example.backend.controllers;
 
 import org.example.backend.models.dtos.BookwormDTO;
-import org.example.backend.security.JWTService;
 import org.example.backend.services.BookwormService;
+import org.example.backend.services.UserAuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,28 +10,25 @@ import org.springframework.web.bind.annotation.*;
 public class BookwormController {
 
     private final BookwormService bookwormService;
-    private final JWTService jwtService;
+    private final UserAuthenticationService userAuthenticationService;
 
-    public BookwormController(BookwormService bookwormService, JWTService jwtService) {
+    public BookwormController(BookwormService bookwormService,
+                              UserAuthenticationService userAuthenticationService) {
         this.bookwormService = bookwormService;
-        this.jwtService = jwtService;
+        this.userAuthenticationService = userAuthenticationService;
     }
 
     @GetMapping("/username")
-    public ResponseEntity<BookwormDTO> getProfile(
-            @RequestHeader("Authorization") String token) {
-        token = token.replaceAll("Bearer ", "");
-        String currentUsername = jwtService.extractUsername(token);
+    public ResponseEntity<BookwormDTO> getProfile() {
+        String currentUsername = userAuthenticationService.getCurrentUsername();
         BookwormDTO profile = bookwormService.getProfile(currentUsername);
         return ResponseEntity.ok(profile);
     }
 
-    @GetMapping("/users/{username}")
+    @GetMapping("/bookworms/{username}")
     public ResponseEntity<BookwormDTO> getBookwormProfile(
-            @PathVariable String username,
-            @RequestHeader("Authorization") String token) {
-        token = token.replaceAll("Bearer ", "");
-        String currentUsername = jwtService.extractUsername(token);
+            @PathVariable String username) {
+        String currentUsername = userAuthenticationService.getCurrentUsername();
         BookwormDTO profile = bookwormService.getBookwormProfile(username, currentUsername);
         return ResponseEntity.ok(profile);
     }
