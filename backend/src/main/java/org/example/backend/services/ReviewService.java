@@ -57,4 +57,7 @@ public class ReviewService {
         return bookReviews.stream().map(reviewDTOMapper).toList();
     }
 
+    public List<Review> getReviewsByUserId(Integer followerId) {
+        return reviewRepository.findAllByUserId(followerId);
+    }
 }
