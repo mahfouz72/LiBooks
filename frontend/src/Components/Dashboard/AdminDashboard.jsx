@@ -9,6 +9,8 @@ function AdminDashboard() {
   const [totalBooks, setTotalBooks] = useState(0);
   const [totalAuthors, setTotalAuthors] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [currentSize, setCurrentSize] = useState(5);
 
   // State for form inputs
   const [bookForm, setBookForm] = useState({
@@ -23,10 +25,10 @@ function AdminDashboard() {
   });
 
   const [authorForm, setAuthorForm] = useState({
-    name: "",
-    photo: null,
-    biography: "",
-    dob: "",
+    authorName: "",
+    authorPhoto: null,
+    authorBiography: "",
+    authorBirthDate: "",
     nationality: "",
   });
   const [isbnToDelete, setIsbnToDelete] = useState("");
@@ -60,6 +62,16 @@ useEffect(() => {
     fetchData('http://localhost:8080/users/count', setTotalUsers, 'GET');
 }, []);
 
+useEffect(() => {
+    fetchData(`http://localhost:8080/api/authors/all?page=${currentPage}&size=${currentSize}`, setAuthors, 'POST', { page: currentPage, size: currentSize });
+
+}, []);
+
+useEffect(() => {
+    fetchData(`http://localhost:8080/users/all?page=${currentPage}&size=${currentSize}`, setUsers, 'POST', { page: currentPage, size: currentSize });
+
+}, [totalUsers]);
+
   // Handlers for adding a new book
   const handleAddBook = (e) => {
     e.preventDefault();
@@ -77,36 +89,37 @@ useEffect(() => {
   };
 
   // Handlers for adding a new author
-  const handleAddAuthor = (e) => {
+  const handleAddAuthor = async (e) => {
     e.preventDefault();
-    setAuthors([...authors, authorForm]);
-    setAuthorForm({ name: "", photo: null, biography: "", dob: "", nationality: "" });
+    console.log(authorForm);
+    try {
+        const response = await axios.post('http://localhost:8080/api/authors/add-author', authorForm);
+        if (response.status === 200) {
+            setTotalAuthors(totalAuthors + 1);
+            setAuthorForm({ authorName: "", authorPhoto: null, authorBiography: "", authorBirthDate: "", nationality: "" });
+        }
+    } catch (error) {
+        console.error("Error deleting book:", error);
+    }
   };
 
   // Handle image preview for books and authors
   const handleImageUpload = (e, field) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      if (field === "cover") {
-        setBookForm({ ...bookForm, cover: reader.result });
-      } else if (field === "photo") {
-        setAuthorForm({ ...authorForm, photo: reader.result });
-      }
-    };
     if (file) {
-      reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const byteArray = new Uint8Array(reader.result);
+        if (field === "cover") {
+          setBookForm({ ...bookForm, cover: byteArray });
+        } else if (field === "photo") {
+          setAuthorForm({ ...authorForm, authorPhoto: byteArray });
+        }
+      };
+      reader.readAsArrayBuffer(file);
     }
   };
 
-  // Toggle user disabled status
-  const toggleUserStatus = (id) => {
-    setUsers(
-      users.map((user) =>
-        user.id === id ? { ...user, disabled: !user.disabled } : user
-      )
-    );
-  };
 
   // Delete book by ISBN
     const handleDeleteBook = async (e) => {
@@ -121,6 +134,19 @@ useEffect(() => {
             console.error("Error deleting book:", error);
         }
     };
+
+    const deleteUser = async (id) => {
+        if (window.confirm("Are you sure you want to delete this user?")) {
+            try {
+                const response = await axios.delete(`http://localhost:8080/users/${id}`);
+                if (response.status === 200) {
+                    setTotalUsers(totalUsers - 1);
+                }
+            } catch (error) {
+                console.error("Error deleting book:", error);
+            }
+        }
+      };
 
   return (
     <div style={containerStyle}>
@@ -212,8 +238,8 @@ useEffect(() => {
         <input
           type="text"
           placeholder="Name"
-          value={authorForm.name}
-          onChange={(e) => setAuthorForm({ ...authorForm, name: e.target.value })}
+          value={authorForm.authorName}
+          onChange={(e) => setAuthorForm({ ...authorForm, authorName: e.target.value })}
           required
           style={inputStyle}
         />
@@ -223,17 +249,17 @@ useEffect(() => {
           accept="image/*"
           style={inputStyle}
         />
-        {authorForm.photo && <img src={authorForm.photo} alt="Author" style={imagePreviewStyle} />}
+        {authorForm.authorPhoto && <img src={authorForm.authorPhoto} alt="Author" style={imagePreviewStyle} />}
         <textarea
           placeholder="Biography"
-          value={authorForm.biography}
-          onChange={(e) => setAuthorForm({ ...authorForm, biography: e.target.value })}
+          value={authorForm.authorBiography}
+          onChange={(e) => setAuthorForm({ ...authorForm, authorBiography: e.target.value })}
           style={textareaStyle}
         ></textarea>
         <input
           type="date"
-          value={authorForm.dob}
-          onChange={(e) => setAuthorForm({ ...authorForm, dob: e.target.value })}
+          value={authorForm.authorBirthDate}
+          onChange={(e) => setAuthorForm({ ...authorForm, authorBirthDate: e.target.value })}
           style={inputStyle}
         />
         <input
@@ -261,7 +287,7 @@ useEffect(() => {
         <tbody>
           {authors.map((author, index) => (
             <tr key={index} style={index % 2 === 0 ? rowStyleEven : rowStyleOdd}>
-              <td>{author.name}</td>
+              <td>{author.authorName}</td>
               <td><img src={author.photo} alt={author.name} style={imageCellStyle} /></td>
               <td>{author.biography}</td>
               <td>{author.dob}</td>
@@ -272,29 +298,29 @@ useEffect(() => {
       </table>
 
       {/* Users Table */}
-      <h2 style={tableTitleStyle}>All Users</h2>
-      <table style={tableStyle}>
+        <h2 style={tableTitleStyle}>All Users</h2>
+        <table style={tableStyle}>
         <thead>
-          <tr style={tableHeaderStyle}>
+            <tr style={tableHeaderStyle}>
             <th>Name</th>
-            <th>Status</th>
+            <th>Email</th>
             <th>Action</th>
-          </tr>
+            </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user.id} style={userRowStyle(user.disabled)}>
-              <td>{user.name}</td>
-              <td>{user.disabled ? "Disabled" : "Active"}</td>
-              <td>
-                <button onClick={() => toggleUserStatus(user.id)} style={toggleButtonStyle}>
-                  {user.disabled ? "Enable" : "Disable"}
+            {users.map((user) => (
+            <tr key={user.id} style={tableRowStyle}>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+                <td>
+                <button onClick={() => deleteUser(user.id)} style={deleteButtonStyle}>
+                    Delete
                 </button>
-              </td>
+                </td>
             </tr>
-          ))}
+            ))}
         </tbody>
-      </table>
+        </table>
     </div>
   );
 }
@@ -383,19 +409,6 @@ const buttonHoverStyle = {
   backgroundColor: "#45a049",
 };
 
-const tableStyle = {
-  width: "100%",
-  marginTop: "20px",
-  borderCollapse: "collapse",
-  borderRadius: "8px",
-  overflow: "hidden",
-};
-
-const tableHeaderStyle = {
-  backgroundColor: "#f2f2f2",
-  textAlign: "left",
-  fontWeight: "bold",
-};
 
 const rowStyleEven = {
   backgroundColor: "#fff",
@@ -412,14 +425,10 @@ const imageCellStyle = {
   borderRadius: "50%",
 };
 
-const tableTitleStyle = {
-  fontSize: "24px",
-  marginBottom: "20px",
-};
 
-const userRowStyle = (disabled) => ({
-  backgroundColor: disabled ? "#f8d7da" : "#fff",
-});
+const userRowStyle = {
+  backgroundColor: "#f8d7da",
+};
 
 const toggleButtonStyle = {
   padding: "8px 15px",
@@ -437,5 +446,11 @@ const imagePreviewStyle = {
     borderRadius: "8px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
 };
+
+const tableTitleStyle = { textAlign: "center", margin: "20px 0" };
+const tableStyle = { width: "100%", borderCollapse: "collapse" };
+const tableHeaderStyle = { background: "#f2f2f2", textAlign: "left" };
+const tableRowStyle = { borderBottom: "1px solid #ddd" };
+const deleteButtonStyle = { backgroundColor: "red", color: "white", border: "none", cursor: "pointer" };
   
 export default AdminDashboard;
