@@ -8,7 +8,7 @@ function BookList({ books, sx }) {
 
     return (
       <Grid2 key={bookId}>
-        <BookCard bookCover={bookCover} bookTitle={bookTitle} rating={rating} author={author} />
+        <BookCard bookId={bookId} bookCover={bookCover} bookTitle={bookTitle} rating={rating} author={author} />
       </Grid2>
     );
   });
