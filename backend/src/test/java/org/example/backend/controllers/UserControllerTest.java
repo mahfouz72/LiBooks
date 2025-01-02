@@ -60,7 +60,7 @@ public class UserControllerTest {
         );
         Mockito.when(userService.getAllUsers(any())).thenReturn(users);
 
-        mockMvc.perform(get("/users/all")
+        mockMvc.perform(post("/users/all")
                         .param("page", "0")
                         .param("size", "5"))
                 .andExpect(status().isOk())
