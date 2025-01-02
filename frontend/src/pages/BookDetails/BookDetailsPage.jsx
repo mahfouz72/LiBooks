@@ -84,8 +84,8 @@ function BookDetailsPage() {
                 throw new Error("Failed to submit review");
             }
             const newReviewData = await response.json();
-            // filter out the review of the same user if it exists
-            const filteredReviews = reviews.filter(review => review.userId !== newReviewData.userId);
+            // filter out the review of the same user if it exist
+            const filteredReviews = reviews.filter(review => review.username !== newReviewData.username);
             setReviews([...filteredReviews, newReviewData]);
 
             fetchBook();

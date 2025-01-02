@@ -25,7 +25,7 @@ public class UserController {
         return userService.getUsersCount();
     }
 
-    @GetMapping("/users/all")
+    @PostMapping("/users/all")
     public List<UserDTO> getAllUsers(
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer size

@@ -15,6 +15,7 @@ import org.example.backend.services.mappers.BookListingDTOMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -99,6 +100,10 @@ public class BookService {
      * @return a ResponseEntity with a success message
      */
     public ResponseEntity<String> addBook(BookDTO bookDTO) {
+        Book existingBook = bookRepository.findByIsbn(bookDTO.isbn());
+        if (existingBook != null) {
+            return ResponseEntity.badRequest().body("Book already exists");
+        }
         Book book = Book.builder()
                 .bookTitle(bookDTO.bookTitle())
                 .isbn(bookDTO.isbn())
@@ -115,6 +120,12 @@ public class BookService {
         List<Author> authors = bookDTO.authors().stream()
                 .map(authorRepository::findByAuthorName)
                 .toList();
+
+        for (Author author : authors) {
+            if (author == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Some authors not found");
+            }
+        }
 
         bookRepository.save(book);
         authors.forEach(author -> authorBookRepository.save(new AuthorBook(
